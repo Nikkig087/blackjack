@@ -43,3 +43,18 @@ def select_difficulty():
 ##difficulty = select_difficulty()
 ##pprint(difficulty)
 
+def display_instructions():
+    '''
+    Instructions on how to play the game and the rules.
+    '''
+    
+    print ("Game Instructions\n")
+    print("Your goal is to achieve a score as close to 21 as possible but not going over 21\n")
+    print("Jack,Queen,King cards are worth 10 points.\nAces are worth either 1 or 11, whichever is more favourable.\n")
+    print("You will be asked if you want another card.\nEnter 'play' to request another card or 'stop' to stop.\n")
+    print("Exceed 21 and you lose!!\n")
+    print("Should you wish to stop, the dealer (the computer) will then draw cards until its score is at least 17\n")
+    print ("The player with the highest score wins!!\n")
+    
+
+#display_instructions()
