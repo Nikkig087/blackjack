@@ -1,5 +1,5 @@
 import random
- 
+from pprint import pprint 
 # Global variables
 card_categories = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
 cards_list = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
@@ -15,3 +15,20 @@ def card_value(card):
  
 def get_username():
     return input("Enter your username: ")
+
+def display_username(username):
+    pprint(f'Welcome {username}!')
+
+def select_difficulty():
+    pprint("select difficulty level:")
+    pprint("1. Beginner")
+    pprint("2. Intermediate")
+    pprint("3. Advanced")
+    choice = input("Enter either 1,2,3:")
+    while choice not in ['1','2','3']:
+        pprint("Please choose 1, 2 or 3 only")
+        choice =input("Enter either 1,2,3:")
+    pprint(f"Thank you, you chose {choice}")
+    return int(choice)
+
+select_difficulty()
