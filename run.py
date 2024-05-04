@@ -38,7 +38,7 @@ def select_difficulty():
         pprint("Please choose 1, 2 or 3 only")
         choice =input("Enter either 1,2,3: ")
     level = int(choice)
-    return f"Great, you have chosen the {difficulty_levels[level]} level"
+    print( f"Great, you have chosen the {difficulty_levels[level]} level")
 
 ##difficulty = select_difficulty()
 ##pprint(difficulty)
@@ -103,20 +103,20 @@ def determine_winner(player_card, computer_card):
     computer_score = sum(card_value(card) for card in computer_card)
  
     if player_score > 21:
-        print("Your Cards:", player_card)
-        print("Your Score:", player_score)
+        print("Your Cards: ", player_card,"\n")
+        print("Your Score: ", player_score)
         print("You lose! (Player Score is exceeding 21)")
     elif computer_score > 21:
-        print("Your Cards:", player_card)
-        print("Your Score:", player_score)
-        print("Computer Cards:", computer_card)
-        print("Computer Score:", computer_score)
-        print("You win! (Computer Score is exceeding 21)")
+        print("Your Cards: ", player_card)
+        print("Your Score: ", player_score)
+        print("Computer Cards: ", computer_card)
+        print("Computer Score: ", computer_score)
+        print("You win! (Computer Score is exceeding 21) ")
     elif player_score > computer_score:
-        print("Your Cards:", player_card)
-        print("Your Score:", player_score)
-        print("Computer Cards:", computer_card)
-        print("Computer Score:", computer_score)
+        print("Your Cards: ", player_card)
+        print("Your Score: ", player_score)
+        print("Computer Cards: ", computer_card)
+        print("Computer Score: ", computer_score)
         print("You win! (Player Has High Score than Computer)")
     elif computer_score > player_score:
         print("Your Cards:", player_card)
@@ -131,3 +131,47 @@ def determine_winner(player_card, computer_card):
         print("Computer Score:", computer_score)
         print("It's a tie.")
 
+
+def main():
+    # Initialize the game
+    username = get_username()
+    display_username(username)
+    difficulty = select_difficulty()
+    if difficulty == 1:
+        deck_multiplier = 1  # Beginner level
+    elif difficulty == 2:
+        deck_multiplier = 2  # Intermediate level
+    else:
+        deck_multiplier = 4  # Advanced level
+    global deck
+    deck = deck * deck_multiplier  #  deck size is based on difficulty level the user chose
+    random.shuffle(deck)
+
+    # give option to display instructions
+    view_instructions = input("Would you like to view the instructions? (yes/no): ").lower()
+    if view_instructions == "yes":
+        display_instructions()
+
+    # Initialize the cards for both the player and computer
+    player_card = [deck.pop(), deck.pop()]
+    computer_card = [deck.pop(), deck.pop()]
+
+    # Player's turn
+    player_continue = player_turn(deck, player_card)
+    if not player_continue or sum(card_value(card) for card in player_card) > 21:
+        # End game if player loses or goes over 21
+        determine_winner(player_card, computer_card)
+        return
+
+    # Computer's turn
+    print("Computer's turn:")
+    computer_card = computer_turn(deck, computer_card)
+    computer_score = sum(card_value(card) for card in computer_card)
+    print("Computer's cards:", computer_card)
+    print("Computer's score:", computer_score)
+
+    # Determine winner
+    determine_winner(player_card, computer_card)
+
+if __name__ == "__main__":
+    main()
