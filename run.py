@@ -58,3 +58,30 @@ def display_instructions():
     
 
 #display_instructions()
+
+def player_turn(deck, player_card):
+    while True:
+        player_score = sum(card_value(card) for card in player_card)
+        print("Your card: ", player_card)
+        print("Your score: ", player_score)
+
+        choice = input('What do you want to do?["play" to request another card, "stop" to finish game]: ').lower()
+
+        while choice not in ["play","stop"]:
+            print("You must choose to either Play or Stop")
+            choice = input('What do you want to do?["play" to request another card, "stop" to finish game]: ').lower()
+        
+        if choice == "play":
+            new_card = deck.pop()
+            player_card.append(new_card)
+        elif choice == "stop":
+            break
+
+        if player_score > 21:
+            print("Your Cards: ", player_card)
+            print("Your Score: ", player_score)
+            print ("Your over 21, you loose!!")
+            return False
+        
+        return True 
+
