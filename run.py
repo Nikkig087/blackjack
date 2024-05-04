@@ -96,3 +96,38 @@ def computer_turn(deck, computer_card):
         computer_card.append(new_card)
  
     return computer_card
+
+
+def determine_winner(player_card, computer_card):
+    player_score = sum(card_value(card) for card in player_card)
+    computer_score = sum(card_value(card) for card in computer_card)
+ 
+    if player_score > 21:
+        print("Your Cards:", player_card)
+        print("Your Score:", player_score)
+        print("You lose! (Player Score is exceeding 21)")
+    elif computer_score > 21:
+        print("Your Cards:", player_card)
+        print("Your Score:", player_score)
+        print("Computer Cards:", computer_card)
+        print("Computer Score:", computer_score)
+        print("You win! (Computer Score is exceeding 21)")
+    elif player_score > computer_score:
+        print("Your Cards:", player_card)
+        print("Your Score:", player_score)
+        print("Computer Cards:", computer_card)
+        print("Computer Score:", computer_score)
+        print("You win! (Player Has High Score than Computer)")
+    elif computer_score > player_score:
+        print("Your Cards:", player_card)
+        print("Your Score:", player_score)
+        print("Computer Cards:", computer_card)
+        print("Computer Score:", computer_score)
+        print("Computer wins! (Computer Has High Score than Player)")
+    else:
+        print("Your Cards:", player_card)
+        print("Your Score:", player_score)
+        print("Computer Cards:", computer_card)
+        print("Computer Score:", computer_score)
+        print("It's a tie.")
+
