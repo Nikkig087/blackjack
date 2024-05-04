@@ -85,3 +85,14 @@ def player_turn(deck, player_card):
         
         return True 
 
+def computer_turn(deck, computer_card):
+    while True:
+        computer_score = sum(card_value(card) for card in computer_card)
+ 
+        if computer_score >= 17:
+            break  
+ 
+        new_card = deck.pop()
+        computer_card.append(new_card)
+ 
+    return computer_card
