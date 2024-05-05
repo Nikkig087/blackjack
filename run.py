@@ -57,7 +57,7 @@ def display_instructions():
     print("Should you wish to stop, the dealer (the computer) will then draw cards until its score is at least 17.")
     print("The player with the highest score wins!")
 
-
+r'''
 def player_turn(deck, player_card):
     while True:
         player_score = sum(card_value(card) for card in player_card)
@@ -106,6 +106,110 @@ def computer_turn(deck, computer_card):
         print("Computer drew:", f"{new_card[0]} of {new_card[1]}")
         if computer_score > 21:
             print("Computer's Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in computer_card))
+            print("Computer's Score:", computer_score)
+            print("Computer is over 21, you win!")
+            return False
+    return True
+'''
+def display_cards_ascii(cards):
+    """
+    Display the given cards as ASCII art in a row.
+    """
+    # Define suit symbols
+    suit_symbols = {'Hearts': '♥', 'Diamonds': '♦', 'Clubs': '♣', 'Spades': '♠'}
+
+    # Check if cards is a single tuple or a list of tuples
+    if isinstance(cards, tuple):
+        cards = [cards]
+
+    # Initialize empty lines list
+    lines = ['' for _ in range(6)]
+
+    # Iterate over cards and add their ASCII art to the lines list
+    for rank, suit in cards:
+        # Determine rank string
+        if rank == 'Ace':
+            rank_str = ' A '
+        elif rank == 'Jack':
+            rank_str = ' J '
+        elif rank == 'Queen':
+            rank_str = ' Q '
+        elif rank == 'King':
+            rank_str = ' K '
+        else:
+            rank_str = f' {rank} '
+
+        # Get suit symbol
+        suit_symbol = suit_symbols[suit]
+
+        # Add card ASCII art to each line
+        lines[0] += ' _________ '
+        lines[1] += f"|{rank_str:<2}       |"
+        lines[2] += "|         |"
+        lines[3] += f"|    {suit_symbol}    |"
+        lines[4] += "|         |"
+        lines[5] += f"|_______{rank_str:>1}|"
+
+    # Print each line
+    for line in lines:
+        print(line)
+
+
+def player_turn(deck, player_card):
+    while True:
+        player_score = sum(card_value(card) for card in player_card)
+        print("\nYour cards:")
+        for card in player_card:
+            display_cards_ascii(card)
+        print("Your score:", player_score)
+        choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
+        while choice not in ["play", "stop"]:
+            print("You must choose to either Play or Stop")
+            choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
+
+        print(
+r"""
+ _    _ _______ _    _ _____   _______ _    _ 
+| |  | |__   __| |  | |  __ \ / ____| |  | |
+| |__| |  | |  | |__| | |__) | |    | |__| |
+|  __  |  | |  |  __  |  ___/| |    |  __  |
+| |  | |  | |  | |  | | |    | |____| |  | |
+|_|  |_|  |_|  |_|  |_|_|     \_____|_|  |_|   
+""")
+
+
+        if choice == "play":
+            new_card = deck.pop()
+            player_card.append(new_card)
+            player_score = sum(card_value(card) for card in player_card)
+            print("You drew:")
+            display_cards_ascii(new_card)
+            if player_score > 21:
+                print("Your Cards:")
+                for card in player_card:
+                    display_cards_ascii(card)
+                print("Your Score:", player_score)
+                print("You are over 21, you lose!")
+                return False
+        elif choice == "stop":
+            break
+    return True
+
+
+def computer_turn(deck, computer_card):
+    while True:
+        computer_score = sum(card_value(card) for card in computer_card)
+        if computer_score >= 17:
+            break
+        new_card = deck.pop()
+        computer_card.append(new_card)
+        computer_score = sum(card_value(card) for card in computer_card)
+        print("Computer drew:")
+        display_card_ascii(new_card)
+        if computer_score > 21:
+            print("Computer's Cards:")
+            for card in computer_card:
+                display_card_ascii(card)
             print("Computer's Score:", computer_score)
             print("Computer is over 21, you win!")
             return False
