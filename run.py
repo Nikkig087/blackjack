@@ -16,6 +16,16 @@ def card_value(card):
 
 
 def get_username():
+    print(r"""
+.------.            _     _            _    _            _    
+|A_  _ |.          | |   | |          | |  (_)          | |   
+|( \/ ).-----.     | |__ | | __ _  ___| | ___  __ _  ___| | __
+| \  /|K /\  |     | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+|  \/ | /  \ |     | |_) | | (_| | (__|   <| | (_| | (__|   < 
+`-----| \  / |     |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\\
+      |  \/ K|                            _/ |                
+      `------'                           |__/           
+""")
     return input("Enter your username: ")
 
 
@@ -57,60 +67,7 @@ def display_instructions():
     print("Should you wish to stop, the dealer (the computer) will then draw cards until its score is at least 17.")
     print("The player with the highest score wins!")
 
-r'''
-def player_turn(deck, player_card):
-    while True:
-        player_score = sum(card_value(card) for card in player_card)
-        print("\nYour cards:", ', '.join(f"{card[0]} of {card[1]}" for card in player_card))
-        print("Your score:", player_score)
-        choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
-        while choice not in ["play", "stop"]:
-            print("You must choose to either Play or Stop")
-            choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
-            # Print generating image
 
-        print(
-r"""
- _    _ _______ _    _ _____   _______ _    _ 
-| |  | |__   __| |  | |  __ \ / ____| |  | |
-| |__| |  | |  | |__| | |__) | |    | |__| |
-|  __  |  | |  |  __  |  ___/| |    |  __  |
-| |  | |  | |  | |  | | |    | |____| |  | |
-|_|  |_|  |_|  |_|  |_|_|     \_____|_|  |_|   
-""")
-
-
-        if choice == "play":
-            new_card = deck.pop()
-            player_card.append(new_card)
-            player_score = sum(card_value(card) for card in player_card)
-            print("You drew:", f"{new_card[0]} of {new_card[1]}")
-            if player_score > 21:
-                print("Your Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in player_card))
-                print("Your Score:", player_score)
-                print("You are over 21, you lose!")
-                return False
-        elif choice == "stop":
-            break
-    return True
-
-
-def computer_turn(deck, computer_card):
-    while True:
-        computer_score = sum(card_value(card) for card in computer_card)
-        if computer_score >= 17:
-            break
-        new_card = deck.pop()
-        computer_card.append(new_card)
-        computer_score = sum(card_value(card) for card in computer_card)
-        print("Computer drew:", f"{new_card[0]} of {new_card[1]}")
-        if computer_score > 21:
-            print("Computer's Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in computer_card))
-            print("Computer's Score:", computer_score)
-            print("Computer is over 21, you win!")
-            return False
-    return True
-'''
 def display_cards_ascii(cards):
     """
     Display the given cards as ASCII art in a row.
@@ -241,6 +198,7 @@ def determine_winner(player_card, computer_card):
 
 def main():
     # Initialize the game
+
     username = get_username()
     display_username(username)
     select_difficulty()
