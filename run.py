@@ -1,5 +1,5 @@
 import random
-
+import re
 
 # Global variables
 card_categories = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -27,7 +27,13 @@ def get_username():
       |  \/ K|                            _/ |                
       `------'                           |__/           
 """)
-    return input("Enter your username: ")
+    
+    while True:
+        first_name = input("Enter your first name: ")
+        if re.match(r'^[A-Za-z]+$', first_name):
+            return first_name.title()
+        else:
+            print("Please enter a valid first name with only letters.")
 
 
 def display_username(username):
@@ -166,6 +172,7 @@ def computer_turn(deck, computer_card):
 
 '''
 def computer_turn(deck, computer_card, difficulty_level):
+    new_card = None  # Initialize new_card variable outside the loop
     while True:
         computer_score = sum(card_value(card) for card in computer_card)
         if computer_score >= 17:
@@ -190,8 +197,9 @@ def computer_turn(deck, computer_card, difficulty_level):
                 computer_score = sum(card_value(card) for card in computer_card)
             else:
                 break
-        print("Computer drew:")
-        display_cards_ascii(new_card)  # Display the newly drawn card
+        if new_card is not None:
+            print("Computer drew:")
+            display_cards_ascii(new_card)  # Display the newly drawn card
     print("Computer's Cards:")
     for card in computer_card:
         display_cards_ascii(card)  # Display all the computer's cards
@@ -201,53 +209,40 @@ def computer_turn(deck, computer_card, difficulty_level):
         return False
     return True
 
-
-
-
 def determine_winner(player_card, computer_card):
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
+
+    # Display both player's and computer's cards and scores
+    print("\nYour Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in player_card))
+    print("Your Score:", player_score)
+    print("Computer Cards:")
+    for card in computer_card:
+        display_cards_ascii(card)  # Display the computer's cards in ASCII art
+    print("Computer Score:", computer_score)
+
     if player_score <= 21 and (player_score > computer_score or computer_score > 21):
-        print("\nYour Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in player_card))
-        print("Your Score:", player_score)
-        print("Computer Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in computer_card))
-        print("Computer Score:", computer_score)
         print("You win!")
     elif computer_score <= 21 and (computer_score > player_score or player_score > 21):
-        print("\nYour Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in player_card))
-        print("Your Score:", player_score)
-        print("Computer Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in computer_card))
-        print("Computer Score:", computer_score)
         print("Computer wins!")
     else:
-        print("\nYour Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in player_card))
-        print("Your Score:", player_score)
-        print("Computer Cards:", ', '.join(f"{card[0]} of {card[1]}" for card in computer_card))
-        print("Computer Score:", computer_score)
         print("It's a tie.")
-
-
 
 
 def main():
     # Initialize the game
-  
-
-
     username = get_username()
     display_username(username)
-    select_difficulty()
+    difficulty_level = select_difficulty()
     global deck
     random.shuffle(deck)
 
     # Give option to display instructions
     view_instructions = input("Would you like to view the instructions? (yes/no): ").lower()
-    while view_instructions not in ["yes","no"]:
-         view_instructions = input("You must choose either 'yes' or 'no' for viewing instructions: ").lower()
-    if view_instructions == "yes":     
+    while view_instructions not in ["yes", "no"]:
+        view_instructions = input("You must choose either 'yes' or 'no' for viewing instructions: ").lower()
+    if view_instructions == "yes":
         display_instructions()
-    
-    
 
     # Initialize the cards for both the player and computer
     player_card = [deck.pop(), deck.pop()]
@@ -260,17 +255,13 @@ def main():
         determine_winner(player_card, computer_card)
         return
 
-    # Computer's turn
+    # Determine winner if player stops the game
     print("\nComputer's turn:")
-    computer_continue = computer_turn(deck, computer_card)
-    if not computer_continue or sum(card_value(card) for card in computer_card) >= 21:
-        # End game if computer loses or reaches 21
-        determine_winner(player_card, computer_card)
-        return
-
-    # Determine winner
     determine_winner(player_card, computer_card)
 
 
 if __name__ == "__main__":
     main()
+
+
+
