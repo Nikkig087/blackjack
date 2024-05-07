@@ -1,4 +1,6 @@
 import random
+import pygame
+import sys
 
 # Global variables
 card_categories = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -196,8 +198,53 @@ def determine_winner(player_card, computer_card):
         print("It's a tie.")
 
 
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Game Over")
+
+# Define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Load images
+player_win_image = pygame.image.load("player_win_image.png")
+computer_win_image = pygame.image.load("computer_win_image.png")
+tie_image = pygame.image.load("tie_image.png")
+
+# Function to display game over screen
+def game_over_screen(winner):
+    screen.fill(WHITE)  # Fill the screen with white color
+    
+    # Display different images based on the winner
+    if winner == "player":
+        screen.blit(player_win_image, (0, 0))
+    elif winner == "computer":
+        screen.blit(computer_win_image, (0, 0))
+    else:
+        screen.blit(tie_image, (0, 0))
+
+    pygame.display.flip()  # Update the display
+
+# Main loop
+
+
 def main():
     # Initialize the game
+    def main():
+        winner = determine_winner(player_card, computer_card)  # Determine the actual winner of the game
+        game_over_screen(winner)
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
     username = get_username()
     display_username(username)
