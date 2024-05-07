@@ -125,15 +125,6 @@ def player_turn(deck, player_card):
             print("You must choose to either Play or Stop")
             choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
 
-        print(
-r"""
- _    _ _______ _    _ _____   _______ _    _ 
-| |  | |__   __| |  | |  __ \ / ____| |  | |
-| |__| |  | |  | |__| | |__) | |    | |__| |
-|  __  |  | |  |  __  |  ___/| |    |  __  |
-| |  | |  | |  | |  | | |    | |____| |  | |
-|_|  |_|  |_|  |_|  |_|_|     \_____|_|  |_|   
-""")
 
 
         if choice == "play":
@@ -153,7 +144,7 @@ r"""
             break
     return True
 
-
+'''
 def computer_turn(deck, computer_card):
     while True:
         computer_score = sum(card_value(card) for card in computer_card)
@@ -163,15 +154,54 @@ def computer_turn(deck, computer_card):
         computer_card.append(new_card)
         computer_score = sum(card_value(card) for card in computer_card)
         print("Computer drew:")
-        display_cards_ascii(new_card)
-        if computer_score > 21:
-            print("Computer's Cards:")
-            for card in computer_card:
-                display_card_ascii(card)
-            print("Computer's Score:", computer_score)
-            print("Computer is over 21, you win!")
-            return False
+        display_cards_ascii(new_card)  # Modify this line to use display_cards_ascii function
+    print("Computer's Cards:")
+    for card in computer_card:
+        display_cards_ascii(card)  # Modify this line to use display_cards_ascii function
+    if computer_score > 21:
+        print("Computer's Score:", computer_score)
+        print("Computer is over 21, you win!")
+        return False
     return True
+
+'''
+def computer_turn(deck, computer_card, difficulty_level):
+    while True:
+        computer_score = sum(card_value(card) for card in computer_card)
+        if computer_score >= 17:
+            break
+        if difficulty_level == 1:
+            new_card = deck.pop()
+            computer_card.append(new_card)
+            computer_score = sum(card_value(card) for card in computer_card)
+        elif difficulty_level == 2:
+            # Intermediate level: The computer has a 50% chance of drawing a new card each time its score is below 17
+            if random.random() < 0.5:
+                new_card = deck.pop()
+                computer_card.append(new_card)
+                computer_score = sum(card_value(card) for card in computer_card)
+            else:
+                break
+        elif difficulty_level == 3:
+            # Advanced level: The dealer uses basic blackjack strategy to hit or stand based on the dealer's visible card and the player's total
+            if computer_score < 17:
+                new_card = deck.pop()
+                computer_card.append(new_card)
+                computer_score = sum(card_value(card) for card in computer_card)
+            else:
+                break
+        print("Computer drew:")
+        display_cards_ascii(new_card)  # Display the newly drawn card
+    print("Computer's Cards:")
+    for card in computer_card:
+        display_cards_ascii(card)  # Display all the computer's cards
+    if computer_score > 21:
+        print("Computer's Score:", computer_score)
+        print("Computer is over 21, you win!")
+        return False
+    return True
+
+
 
 
 def determine_winner(player_card, computer_card):
@@ -201,15 +231,8 @@ def determine_winner(player_card, computer_card):
 
 def main():
     # Initialize the game
-    def main():
-        winner = determine_winner(player_card, computer_card)  # Determine the actual winner of the game
-        game_over_screen(winner)
+  
 
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
 
     username = get_username()
     display_username(username)
