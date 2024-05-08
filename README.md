@@ -56,18 +56,32 @@ The following flowchart (created with [daigrams.net](https://app.diagrams.net/))
 ![Flowchart](assets/images/GetHungFlow1.1.png)
 
 
-## Design
+## How the Game works
 
-As this is simple terminal based application, the design process for the user interface was limited.
+Game Setup:
+The game begins with setting up the deck of cards, including shuffling the deck and dealing initial cards to the player and the computer (dealer).
 
-Different colour choices and bold text are used in order to highlight and categorise messages to the user.
+Player Actions:
+The player is presented with their initial hand and can choose to either "play" to request another card or "stop" to finish their turn.
+If the player's total score exceeds 21, they lose the game immediately.
 
-For example, error messages and wrong guesses are displayed in red, as is the gallows graphics to signify a negative event.
-The word itself is displayed green for every correct guess.
-General information, such as already guessed letters, is either displayed in yellow or simply bold.
+Computer Actions:
+After the player finishes their turn, the computer (dealer) takes its turn according to the difficulty level selected.
+The computer will continue to draw cards until its total score is at least 17.
 
-Emojis are used in the introduction and termination of the game (both won or lost) to make up for the general lack of images.
+Determining the Winner:
+Once both the player and the computer have completed their turns, the winner is determined.
+If the player's total score is closer to 21 than the computer's score (without exceeding 21), the player wins.
+If the computer's total score is closer to 21 than the player's score (without exceeding 21), the computer wins.
+If both the player and the computer have the same score or both exceed 21, it's a tie.
 
+Game Output:
+The game displays the final hands of both the player and the computer, along with their respective scores.
+It announces the winner or declares a tie.
+
+End of Game:
+The game ends after determining the winner.
+Players have the option to play again or exit the game.
 
 ## UX
 
