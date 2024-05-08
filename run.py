@@ -1,6 +1,24 @@
 import random
 import re
+import time
+import sys
 from colorama import Fore, Style
+
+
+# Define typingPrint and typingInput functions
+def typingPrint(text):
+    for character in text:
+        sys.stdout.write(character)
+        sys.stdout.flush()
+        time.sleep(0.05)
+
+def typingInput(text):
+    for character in text:
+        sys.stdout.write(character)
+        sys.stdout.flush()
+        time.sleep(0.05)
+    value = input()  
+    return value
 
 # Global variables
 card_categories = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -32,7 +50,7 @@ def get_username():
 """)
     
     while True:
-        first_name = input("Enter your first name: ")
+        first_name = typingInput("Enter your first name: ")
         if re.match(r'^[A-Za-z]+$', first_name):
             return first_name.title()
         else:
@@ -65,14 +83,14 @@ def display_instructions():
     Instructions on how to play the game and the rules.
     '''
     print("\nGame Instructions\n")
-    print("Your goal is to achieve a score as close to 21 as possible without going over 21.")
-    print("Jack, Queen, and King cards are worth 10 points.")
-    print("Aces are worth either 1 or 11, whichever is more favorable.")
-    print("You will be asked if you want another card.")
-    print("Enter 'play' to request another card or 'stop' to stop.")
-    print("Exceed 21 and you lose!")
-    print("Should you wish to stop, the dealer (the computer) will then draw cards until its score is at least 17.")
-    print("The player with the highest score wins!")
+    typingPrint("Your goal is to achieve a score as close to 21 as possible without going over 21.\n")
+    typingPrint("Jack, Queen, and King cards are worth 10 points.\n")
+    typingPrint("Aces are worth either 1 or 11, whichever is more favorable.\n")
+    typingPrint("You will be asked if you want another card.\n")
+    typingPrint("Enter 'play' to request another card or 'stop' to stop.\n")
+    typingPrint("Exceed 21 and you lose!\n")
+    typingPrint("Should you wish to stop, the dealer (the computer) will then draw cards until its score is at least 17.\n")
+    typingPrint("The player with the highest score wins!\n")
 
 def display_cards_ascii(cards):
     """
@@ -124,10 +142,10 @@ def player_turn(deck, player_card):
         for card in player_card:
             display_cards_ascii(card)
         print("Your score:", player_score)
-        choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
+        choice = typingInput('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
         while choice not in ["play", "stop"]:
             print(f"{RED}You must choose to either Play or Stop{RESET}")
-            choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
+            choice = typingInput('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
 
         if choice == "play":
             new_card = deck.pop()
@@ -186,7 +204,7 @@ def determine_winner(player_card, computer_card):
 
 def restart_game():
     try:
-        choice = input("Do you want to play again? (yes/no): ").lower()
+        choice = typingInput("Do you want to play again? (yes/no): ").lower()
         if choice not in ['yes', 'no']:
             raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
         return choice == 'yes'
@@ -200,13 +218,13 @@ def main():
         username = get_username()
         display_username(username)
         difficulty_level = select_difficulty()  # Store the selected difficulty level
+        global deck
         random.shuffle(deck)
 
         # Give option to display instructions
         view_instructions = input("Would you like to view the instructions? (yes/no): ").lower()
         while view_instructions not in ["yes", "no"]:
-            print(f"{RED}You must choose either 'yes' or 'no' for viewing instructions.{RESET}")
-            view_instructions = input("Would you like to view the instructions? (yes/no): ").lower()
+            view_instructions = input("You must choose either 'yes' or 'no' for viewing instructions: ").lower()
         if view_instructions == "yes":
             display_instructions()
 
@@ -236,10 +254,12 @@ def main():
                 continue  # Restart the game
 
         # Determine winner
-    
         determine_winner(player_card, computer_card)
         if not restart_game():
-            break  # Exit game
+            break  # Exit outer loop if player chooses not to restart
+
+
+
 
 if __name__ == "__main__":
     main()
