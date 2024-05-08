@@ -220,12 +220,12 @@ Ensuring all parts of the programm function as expected in all major browsers.
 | :---------------------------------: | :------------------------------:|
 | be able to read an introduction when first loading the programm | see a quick game introduction print out on the screen when the programm loads |
 | read the rules to the game in short and consice text | see the game rules explained clearly as part of the introduction |
-| choose a difficulty level | can choose between 3 levels: easy, medium, hard |
+| choose a difficulty level | can choose between 3 levels: Beginner, Intermediate, Advanced |
 
 | be informed if my data input is not valid and why | see an error message after I input invalid data, telling me what data type is required |
 ||
 | know when the game is over (won or lost) | can read a message telling me I either won or lost the game when the game terminates |
-| be able to restart the game or not when after it's finished | can choose between a Y/N option to restart the game after finishing |
+| be able to restart the game when it's finished | can choose between a Y/N option to restart the game after finishing |
 
 ## Debugging
 
@@ -236,17 +236,6 @@ Ensuring all parts of the programm function as expected in all major browsers.
 To guarantee consistent line breaks, whitespaces and indentation, run.py and words.py were formatted using [Black Playground](https://black.vercel.app/)
 
 **Word not displaying fully when game won**:
-
-After entering the last letter of the fully guessed word, the last letter is not added to the word display. Therefore the finished word doesn't display properly.
-
-*Solution*:
-
-Run display_word function again when condition for game completion is met:
-```
-elif len(word_letters) == 0:
-    display_word()
-    print("🎉 Well done! You guessed the whole word 🎉")
-```
 
 ### Unfixed Bugs
 
