@@ -3,6 +3,35 @@ import re
 import time
 import sys
 from colorama import Fore, Style
+import gspread 
+from google.oauth2.service_account import Credentials
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+]
+
+# Load credentials from my creds file
+CREDS = Credentials.from_service_account_file('creds.json')
+
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+
+SHEET = GSPREAD_CLIENT.open('blackjack_top_scores')
+
+def update_scores(player_name, score):
+    # Access the first worksheet in the blackjack_top_scores
+    worksheet = SHEET.get_worksheet(0)
+    topscore = SHEET.worksheet("topscore")
+    # Find the next empty row
+    next_row = len(worksheet.topscores.col_values(1)) + 1
+    
+    # Update the worksheet with the player's name and score
+    topscore.update_cell(next_row, 1, player_name)
+    topscore.update_cell(next_row, 2, score)
+
 
 
 # Define typingPrint and typingInput functions
@@ -255,6 +284,7 @@ def main():
 
         # Determine winner
         determine_winner(player_card, computer_card)
+        update_scores(username, sum(card_value(card) for card in player_card))
         if not restart_game():
             break  # Exit outer loop if player chooses not to restart
 
