@@ -203,14 +203,15 @@ def computer_turn(deck, computer_card, difficulty_level):
             computer_card.append(new_card)
         else:
             break
-    typingPrint("Computer's Cards:\n")
+    print("Computer's Cards:")
     for card in computer_card:
         display_cards_ascii(card)
     if computer_score > 21:
-        typingPrint(f"Computer's Score: {computer_score}\n")
-        typingPrint(f"{RED}Computer is over 21, you win!{RESET}\n")
+        print("Computer's Score:", computer_score)
+        print(f"{RED}Computer is over 21, you win!{RESET}")
         return False
     return True
+
 
 
 def determine_winner(player_card, computer_card):
@@ -272,6 +273,7 @@ def main():
         if not player_continue or sum(card_value(card) for card in player_card) >= 21:
             # End game if player loses or reaches 21
             determine_winner(player_card, computer_card)
+            update_scores(username, sum(card_value(card) for card in player_card))
             if not restart_game():
                 break  # Exit outer loop if player chooses not to restart
             else:
@@ -288,11 +290,11 @@ def main():
             else:
                 continue  # Restart the game
 
-        # Determine winner
-        determine_winner(player_card, computer_card)
+        # Update scores after computer's turn
         update_scores(username, sum(card_value(card) for card in player_card))
         if not restart_game():
             break  # Exit outer loop if player chooses not to restart
+
 
 
 if __name__ == "__main__":
