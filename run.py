@@ -258,9 +258,9 @@ def clear_screen():
     print('\n' * 100)
 
 def main():
-    clear_screen() 
+    clear_screen()  # Clear the screen at the beginning of the game
+
     while True:  # Outer loop for restarting the game
-       
         # Initialize the game
         username = get_username()
         display_username(username)
@@ -285,8 +285,10 @@ def main():
             # End game if player loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
-                break  # Exit outer loop if player chooses not to restart
+                print("Thank you for playing! Goodbye.")
+                return  # Exit function if player chooses not to restart
             else:
+                clear_screen()  # Clear the screen before restarting the game
                 continue  # Restart the game
 
         # Computer's turn
@@ -296,8 +298,10 @@ def main():
             # End game if computer loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
-                break  # Exit outer loop if player chooses not to restart
+                print("Thank you for playing! Goodbye.")
+                return  # Exit function if player chooses not to restart
             else:
+                clear_screen()  # Clear the screen before restarting the game
                 continue  # Restart the game
 
         # Determine winner after both turns
@@ -305,8 +309,7 @@ def main():
         update_scores(username, sum(card_value(card) for card in player_card))
         if not restart_game():
             print("Thank you for playing! Goodbye.")
-            break  # Exit outer loop if player chooses not to restart
-
+            return  # Exit function if player chooses not to restart
 
 if __name__ == "__main__":
     main()
