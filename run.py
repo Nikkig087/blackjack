@@ -2,6 +2,7 @@ import random
 import re
 import time
 import sys
+import os
 from colorama import Fore, Style
 import gspread
 from google.oauth2.service_account import Credentials
@@ -57,7 +58,7 @@ def typingPrint(text):
     for character in text:
         sys.stdout.write(character)
         sys.stdout.flush()
-        time.sleep(0.05)
+        time.sleep(0.02)
 
 
 def get_username():
@@ -224,17 +225,22 @@ def determine_winner(player_card, computer_card):
         typingPrint(f"{card[0]} of {card[1]}, ")
     typingPrint("\n")
     typingPrint(f"Your Score: {player_score}\n")
-    typingPrint("Computer Cards:\n")
+    typingPrint("\nComputer Cards:\n")
     for card in computer_card:
-        display_cards_ascii(card)  # Display the computer's cards in ASCII art
-    typingPrint(f"\nComputer Score: {computer_score}\n")
+        typingPrint(f"{card[0]} of {card[1]}, ")
+    typingPrint("\n")
+       # display_cards_ascii(card)  # Display the computer's cards in ASCII art
+    typingPrint(f"Computer Score: {computer_score}\n")
 
     if player_score <= 21 and (player_score > computer_score or computer_score > 21):
-        typingPrint(f"{RED}You win!{RESET}\n")
+        typingPrint(f"\n{RED}You win!{RESET}\n")
+        typingPrint("\n")
     elif computer_score <= 21 and (computer_score > player_score or player_score > 21):
-        typingPrint(f"{RED}Computer wins!{RESET}\n")
+        typingPrint(f"\n{RED}Computer wins!{RESET}\n")
+        typingPrint("\n")
     else:
-        typingPrint("It's a tie.\n")
+        typingPrint("\nIt's a tie.\n")
+        typingPrint("\n")
 
 
 def restart_game():
@@ -250,6 +256,9 @@ def restart_game():
 
 def main():
     while True:  # Outer loop for restarting the game
+        # Clear the terminal
+        os.system('cls' if os.name == 'nt' else 'clear')
+
         # Initialize the game
         username = get_username()
         display_username(username)
@@ -273,14 +282,13 @@ def main():
         if not player_continue or sum(card_value(card) for card in player_card) >= 21:
             # End game if player loses or reaches 21
             determine_winner(player_card, computer_card)
-            update_scores(username, sum(card_value(card) for card in player_card))
             if not restart_game():
                 break  # Exit outer loop if player chooses not to restart
             else:
                 continue  # Restart the game
 
         # Computer's turn
-        typingPrint("\nComputer's turn:\n")
+        print("\nComputer's turn:")
         computer_continue = computer_turn(deck, computer_card, difficulty_level)  # Pass difficulty_level
         if not computer_continue or sum(card_value(card) for card in computer_card) >= 21:
             # End game if computer loses or reaches 21
@@ -290,11 +298,12 @@ def main():
             else:
                 continue  # Restart the game
 
-        # Update scores after computer's turn
+        # Determine winner after both turns
+        determine_winner(player_card, computer_card)
         update_scores(username, sum(card_value(card) for card in player_card))
         if not restart_game():
+            print("Thank you for playing! Goodbye.")
             break  # Exit outer loop if player chooses not to restart
-
 
 
 if __name__ == "__main__":
