@@ -253,12 +253,14 @@ def restart_game():
         typingPrint(f"{RED}{e}{RESET}\n")
         return restart_game()
 
+def clear_screen():
+    # Print enough newline characters to clear the screen
+    print('\n' * 100)
 
 def main():
+    clear_screen() 
     while True:  # Outer loop for restarting the game
-        # Clear the terminal
-        os.system('cls' if os.name == 'nt' else 'clear')
-
+       
         # Initialize the game
         username = get_username()
         display_username(username)
