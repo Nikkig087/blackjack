@@ -245,7 +245,7 @@ def determine_winner(player_card, computer_card):
 
 def restart_game():
     if os.environ.get('RUNNING_ON_HEROKU'):
-        # If running on Heroku, don't wait for user input
+      
         return False
     else:
         try:
@@ -259,19 +259,8 @@ def restart_game():
 
 
 
-def clear_screen():
-    """
-    Clear the terminal screen.
-    """
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        sys.stdout.write("\033[H\033[2J")
-        sys.stdout.flush()
-
-
 def main():
-    while True:  # Outer loop for restarting the game
+    while True:  # Outer loop to restart game
         os.system('cls' if os.name == 'nt' else 'clear')
 
         # Initialize the game
@@ -298,6 +287,7 @@ def main():
             # End game if player loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print("Thank you for playing! Goodbye.")
                 break  # Exit outer loop if player chooses not to restart
             else:
@@ -310,17 +300,19 @@ def main():
             # End game if computer loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print("Thank you for playing! Goodbye.")
                 break  # Exit outer loop if player chooses not to restart
             else:
                 continue  # Restart the game
 
-        # Determine winner after both turns
+        # Determine winner 
         determine_winner(player_card, computer_card)
         update_scores(username, sum(card_value(card) for card in player_card))
         if not restart_game():
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("Thank you for playing! Goodbye.")
-            break  # Exit outer loop if player chooses not to restart
+            break  # Exit
 
 
 if __name__ == "__main__":
