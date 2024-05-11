@@ -244,14 +244,19 @@ def determine_winner(player_card, computer_card):
 
 
 def restart_game():
-    try:
-        choice = input("Do you want to play again? (yes/no): ").lower()
-        if choice not in ['yes', 'no']:
-            raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
-        return choice == 'yes'
-    except ValueError as e:
-        typingPrint(f"{RED}{e}{RESET}\n")
-        return restart_game()
+    if os.environ.get('RUNNING_ON_HEROKU'):
+        # If running on Heroku, don't wait for user input
+        return False
+    else:
+        try:
+            choice = input("Do you want to play again? (yes/no): ").lower()
+            if choice not in ['yes', 'no']:
+                raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
+            return choice == 'yes'
+        except ValueError as e:
+            typingPrint(f"{RED}{e}{RESET}\n")
+            return restart_game()
+
 
 
 def clear_screen():
@@ -267,8 +272,7 @@ def clear_screen():
 
 def main():
     while True:  # Outer loop for restarting the game
-        # Clear the terminal
-        clear_screen()
+        os.system('cls' if os.name == 'nt' else 'clear')
 
         # Initialize the game
         username = get_username()
@@ -294,6 +298,7 @@ def main():
             # End game if player loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
+                print("Thank you for playing! Goodbye.")
                 break  # Exit outer loop if player chooses not to restart
             else:
                 continue  # Restart the game
@@ -305,6 +310,7 @@ def main():
             # End game if computer loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
+                print("Thank you for playing! Goodbye.")
                 break  # Exit outer loop if player chooses not to restart
             else:
                 continue  # Restart the game
