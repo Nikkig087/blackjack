@@ -253,14 +253,23 @@ def restart_game():
         typingPrint(f"{RED}{e}{RESET}\n")
         return restart_game()
 
+
 def clear_screen():
-    # Print enough newline characters to clear the screen
-    print('\n' * 100)
+    """
+    Clear the terminal screen.
+    """
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        sys.stdout.write("\033[H\033[2J")
+        sys.stdout.flush()
+
 
 def main():
-    clear_screen()  # Clear the screen at the beginning of the game
-
     while True:  # Outer loop for restarting the game
+        # Clear the terminal
+        clear_screen()
+
         # Initialize the game
         username = get_username()
         display_username(username)
@@ -285,10 +294,8 @@ def main():
             # End game if player loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
-                print("Thank you for playing! Goodbye.")
-                return  # Exit function if player chooses not to restart
+                break  # Exit outer loop if player chooses not to restart
             else:
-                clear_screen()  # Clear the screen before restarting the game
                 continue  # Restart the game
 
         # Computer's turn
@@ -298,10 +305,8 @@ def main():
             # End game if computer loses or reaches 21
             determine_winner(player_card, computer_card)
             if not restart_game():
-                print("Thank you for playing! Goodbye.")
-                return  # Exit function if player chooses not to restart
+                break  # Exit outer loop if player chooses not to restart
             else:
-                clear_screen()  # Clear the screen before restarting the game
                 continue  # Restart the game
 
         # Determine winner after both turns
@@ -309,7 +314,8 @@ def main():
         update_scores(username, sum(card_value(card) for card in player_card))
         if not restart_game():
             print("Thank you for playing! Goodbye.")
-            return  # Exit function if player chooses not to restart
+            break  # Exit outer loop if player chooses not to restart
+
 
 if __name__ == "__main__":
     main()
