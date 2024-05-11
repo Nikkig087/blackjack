@@ -15,24 +15,56 @@ SCOPE = [
 
 # Load credentials from my creds file
 CREDS = Credentials.from_service_account_file('creds.json')
-
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-
 SHEET = GSPREAD_CLIENT.open('blackjack_top_scores')
 
+def update_scores(player_name, score, difficulty_level):
+    try:
+        difficulty_words = {
+            1: "Beginner",
+            2: "Intermediate",
+            3: "Advanced"
+        }
+        difficulty_word = difficulty_words.get(difficulty_level, "Unknown")
 
-def update_scores(player_name, score):
-    # Access the topscore worksheet in the blackjack_top_scores spreadsheet
+        topscore = SHEET.worksheet("topscore")
+
+        # Check if the sheet is empty (only contains the header row)
+        if len(topscore.get_all_values()) == 1:
+            next_row = 2  # Start from the second row if the sheet is empty
+        else:
+            next_row = len(topscore.col_values(1)) + 1
+
+        topscore.update_cell(next_row, 1, player_name)
+        topscore.update_cell(next_row, 2, score)
+        topscore.update_cell(next_row, 3, difficulty_word)
+        print("Scores updated successfully.")
+    except Exception as e:
+        print("Error updating scores:", e)
+
+
+def view_high_scores():
+    '''
+    Ignore the Header line and print the High Score displayed if there are any recorded.
+    '''
+    
     topscore = SHEET.worksheet("topscore")
+    high_scores = topscore.get_all_values()
+    if not high_scores:
+        print("\nNo high scores yet!")
+    else:
+        header = high_scores[0]
+        print("\nHigh Scores:\n")
+        print(header)
 
-    # Find the next empty row
-    next_row = len(topscore.col_values(1)) + 1
-
-    # Update the worksheet with the player's name and score
-    topscore.update_cell(next_row, 1, player_name)
-    topscore.update_cell(next_row, 2, score)
+        scores_without_header = high_scores[1:]
+        if not scores_without_header:
+            print("No high scores yet!")
+        else:
+            # Print the scores
+            for score in scores_without_header:
+                print(score)
 
 
 # Global variables
@@ -94,7 +126,7 @@ def select_difficulty():
         2: "Intermediate",
         3: "Advanced"
     }
-    typingPrint("Select difficulty level:\n")
+    typingPrint("\nSelect difficulty level:\n")
     for level, desc in difficulty_levels.items():
         typingPrint(f"{level}. {desc}\n")
     choice = input("Enter either 1, 2, or 3: ")
@@ -103,6 +135,7 @@ def select_difficulty():
         choice = input("Enter either 1, 2, or 3: ")
     level = int(choice)
     typingPrint(f"Great, you have chosen the {difficulty_levels[level]} level\n")
+    return level  # Return the difficulty level so it can be stored to google sheets
 
 
 def display_instructions():
@@ -171,6 +204,11 @@ def player_turn(deck, player_card):
         for card in player_card:
             display_cards_ascii(card)
         typingPrint(f"\nYour score: {player_score}\n")
+        
+        if player_score > 21:
+            typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
+            return False
+        
         choice = input('What do you want to do? ["play" to request another card, "stop" to finish game]: ').lower()
         while choice not in ["play", "stop"]:
             typingPrint(f"{RED}You must choose to either Play or Stop{RESET}\n")
@@ -183,7 +221,7 @@ def player_turn(deck, player_card):
             typingPrint("You drew:\n")
             display_cards_ascii(new_card)
             if player_score > 21:
-                typingPrint("Your Cards:\n")
+                typingPrint(f"Your Cards:\n")
                 for card in player_card:
                     display_cards_ascii(card)
                 typingPrint(f"Your Score: {player_score}\n")
@@ -192,6 +230,7 @@ def player_turn(deck, player_card):
         elif choice == "stop":
             break
     return True
+
 
 
 def computer_turn(deck, computer_card, difficulty_level):
@@ -257,15 +296,24 @@ def restart_game():
             typingPrint(f"{RED}{e}{RESET}\n")
             return restart_game()
 
-
-
 def main():
-    while True:  # Outer loop to restart game
+    first_game = True
+    while True:
         os.system('cls' if os.name == 'nt' else 'clear')
 
         # Initialize the game
-        username = get_username()
-        display_username(username)
+        if first_game:    
+            username = get_username()
+            display_username(username)
+        else:
+            typingPrint("\n Welcome back!!\n")
+
+        # Option to view high scores
+        view_scores = input("Would you like to view high scores? (yes/no): ").lower()
+        if view_scores == "yes":
+            view_high_scores()
+
+        # Choose difficulty level
         difficulty_level = select_difficulty()  # Store the selected difficulty level
         global deck
         random.shuffle(deck)
@@ -288,10 +336,12 @@ def main():
             determine_winner(player_card, computer_card)
             if not restart_game():
                 os.system('cls' if os.name == 'nt' else 'clear')
-                print("Thank you for playing! Goodbye.")
+                typingPrint("Thank you for playing! Goodbye.")
                 break  # Exit outer loop if player chooses not to restart
             else:
+                first_game = False  # Set flag to False for subsequent games
                 continue  # Restart the game
+
 
         # Computer's turn
         print("\nComputer's turn:")
@@ -304,15 +354,28 @@ def main():
                 print("Thank you for playing! Goodbye.")
                 break  # Exit outer loop if player chooses not to restart
             else:
+                first_game = False # To indicate its not the first game the player has played
                 continue  # Restart the game
 
-        # Determine winner 
+    # Determine winner after both turns
         determine_winner(player_card, computer_card)
-        update_scores(username, sum(card_value(card) for card in player_card))
+
+    # Update scores after determining the winner
+        print("Updating scores...")
+        update_scores(username, sum(card_value(card) for card in player_card), difficulty_level)
+
         if not restart_game():
             os.system('cls' if os.name == 'nt' else 'clear')
             print("Thank you for playing! Goodbye.")
-            break  # Exit
+            break  # Exit outer loop if player chooses not to restart
+        else:
+            if first_game:
+                first_game = False  # Reset first_game flag after the first game
+            else:
+                typingPrint("\nWelcome back!!\n")  # Display welcome back message only if it's not the first game
+
+
+
 
 
 if __name__ == "__main__":
