@@ -48,6 +48,7 @@ This project was built with Python3 as the "Python's Essentials" Project (portfo
     - [Code](#code)
     - [Styling](#styling)
 
+<br>
 
 ## Planning
 
@@ -55,33 +56,33 @@ The following flowchart (created with [daigrams.net](https://app.diagrams.net/))
 
 ![Flowchart](assets/images/GetHungFlow1.1.png)
 
+<br>
 
 ## How the Game works
 
+Game Flow:
+
+Welcome Screen:
+When the game starts, players are greeted with a welcome screen where they can enter their first name to personalize their experience.
+
 Game Setup:
-The game begins with setting up the deck of cards, including shuffling the deck and dealing initial cards to the player and the computer (dealer).
+Players have the option to view high scores, choose the difficulty level (Beginner, Intermediate, Advanced), and view game instructions if needed.
 
-Player Actions:
-The player is presented with their initial hand and can choose to either "play" to request another card or "stop" to finish their turn.
-If the player's total score exceeds 21, they lose the game immediately.
+Gameplay:
+The player and the computer dealer are each dealt two cards from a standard deck of 52 playing cards.
+The player can choose to "play" (request another card) or "stop" (finish their turn).
+If the player's score exceeds 21, they lose the game.
+After the player's turn, the computer dealer draws cards until its score is at least 17.
+If the computer's score exceeds 21, the player wins.
+Otherwise, the player with the highest score (not exceeding 21) wins the round.
 
-Computer Actions:
-After the player finishes their turn, the computer (dealer) takes its turn according to the difficulty level selected.
-The computer will continue to draw cards until its total score is at least 17.
-
-Determining the Winner:
-Once both the player and the computer have completed their turns, the winner is determined.
-If the player's total score is closer to 21 than the computer's score (without exceeding 21), the player wins.
-If the computer's total score is closer to 21 than the player's score (without exceeding 21), the computer wins.
-If both the player and the computer have the same score or both exceed 21, it's a tie.
-
-Game Output:
-The game displays the final hands of both the player and the computer, along with their respective scores.
-It announces the winner or declares a tie.
+Scoring:
+The player's score is compared against the computer's score, and the winner earns points based on the difficulty level.
+The player's name, score, and difficulty level are recorded in a Google Sheets document.
 
 End of Game:
-The game ends after determining the winner.
 Players have the option to play again or exit the game.
+If they choose to play again, they can continue with the same username and difficulty level or start fresh.
 
 ## UX
 
@@ -98,12 +99,15 @@ Learn how to play the game efficiently.
 Understand the game rules and mechanics.
 Enjoy a user-friendly interface for a smooth gaming experience.
 Easily navigate through the game's features and options.
+I want to view the high scores of previous players so that I can gauge how well I perform compared to others.
+I want the option to restart the game after finishing a round so that I can play again without having to reload the game.
 
 Frequent User Goals:
 Master the strategies required to win the game consistently.
 Explore different difficulty levels to challenge their skills.
 Engage in competitive gameplay against the computer.
 Provide feedback and suggestions for improving the game's features and usability.
+I want the option to view the high scores easily accessible from the main menu so that I can check my progress or compare scores with others.
 
 Returning User Goals:
 Explore any updates or improvements made to the game since their last play session.
@@ -111,6 +115,7 @@ Challenge themselves with different difficulty levels to enhance their skills.
 Compete against the computer to achieve higher scores and improve their strategy.
 Provide feedback on their experience to help shape future updates and optimizations.
 
+<br>
 
 ## Features
 
@@ -120,6 +125,12 @@ Provide feedback on their experience to help shape future updates and optimizati
 - Displays game title using ASCII
 
 ![logo](assets/images/logo.JPG)
+
+**Personalization** 
+The game welcomes players by their first name, creating a personalized experience.
+
+**Google Sheets Integration** 7
+Scores are stored and updated in a Google Sheets document, allowing players to track their performance over time.
 
 **Introduction and Rules**
 - Gives the user a brief run through the game and how to play it
@@ -146,7 +157,6 @@ Provide feedback on their experience to help shape future updates and optimizati
 ![used letters](assets/images/used-letters.JPG)
 
 
-
 **Game won message**
 - Informs and congratulates user when game is won
 - Shows after fully displayed word
@@ -167,16 +177,29 @@ Provide feedback on their experience to help shape future updates and optimizati
 
 ### Possible Future Features
 
-**High Scores
+**Username recogition**
 
+<br>
 
 ## Data Model
 
 
 *Data Validation*
 
-To make use of the ```try``` and ```except``` statements, I created the two functions ```validate_level``` and ```validate_letter```. Both functions raise a value error if data input by the user is not valid for each specific case. 
-In the initial version invalid data was simply handled with a print statement in an ```else``` clause (which may have sufficed in the case of this simple application). But for the sake of writing industry compliant code, I decided to outsource data validation to a specific function that raises a proper error. 
+To make use of my learned knowledge of the ```try``` and ```except``` statements, I used the opportunity to apply these statements to various points where errors could occur during gameplay, such as card drawing, player input, or updating scores. Wrapping the at risk sections of code with try and except blocks, provides a method of handling unexpected exceptions that may arise and ensure the appropriate feedback is displayed  to the user without crashing the program where applicable.  Some examples of the ```try```and ```except``` statements used are as follows:
+
+*** Error Handling during Score Update*** 
+
+In the update_scores() function, we rely on a dependable connection with external resources (Google Sheets) to update the scores. There are several opportunities for failure that may occur during this process, such as network errors, authentication issues, or unexpected data format. By using a try and except block, we can catch any exceptions that occur during the update process and handle them gracefully. Thus preventing the program from crashing and subsequently providing informative error messages to the user.
+
+![update scores](assets/images/lighthouse-results.JPG)
+
+*** Error Handling on Restart Game ***
+In the restart_game() function, the player is prompted for their input choice on whether they want to play again or not. If the player enters an invalid choice (i.e., neither "yes" nor "no"), this may raise a ValueError. By using a try and except block, this specific exception is caught and a prompt is displayed to the player to enter a valid choice, ensuring smooth interaction with the game.
+
+![restart game](assets/images/lighthouse-results.JPG)
+
+<br>
 
 ## Testing
 
@@ -201,31 +224,34 @@ No further change or manipulation of the template's default HTML, CSS and JavaSc
 
     As SEO was not an objective of this particular project, I chose to be content with a rating that is barely below 90. 
 
+<br>
+
 ### Browser Testing
 
 Ensuring all parts of the programm function as expected in all major browsers.
 
-| Browser     | Layout      | Functionality |
-| :---------: | :----------:| :-----------: |
-| Chrome      | ✔          | ✔             |
-| Edge        | ✔          | ✔             |
-| Firefox     | ✔          | ✔             |
-| Safari      | ✔          | ✔             |
-| IE          |deprecated by Microsoft, not tested|
+| Browser                 | Layout        |  Functionality |
+| :--------------------:  | :-----------: |  :-----------: |
+| Chrome                  | ✔             | ✔             |
+| Edge                    | ✔             | ✔             |
+| Firefox                 | ✔             | ✔             |
+| Safari                  | ✔             | ✔             |
+| Avast Secure Browser    | ✔             | ✔             |
 
+<br>
 
 ### Testing User Stories (Functionality)
 
-| Expectation (As a user, I want to...)  | Result (As a user, I...)    |
-| :---------------------------------: | :------------------------------:|
-| be able to read an introduction when first loading the programm | see a quick game introduction print out on the screen when the programm loads |
-| read the rules to the game in short and consice text | see the game rules explained clearly as part of the introduction |
+| Expectation (As a user, I want to...)                                              | Result (As a user, I...)    |
+| :--------------------------------------------------------------------------------: | :------------------------------:|
+| be given the option to view the high scores after I enter my username the programm | I can see the option to view the highscores following entry of my username |
+| be given the option to view the game instructions                                  | I am presented with the option to view to instructions |
 | choose a difficulty level | can choose between 3 levels: Beginner, Intermediate, Advanced |
+| be informed if my data input is not valid and why                                  | see an error message after I input invalid data, telling me what data type is required 
+| know when the game is over and who has won and what the score was for me as a player or the computer | can read a message telling me I either won or the computer won and what the scores were for me and for the computer the game when the game terminates |
+| be able to choose to play the game again when it's finished | can choose between a Yes or No option to play the game again after finishing |
 
-| be informed if my data input is not valid and why | see an error message after I input invalid data, telling me what data type is required |
-||
-| know when the game is over (won or lost) | can read a message telling me I either won or lost the game when the game terminates |
-| be able to restart the game when it's finished | can choose between a Y/N option to restart the game after finishing |
+<br>
 
 ## Debugging
 
@@ -240,6 +266,8 @@ To guarantee consistent line breaks, whitespaces and indentation, run.py and wor
 ### Unfixed Bugs
 
 No unfixed bugs to date.
+
+<br>
 
 ## Deployment
 
@@ -259,6 +287,8 @@ To deploy:
 - Allowing Heroku access to GitHub, link the new app to the relevant repository
 - Choose whether or not to enable **Automatic Deploys**. If enabled, the deployed app will update automatically with each push to GitHub
 - Click **Deploy**
+
+<br>
 
 ## Credits
 
