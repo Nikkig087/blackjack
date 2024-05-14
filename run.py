@@ -182,6 +182,7 @@ def display_cards_ascii(cards):
     for line in lines:
         typingPrint(line + "\n")
 
+
 def player_turn(deck, player_card):
     while True:
         player_score = sum(card_value(card) for card in player_card)
@@ -190,14 +191,18 @@ def player_turn(deck, player_card):
             display_cards_ascii(card)
         typingPrint(f"\nYour score: {player_score}\n")
 
-        if player_score > 21:
-            typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
+        if player_score >= 21:
+            if player_score == 21:
+                typingPrint(f"{Fore.YELLOW}Your score is 21!{RESET}\n")
+            else:
+                typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
 
         choice = input('What do you want to do? ("play" to request'
                        ' another card, "stop" to finish game): \n').lower()
         while choice not in ["play", "stop"]:
-            typingPrint(f'{RED}You must choose to either Play or Stop{RESET}\n')
+            typingPrint(f'{RED}You must choose'
+                        f' to either Play or Stop{RESET}\n')
             choice = input('What do you want to do? ("play" to request'
                            ' another card, "stop" to finish game): \n').lower()
 
@@ -213,7 +218,6 @@ def player_turn(deck, player_card):
     return True
 
 
-
 def computer_turn(deck, computer_card, difficulty_level):
     while True:
         computer_score = sum(card_value(card) for card in computer_card)
@@ -224,14 +228,14 @@ def computer_turn(deck, computer_card, difficulty_level):
             computer_card.append(new_card)
         else:
             break
-        print("Computer's Cards:")
-        for card in computer_card:
-            display_cards_ascii(card)
-            if computer_score > 21:
-                print("Computer's Score:", computer_score)
-                print(f"{RED}Computer is over 21, you win!{RESET}")
-                return False
-            return True
+    typingPrint("\nComputer's Cards:\n")
+    for card in computer_card:
+        display_cards_ascii(card)
+    if computer_score > 21:
+        typingPrint("Computer's Score:", computer_score)
+        typingPrint(f"{RED}Computer is over 21, you win!{RESET}")
+        return False
+    return True
 
 
 def determine_winner(player_card, computer_card, username, difficulty_level):
@@ -255,15 +259,13 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
         print("\nCongratulations! You have a Blackjack!\n")
         print("\nUpdating scores...")
         update_scores(username, player_score, difficulty_level)
-    elif player_score <= 21 and (player_score > computer_score or computer_score > 21):
+    elif player_score <= 21\
+            and (player_score > computer_score or computer_score > 21):
         print("\nYou win!\n")
         print("\nUpdating scores...")
         update_scores(username, player_score, difficulty_level)
     else:
         print("\nYou lose!")
-
-
-
 
 
 def restart_game():
@@ -317,7 +319,11 @@ def main():
         player_continue = player_turn(deck, player_card)
         if not player_continue or\
                 sum(card_value(card) for card in player_card) >= 21:
-            determine_winner(player_card, computer_card, username, difficulty_level)
+            determine_winner(
+                player_card,
+                computer_card,
+                username,
+                difficulty_level)
             if not restart_game():
                 os.system('cls' if os.name == 'nt' else 'clear')
                 typingPrint("Thank you for playing! Goodbye.")
@@ -331,7 +337,11 @@ def main():
             computer_turn(deck, computer_card, difficulty_level)
         if not computer_continue or\
            sum(card_value(card) for card in computer_card) >= 21:
-            determine_winner(player_card, computer_card, username, difficulty_level)
+            determine_winner(
+                player_card,
+                computer_card,
+                username,
+                difficulty_level)
             if not restart_game():
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print("Thank you for playing! Goodbye.")
@@ -340,12 +350,16 @@ def main():
                 first_game = False
                 continue
 
-        determine_winner(player_card, computer_card, username, difficulty_level)
+        determine_winner(
+            player_card,
+            computer_card,
+            username,
+            difficulty_level)
 
         if not restart_game():
             os.system('cls' if os.name == 'nt' else 'clear')
-            print("Thank you for playing! Goodbye.\n")
-            print("\n")
+            typingPrint("Thank you for playing! Goodbye\n")
+            
             break
         else:
             if first_game:
