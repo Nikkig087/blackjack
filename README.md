@@ -60,15 +60,16 @@ The following flowchart (created with [daigrams.net](https://app.diagrams.net/))
 
 ## How the Game works
 
-Game Flow:
+### Game Flow:
 
-Welcome Screen:
+#### Welcome Screen:
 When the game starts, players are greeted with a welcome screen where they can enter their first name to personalize their experience.
 
-Game Setup:
+
+#### Game Setup:
 Players have the option to view high scores, choose the difficulty level (Beginner, Intermediate, Advanced), and view game instructions if needed.
 
-Gameplay:
+#### Gameplay:
 The player and the computer dealer are each dealt two cards from a standard deck of 52 playing cards.
 The player can choose to "play" (request another card) or "stop" (finish their turn).
 If the player's score exceeds 21, they lose the game.
@@ -76,44 +77,62 @@ After the player's turn, the computer dealer draws cards until its score is at l
 If the computer's score exceeds 21, the player wins.
 Otherwise, the player with the highest score (not exceeding 21) wins the round.
 
-Scoring:
+
+#### Difficulty levels:
+
+- Beginner Level:
+The computer opponent draws cards until its score reaches 17 or higher, regardless of the player's score or the game state.
+
+<br>
+
+- Intermediate Level:
+The computer opponent draws cards until its score reaches 17 or higher, similar to the beginner level. However, it may also consider the player's score and adjust its strategy slightly based on the current game state. For example, if the player's score is high, the computer may be slightly more aggressive in drawing additional cards.
+
+<br>
+
+- Advanced Level:
+The computer opponent employs more sophisticated strategies based on statistical analysis and dynamic decision-making. It evaluates the player's score, the current game state, and possibly other factors to determine the optimal decision for each turn. This could involve adjusting its threshold for drawing cards, taking calculated risks, or implementing advanced strategies to increase its chances of winning.
+
+<br>
+
+#### Scoring:
 The player's score is compared against the computer's score, and the winner earns points based on the difficulty level.
 The player's name, score, and difficulty level are recorded in a Google Sheets document.
 
-End of Game:
+#### End of Game:
 Players have the option to play again or exit the game.
-If they choose to play again, they can continue with the same username and difficulty level or start fresh.
+If they choose to play again, they can continue with the same username and have the option to choose a new difficulty level or choose the level that they had initially chosen.
 
 ## UX
 
-### Programm Goals
+### Program Goals
 
-The goal of this programm is to provide the user with a simple, easy to understand and play game of hangman that can be played multiple times without the challenge being repeated.
+The goal of this program is to provide the user with a simple, easy to understand and play game of hangman that can be played multiple times without the challenge being repeated.
 
 ### User Stories
 
-**As a user I want to**
+#### As a user I want to**
 
-New User Goals:
-Learn how to play the game efficiently.
-Understand the game rules and mechanics.
-Enjoy a user-friendly interface for a smooth gaming experience.
-Easily navigate through the game's features and options.
-I want to view the high scores of previous players so that I can gauge how well I perform compared to others.
-I want the option to restart the game after finishing a round so that I can play again without having to reload the game.
+#### New User Goals:
+- Learn how to play the game efficiently.
+- Understand the game rules and mechanics.
+- Enjoy a user-friendly interface for a smooth gaming experience.
+- Easily navigate through the game's features and options.
+- I want to view the high scores of previous players so that I can gauge how well I perform compared to others.
+- I want the option to restart the game after finishing a round so that I can play again without having to reload the game.
 
-Frequent User Goals:
-Master the strategies required to win the game consistently.
-Explore different difficulty levels to challenge their skills.
-Engage in competitive gameplay against the computer.
-Provide feedback and suggestions for improving the game's features and usability.
-I want the option to view the high scores easily accessible from the main menu so that I can check my progress or compare scores with others.
+#### Frequent User Goals:
+- Master the strategies required to win the game consistently.
+- Explore different difficulty levels to challenge their skills.
+- Engage in competitive gameplay against the computer.
+- Provide feedback and suggestions for improving the game's features and usability.
+- I want the option to view the high scores easily accessible from the main menu so that I can check my progress or compare scores with others.
 
-Returning User Goals:
-Explore any updates or improvements made to the game since their last play session.
-Challenge themselves with different difficulty levels to enhance their skills.
-Compete against the computer to achieve higher scores and improve their strategy.
-Provide feedback on their experience to help shape future updates and optimizations.
+#### Returning User Goals:
+- Explore any updates or improvements made to the game since their last play session.
+- Challenge themselves with different difficulty levels to enhance their skills.
+- Compete against the computer to achieve higher scores and improve their strategy.
+- Provide feedback on their experience to help shape future updates and optimizations.
 
 <br>
 
@@ -121,28 +140,31 @@ Provide feedback on their experience to help shape future updates and optimizati
 
 ### Existing Features
 
-**Logo**
+#### Logo
 - Displays game title using ASCII
 
 ![logo](assets/images/logo.JPG)
 
-**Personalization** 
+#### Personalization
 The game welcomes players by their first name, creating a personalized experience.
 
-**Google Sheets Integration** 7
+#### Google Sheets Integration
 Scores are stored and updated in a Google Sheets document, allowing players to track their performance over time.
 
-**Introduction and Rules**
-- Gives the user a brief run through the game and how to play it
+#### Instructions 
+- Gives the user a brief run through the game and how to play it. The option to view the instructions is presented when the player first begins the game, if the player decides to play again then they are not asked if they would like to view the instructions.
 
 ![game intro](assets/images/intro-rules.JPG)
 
-**Level choice**
-- Allows user to choose one of three difficulty levels
+#### View High Scores 
+- Gives the user the option to view the Top 10 High Scores, who score them and what level they were achieved at.  This option is presented to the player for their initial game, it may aid the player in choosing a particular level to play the game at.  The option to view the high scores is not presented to the player should they decide to play again after the initial game ends.  
+
+#### Level choice
+- Allows user to choose one of three difficulty levels (Beginner, Intermediate or Advanced).  The player is asked to choose from the three levels on offer both when they start the game for the first time and if they decide to play again, the rationale behind the player being given this option if they decide to play again is that the player may like to play the next game at a different level than the level chosen for the initial game.
 
 ![level choice](assets/images/level-choice.JPG)
 
-**Invalid Data Error**
+#### Invalid Data Error
 - Informs the user if input data was not valid
 - Tells the user which data type is required and what was typed incorrectly
 - Displays for invalid level and letter input
@@ -151,25 +173,28 @@ Scores are stored and updated in a Google Sheets document, allowing players to t
 
 ![invalid letter](assets/images/invalid-letter.JPG)
 
-**Cards Drawn display**
+#### Cards Drawn display
 - Shows the Cards the player has drawn
 
 ![used letters](assets/images/used-letters.JPG)
 
 
-**Game won message**
-- Informs and congratulates user when game is won
-- Shows after fully displayed word
+#### Game won message
+- Informs the player when they have won 
 
 ![game won message](assets/images/game-won.JPG)
 
-**Game lost message**
-- Informs user when game is lost
-- Reveals to user the word that was to be guessed
+#### Game lost message 
+- Informs player when they have lost
+
 
 ![game lost message](assets/images/game-lost.JPG)
 
-**Restart Game option**
+#### It's a Tie message 
+- Informs player when they have scored the same score as the computer.
+
+
+#### Restart Game option
 - Offers user the choice to play again after finishing the game
 
 ![restart game](assets/images/restart-game.JPG)
@@ -188,13 +213,13 @@ Scores are stored and updated in a Google Sheets document, allowing players to t
 
 To make use of my learned knowledge of the ```try``` and ```except``` statements, I used the opportunity to apply these statements to various points where errors could occur during gameplay, such as card drawing, player input, or updating scores. Wrapping the at risk sections of code with try and except blocks, provides a method of handling unexpected exceptions that may arise and ensure the appropriate feedback is displayed  to the user without crashing the program where applicable.  Some examples of the ```try```and ```except``` statements used are as follows:
 
-*** Error Handling during Score Update*** 
+### Error Handling during Score Update
 
 In the update_scores() function, we rely on a dependable connection with external resources (Google Sheets) to update the scores. There are several opportunities for failure that may occur during this process, such as network errors, authentication issues, or unexpected data format. By using a try and except block, we can catch any exceptions that occur during the update process and handle them gracefully. Thus preventing the program from crashing and subsequently providing informative error messages to the user.
 
 ![update scores](assets/images/lighthouse-results.JPG)
 
-*** Error Handling on Restart Game ***
+#### Error Handling on Restart Game 
 In the restart_game() function, the player is prompted for their input choice on whether they want to play again or not. If the player enters an invalid choice (i.e., neither "yes" nor "no"), this may raise a ValueError. By using a try and except block, this specific exception is caught and a prompt is displayed to the player to enter a valid choice, ensuring smooth interaction with the game.
 
 ![restart game](assets/images/lighthouse-results.JPG)

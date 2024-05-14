@@ -48,19 +48,25 @@ def update_scores(player_name, score, difficulty_level):
 def view_high_scores():
     topscore = SHEET.worksheet("topscore")
     high_scores = topscore.get_all_values()
-    if not high_scores:
-        print("\nNo high scores yet!")
-    else:
-        header = high_scores[0]
-        print("\nHigh Scores:\n")
-        print(header)
 
-        scores_without_header = high_scores[1:]
-        if not scores_without_header:
-            print("No high scores yet!")
-        else:
-            for score in scores_without_header:
-                print(score)
+    # Print header
+    print("\nTop 10 High Scores:\n")
+    if high_scores:
+        header = high_scores[0]
+        print(f"{' | '.join(header)}")
+        print("-" * 30)
+
+        # Remove header
+        high_scores = high_scores[1:]
+
+        # Sort high scores by score (descending order)
+        high_scores.sort(key=lambda x: int(x[1]), reverse=True)
+
+        # Print top 10 scores
+        for i, score in enumerate(high_scores[:10], 1):
+            print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
+    else:
+        print("\nNo high scores yet!")
 
 
 card_categories = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -70,6 +76,8 @@ deck = [(card, category) for category in card_categories
         for card in cards_list]
 
 # Color constants
+BLUE = Fore.BLUE
+YELLOW = Fore.YELLOW
 RED = Fore.RED
 RESET = Style.RESET_ALL
 
@@ -193,7 +201,7 @@ def player_turn(deck, player_card):
 
         if player_score >= 21:
             if player_score == 21:
-                typingPrint(f"{Fore.YELLOW}Your score is 21!{RESET}\n")
+                typingPrint(f"{YELLOW}Your score is 21!{RESET}\n")
             else:
                 typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
@@ -232,8 +240,8 @@ def computer_turn(deck, computer_card, difficulty_level):
     for card in computer_card:
         display_cards_ascii(card)
     if computer_score > 21:
-        typingPrint("Computer's Score:", computer_score)
-        typingPrint(f"{RED}Computer is over 21, you win!{RESET}")
+        print("Computer's Score:", computer_score)
+        print(f"{RED}Computer is over 21, you win!{RESET}")
         return False
     return True
 
@@ -265,7 +273,7 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
         print("\nUpdating scores...")
         update_scores(username, player_score, difficulty_level)
     else:
-        print("\nYou lose!")
+        print(f"\n{BLUE}You lose!{RESET}")
 
 
 def restart_game():
@@ -293,25 +301,27 @@ def main():
         else:
             typingPrint("\n Welcome back!!\n")
 
-        view_scores = input("\nWould you like to view high scores? "
-                            "(yes/no): \n").lower()
-        while view_scores not in ["yes", "no"]:
-            view_scores = input("You must choose either 'yes' or 'no' "
-                                "for viewing high scores: \n").lower()
-        if view_scores == "yes":
-            view_high_scores()
+        if first_game:
+            view_scores = input("\nWould you like to view high scores? "
+                                "(yes/no): \n").lower()
+            while view_scores not in ["yes", "no"]:
+                view_scores = input("You must choose either 'yes' or 'no' "
+                                    "for viewing high scores: \n").lower()
+            if view_scores == "yes":
+                view_high_scores()
 
         difficulty_level = select_difficulty()
         global deck
         random.shuffle(deck)
 
-        view_instructions = input("Would you like to view the instructions?"
+        if first_game:
+            view_instructions = input("Would you like to view the instructions?"
                                   " (yes/no): \n").lower()
-        while view_instructions not in ["yes", "no"]:
-            view_instructions = input("You must choose either 'yes' or 'no' "
+            while view_instructions not in ["yes", "no"]:
+                view_instructions = input("You must choose either 'yes' or 'no' "
                                       "for viewing instructions: \n").lower()
-        if view_instructions == "yes":
-            display_instructions()
+            if view_instructions == "yes":
+                display_instructions()
 
         player_card = [deck.pop(), deck.pop()]
         computer_card = [deck.pop(), deck.pop()]
@@ -344,7 +354,7 @@ def main():
                 difficulty_level)
             if not restart_game():
                 os.system('cls' if os.name == 'nt' else 'clear')
-                print("Thank you for playing! Goodbye.")
+                print("Thank you for playing! Goodbye\n")
                 break
             else:
                 first_game = False
