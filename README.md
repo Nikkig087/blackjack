@@ -54,7 +54,7 @@ This project was built with Python3 as the "Python's Essentials" Project (portfo
 
 The following flowchart (created with [daigrams.net](https://app.diagrams.net/)) visualizes the planning process for this application.
 
-![Flowchart](assets/images/GetHungFlow1.1.png)
+![Flowchart](assets/design/overview.webp)
 
 <br>
 
