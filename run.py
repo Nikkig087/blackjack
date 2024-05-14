@@ -98,6 +98,7 @@ def typingPrint(text):
         time.sleep(0.02)
 
 
+
 def get_username():
     print(r"""
 .------.            _     _            _    _            _
@@ -336,7 +337,7 @@ def main():
                 difficulty_level)
             if not restart_game():
                 os.system('cls' if os.name == 'nt' else 'clear')
-                typingPrint("Thank you for playing! Goodbye.")
+                typingPrint("Thank you for playing! Goodbye\n")
                 break
             else:
                 first_game = False
