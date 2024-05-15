@@ -143,7 +143,7 @@ The goal of this program is to provide the user with a simple, easy to understan
 #### Logo
 - Displays game title using ASCII
 
-![logo](assets/images/logo.JPG)
+![logo](assets/screenshots/logo.png)
 
 #### Personalization
 The game welcomes players by their first name, creating a personalized experience.
@@ -154,55 +154,73 @@ Scores are stored and updated in a Google Sheets document, allowing players to t
 #### Instructions 
 - Gives the user a brief run through the game and how to play it. The option to view the instructions is presented when the player first begins the game, if the player decides to play again then they are not asked if they would like to view the instructions.
 
-![game intro](assets/images/intro-rules.JPG)
+![game instruction](assets/screenshots/instructions.png)
 
 #### View High Scores 
-- Gives the user the option to view the Top 10 High Scores, who score them and what level they were achieved at.  This option is presented to the player for their initial game, it may aid the player in choosing a particular level to play the game at.  The option to view the high scores is not presented to the player should they decide to play again after the initial game ends.  
+- Gives the user the option to view the Top 10 High Scores, who score them and what level they were achieved at.  This option is presented to the player for their initial game, it may aid the player in choosing a particular level to play the game at.  The option to view the high scores is not presented to the player should they decide to play again after the initial game ends.
+
+![view high scores](assets/screenshots/view_high_scores.png)
 
 #### Level choice
 - Allows user to choose one of three difficulty levels (Beginner, Intermediate or Advanced).  The player is asked to choose from the three levels on offer both when they start the game for the first time and if they decide to play again, the rationale behind the player being given this option if they decide to play again is that the player may like to play the next game at a different level than the level chosen for the initial game.
 
-![level choice](assets/images/level-choice.JPG)
+![level choice](assets/screenshots/level_choice.png)
 
 #### Invalid Data Error
 - Informs the user if input data was not valid
 - Tells the user which data type is required and what was typed incorrectly
 - Displays for invalid level and letter input
 
-![invalid level](assets/images/invalid-level.JPG)
+##### invalid name: 
+![invalid name](assets/screenshots/invalid_name_message.png)
 
-![invalid letter](assets/images/invalid-letter.JPG)
+##### invalid level: 
+![invalid level](assets/screenshots/invalid_level_message.png)
+
+##### invalid stop or play chosen:
+![invalid stop or play chosen](assets/screenshots/invalid_stop_or_play_message.png)
+
+##### invalid play again:
+![invalid play again chosen](assets/screenshots/invalid_play_again_message.png)
+
+##### invalid view high scores:
+![invalid play again chosen](assets/screenshots/invalid_view_scores_message.png)
+
+##### invalid view instructions:
+![invalid play again chosen](assets/screenshots/invalid_view_instructions_message.png)
+
 
 #### Cards Drawn display
-- Shows the Cards the player has drawn
+- Shows the Cards the player has drawn both in ascii and in text.
 
-![used letters](assets/images/used-letters.JPG)
+![cards displayed](assets/screenshots/display_cards.png)
 
 
 #### Game won message
 - Informs the player when they have won 
 
-![game won message](assets/images/game-won.JPG)
+![game won message](assets/screenshots/win.png)
 
 #### Game lost message 
 - Informs player when they have lost
 
-
-![game lost message](assets/images/game-lost.JPG)
+![game lost message](assets/screenshots/lose.png)
 
 #### It's a Tie message 
 - Informs player when they have scored the same score as the computer.
 
+![game tie message](assets/screenshots/tie.png)
 
 #### Restart Game option
 - Offers user the choice to play again after finishing the game
 
-![restart game](assets/images/restart-game.JPG)
+![restart game](assets/screenshots/restart_game.png)
 
 
 ### Possible Future Features
 
 **Username recogition**
+- When a returning user logs in they are asked if they would like to play at the level that they played before.
 
 <br>
 
@@ -217,12 +235,12 @@ To make use of my learned knowledge of the ```try``` and ```except``` statements
 
 In the update_scores() function, we rely on a dependable connection with external resources (Google Sheets) to update the scores. There are several opportunities for failure that may occur during this process, such as network errors, authentication issues, or unexpected data format. By using a try and except block, we can catch any exceptions that occur during the update process and handle them gracefully. Thus preventing the program from crashing and subsequently providing informative error messages to the user.
 
-![update scores](assets/images/lighthouse-results.JPG)
+![update scores try except example](assets/screenshots/update_scores_try_except.png)
 
 #### Error Handling on Restart Game 
 In the restart_game() function, the player is prompted for their input choice on whether they want to play again or not. If the player enters an invalid choice (i.e., neither "yes" nor "no"), this may raise a ValueError. By using a try and except block, this specific exception is caught and a prompt is displayed to the player to enter a valid choice, ensuring smooth interaction with the game.
 
-![restart game](assets/images/lighthouse-results.JPG)
+![restart game try except example](assets/screenshots/restart_game_try_except.png)
 
 <br>
 
