@@ -251,15 +251,9 @@ In the restart_game() function, the player is prompted for their input choice on
 - HTML, CSS and JavaScript validation does not apply to this project. The template provided by Code Institute as provided to all students is assumed to be tested for the above.
 No further change or manipulation of the template's default HTML, CSS and JavaScript files has been performed.
 
-- Python Validator [PEP8](http://pep8online.com/)
+- Python Validator [PEP8](https://pep8ci.herokuapp.com/#)
 
-    - **Error**: Line too long on 13 lines of code
-
-    - **Solution**: Break up lines of code using ``` \ ```
-
-    No further errors or warnings.
-
-    ![PEP8 results](assets/images/pep8-final-result.JPG)
+    ![PEP8 results](assets/screenshots/pep8_validation.png)
 
 - Performance, Accessibility, SEO, Best Practices (Lighthouse Chrome DevTools)
 
@@ -302,13 +296,15 @@ Ensuring all parts of the programm function as expected in all major browsers.
 
 **Formatting**
 
-To guarantee consistent line breaks, whitespaces and indentation, run.py and words.py were formatted using [Black Playground](https://black.vercel.app/)
+To guarantee consistent line breaks, whitespaces and indentation, run.py was formatted using [Black Playground](https://black.vercel.app/)
 
-**Word not displaying fully when game won**:
+
 
 ### Unfixed Bugs
 
-No unfixed bugs to date.
+Despite the known bug that allows users to input text while the game's text is displayed, the captivating visual effects and enhanced gameplay experience offered to the player outweigh this minor inconvenience. The engaging card displays, accompanied by clear instructions, significantly enhance the game's appeal and provide players with an immersive blackjack experience. While the bug may disrupt the flow slightly, its impact is minimal compared to the overall enjoyment and entertainment value provided by the game.
+
+Addressing this bug on Gitpod and Heroku presents a difficult challenge due to the remote execution environments and limitations on direct user interaction with the terminal. The complexity of the bug and its resolution are further impacted by how these platforms handle user input and terminal display, making it non-trivial to resolve without compromising other aspects of the application's functionality.
 
 <br>
 
@@ -337,24 +333,23 @@ To deploy:
 
 ### Data
 
-- **Word List**: 
+- **High Scores**: 
 
-
+    [High Scores Google Sheet](https://docs.google.com/spreadsheets/d/1r9CzTp2wzx3XwvAnAsxe9T_BxKYqw-b7Ls7j1tiDSro/edit#gid=0)
 
 - **Logo**:
 
-    [Text to ASCII Art Generator](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
+    [Blackjack Logo](https://replit.com/@PaulCross/blackjack-start#art.py)
 
-    Font: Ogre.
-
-
+   
 ### Code
 
 - **Template and Terminal**
 
     [Python Essentials Template](https://github.com/Code-Institute-Org/python-essentials-template) provided by Code Institute 
 
-
+- **Python Typing Effect**
+    [Python Typing Effect](https://www.101computing.net/python-typing-text-effect/)
 
 
 ### Styling
