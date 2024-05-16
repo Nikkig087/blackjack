@@ -110,6 +110,12 @@ def card_value(card):
 
 
 def typingPrint(text):
+    """
+    Print text gradually, simulating typing.
+
+    Args:
+        text (str): The text to print.
+    """
     for character in text:
         sys.stdout.write(character)
         sys.stdout.flush()
@@ -117,6 +123,12 @@ def typingPrint(text):
 
 
 def get_username():
+    """
+    Get the username from the user.
+
+    Returns:
+        str: The username entered by the user.
+    """
     print(
         r"""
 .------.            _     _            _    _            _
@@ -139,10 +151,23 @@ def get_username():
 
 
 def display_username(username):
+    """
+    Display a welcome message with the username.
+
+    Args:
+        username (str): The username to display.
+    """
     typingPrint(f"Welcome {username}!\n")
 
 
 def select_difficulty():
+    """
+    Prompt the user to select a difficulty level.
+
+    Returns:
+        int: The selected difficulty level (1 for Beginner,
+        2 for Intermediate, 3 for Advanced).
+    """
     difficulty_levels = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
     typingPrint("\nSelect difficulty level:\n")
     for level, desc in difficulty_levels.items():
@@ -159,6 +184,9 @@ def select_difficulty():
 
 
 def display_instructions():
+    """
+    Display the game instructions to the user.
+    """
     typingPrint("\nGame Instructions\n")
     typingPrint(
         "Your goal is to achieve a score as close to"
@@ -179,6 +207,12 @@ def display_instructions():
 
 
 def display_cards_ascii(cards):
+    """
+    Display ASCII representation of the given cards.
+
+    Args:
+        cards (list of tuples): List of tuples representing the cards.
+    """
     suit_symbols = {
         "Hearts": "♥",
         "Diamonds": "♦",
@@ -214,6 +248,18 @@ def display_cards_ascii(cards):
 
 
 def player_turn(deck, player_card):
+    """
+    Simulate the player's turn in the game.
+
+    Args:
+        deck (list): The deck of cards.
+        player_card (list of tuples): List of tuples
+        representing the player's cards.
+
+    Returns:
+        bool: True if the player continues playing,
+        False if they bust or choose to stop.
+    """
     while True:
         player_score = sum(card_value(card) for card in player_card)
         typingPrint("\nYour cards:\n")
@@ -251,6 +297,20 @@ def player_turn(deck, player_card):
 
 
 def computer_turn(deck, computer_card, difficulty_level):
+    """
+    Simulate the computer's turn in the game.
+
+    Args:
+        deck (list): The deck of cards.
+        computer_card (list of tuples): List of tuples representing
+        the computer's cards.
+        difficulty_level (int): The level of difficulty (1 for Beginner,
+        2 for Intermediate, 3 for Advanced).
+
+    Returns:
+        bool: True if the computer continues playing,
+        False if it busts or chooses to stop.
+    """
     while True:
         computer_score = sum(card_value(card) for card in computer_card)
         if computer_score >= 17:
@@ -271,6 +331,18 @@ def computer_turn(deck, computer_card, difficulty_level):
 
 
 def determine_winner(player_card, computer_card, username, difficulty_level):
+    """
+    Determine the winner of the game.
+
+    Args:
+        player_card (list of tuples): List of tuples
+        representing the player's cards.
+        computer_card (list of tuples): List of tuples
+        representing the computer's cards.
+        username (str): The username of the player.
+        difficulty_level (int): The level of difficulty
+        (1 for Beginner, 2 for Intermediate, 3 for Advanced).
+    """
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
 
@@ -302,6 +374,12 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
 
 
 def restart_game():
+    """
+    Prompt the user to restart the game.
+
+    Returns:
+        bool: True if the user wants to restart, False otherwise.
+    """
     if os.environ.get("RUNNING_ON_HEROKU"):
         return False
     else:
@@ -316,6 +394,9 @@ def restart_game():
 
 
 def main():
+    """
+    Main function to start the game.
+    """
     first_game = True
     while True:
         os.system("cls" if os.name == "nt" else "clear")
