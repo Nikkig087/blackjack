@@ -47,28 +47,21 @@ def view_high_scores():
     topscore = SHEET.worksheet("topscore")
     high_scores = topscore.get_all_values()
 
-    # Print header
-
     print("\nTop 10 High Scores:\n")
-    if high_scores:
+
+    data_rows = high_scores[1:]
+
+    if not any(data_rows):
+        print("\nNo high scores yet!")
+    else:
         header = high_scores[0]
         print(f"{' | '.join(header)}")
         print("-" * 30)
 
-        # Remove header
+        data_rows.sort(key=lambda x: int(x[1]), reverse=True)
 
-        high_scores = high_scores[1:]
-
-        # Sort high scores by score (descending order)
-
-        high_scores.sort(key=lambda x: int(x[1]), reverse=True)
-
-        # Print top 10 scores
-
-        for i, score in enumerate(high_scores[:10], 1):
+        for i, score in enumerate(data_rows[:10], 1):
             print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
-    else:
-        print("\nNo high scores yet!")
 
 
 card_categories = ["Hearts", "Diamonds", "Clubs", "Spades"]
