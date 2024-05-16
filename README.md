@@ -11,9 +11,9 @@ Once the player decides to stop drawing cards, the computer takes its turn, and 
 
 This project was built with Python3 as the "Python's Essentials" Project (portfolio project 3) for Code Insitute. 
 
-[Link to live site](https://get-hung.herokuapp.com/)
+[Link to live site](https://blackjack-ng-941132ac49c5.herokuapp.com/)
 
-![Responsive mock-up](assets/images/mockup.JPG)
+
 
 
 ## Index - Table of Contents
