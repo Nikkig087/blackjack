@@ -58,18 +58,18 @@ The following flowchart (created with [daigrams.net](https://app.diagrams.net/))
 
 <br>
 
-## How the Game works
+## How the Game Works
 
-### Game Flow:
+### Game Flow
 
-#### Welcome Screen:
+#### Welcome Screen
 When the game starts, players are greeted with a welcome screen where they can enter their first name to personalize their experience.
 
 
-#### Game Setup:
+#### Game Setup
 Players have the option to view high scores, choose the difficulty level (Beginner, Intermediate, Advanced), and view game instructions if needed.
 
-#### Gameplay:
+#### Gameplay
 The player and the computer dealer are each dealt two cards from a standard deck of 52 playing cards.
 The player can choose to "play" (request another card) or "stop" (finish their turn).
 If the player's score exceeds 21, they lose the game.
@@ -78,7 +78,7 @@ If the computer's score exceeds 21, the player wins.
 Otherwise, the player with the highest score (not exceeding 21) wins the round.
 
 
-#### Difficulty levels:
+#### Difficulty levels
 
 - Beginner Level:
 The computer opponent draws cards until its score reaches 17 or higher, regardless of the player's score or the game state.
@@ -95,11 +95,11 @@ The computer opponent employs more sophisticated strategies based on statistical
 
 <br>
 
-#### Scoring:
+#### Scoring
 The player's score is compared against the computer's score, and the winner earns points based on the difficulty level.
 The player's name, score, and difficulty level are recorded in a Google Sheets document.
 
-#### End of Game:
+#### End of Game
 Players have the option to play again or exit the game.
 If they choose to play again, they can continue with the same username and have the option to choose a new difficulty level or choose the level that they had initially chosen.
 
@@ -111,7 +111,7 @@ The goal of this program is to provide the user with a simple, easy to understan
 
 ### User Stories
 
-#### As a user I want to**
+*** As a user I want to ***
 
 #### New User Goals:
 - Learn how to play the game efficiently.

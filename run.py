@@ -23,6 +23,15 @@ SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
 
 
 def update_scores(player_name, score, difficulty_level):
+    """
+    Update the high scores in the Google Sheets document.
+
+    Args:
+        player_name (str): The name of the player.
+        score (int): The score of the player.
+        difficulty_level (int): The level of difficulty (1 for Beginner,
+                                2 for Intermediate, 3 for Advanced).
+    """
     try:
         difficulty_words = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
         difficulty_word = difficulty_words.get(difficulty_level, "Unknown")
@@ -44,6 +53,10 @@ def update_scores(player_name, score, difficulty_level):
 
 
 def view_high_scores():
+    """
+    Display the top 10 high scores from my Google
+    Sheets topscore worksheet.
+    """
     topscore = SHEET.worksheet("topscore")
     high_scores = topscore.get_all_values()
 
@@ -94,6 +107,15 @@ RESET = Style.RESET_ALL
 
 
 def card_value(card):
+    """
+    Get the value of a card.
+
+    Args:
+        card (tuple): A tuple representing the card (rank, suit).
+
+    Returns:
+        int: The value of the card.
+    """
     if card[0] in ["Jack", "Queen", "King"]:
         return 10
     elif card[0] == "Ace":
