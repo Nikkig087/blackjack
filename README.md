@@ -111,7 +111,7 @@ The goal of this program is to provide the user with a simple, easy to understan
 
 ### User Stories
 
-*** As a user I want to ***
+As a user I want to
 
 #### New User Goals:
 - Learn how to play the game efficiently.
@@ -146,10 +146,10 @@ The goal of this program is to provide the user with a simple, easy to understan
 ![logo](assets/screenshots/logo.png)
 
 #### Personalization
-The game welcomes players by their first name, creating a personalized experience.
+- The game welcomes players by their first name, creating a personalized experience.
 
 #### Google Sheets Integration
-Scores are stored and updated in a Google Sheets document, allowing players to track their performance over time.
+- Scores are stored and updated in a Google Sheets document, allowing players to track their performance over time.
 
 #### Instructions 
 - Gives the user a brief run through the game and how to play it. The option to view the instructions is presented when the player first begins the game, if the player decides to play again then they are not asked if they would like to view the instructions.
@@ -171,22 +171,40 @@ Scores are stored and updated in a Google Sheets document, allowing players to t
 - Tells the user which data type is required and what was typed incorrectly
 - Displays for invalid level and letter input
 
-##### invalid name: 
+<br>
+
+**Invalid name**
+
 ![invalid name](assets/screenshots/invalid_name_message.png)
 
-##### invalid level: 
+<br>
+
+**Invalid level**
+
 ![invalid level](assets/screenshots/invalid_level_message.png)
 
-##### invalid stop or play chosen:
+<br>
+
+**Invalid stop or play chosen**
+
 ![invalid stop or play chosen](assets/screenshots/invalid_stop_or_play_message.png)
 
-##### invalid play again:
+<br>
+
+**Invalid play again**
+
 ![invalid play again chosen](assets/screenshots/invalid_play_again_message.png)
 
-##### invalid view high scores:
+<br>
+
+**Invalid view high scores**
+
 ![invalid play again chosen](assets/screenshots/invalid_view_scores_message.png)
 
-##### invalid view instructions:
+<br>
+
+**Invalid view instructions**
+
 ![invalid play again chosen](assets/screenshots/invalid_view_instructions_message.png)
 
 
@@ -226,12 +244,11 @@ Scores are stored and updated in a Google Sheets document, allowing players to t
 
 ## Data Model
 
-
-*Data Validation*
+### Data Validation
 
 To make use of my learned knowledge of the ```try``` and ```except``` statements, I used the opportunity to apply these statements to various points where errors could occur during gameplay, such as card drawing, player input, or updating scores. Wrapping the at risk sections of code with try and except blocks, provides a method of handling unexpected exceptions that may arise and ensure the appropriate feedback is displayed  to the user without crashing the program where applicable.  Some examples of the ```try```and ```except``` statements used are as follows:
 
-### Error Handling during Score Update
+#### Error Handling during Score Update
 
 In the update_scores() function, we rely on a dependable connection with external resources (Google Sheets) to update the scores. There are several opportunities for failure that may occur during this process, such as network errors, authentication issues, or unexpected data format. By using a try and except block, we can catch any exceptions that occur during the update process and handle them gracefully. Thus preventing the program from crashing and subsequently providing informative error messages to the user.
 
@@ -253,13 +270,7 @@ No further change or manipulation of the template's default HTML, CSS and JavaSc
 
 - Python Validator [PEP8](https://pep8ci.herokuapp.com/#)
 
-    ![PEP8 results](assets/screenshots/pep8_validation.png)
-
-- Performance, Accessibility, SEO, Best Practices (Lighthouse Chrome DevTools)
-
-    ![Lighthouse results](assets/images/lighthouse-results.JPG)
-
-    As SEO was not an objective of this particular project, I chose to be content with a rating that is barely below 90. 
+    ![PEP8 results](assets/screenshots/pep8_validation.png) 
 
 <br>
 
@@ -294,11 +305,9 @@ Ensuring all parts of the programm function as expected in all major browsers.
 
 ### Fixed Bugs
 
-**Formatting**
+**Formatting Bug**
 
 To guarantee consistent line breaks, whitespaces and indentation, run.py was formatted using [Black Playground](https://black.vercel.app/)
-
-
 
 ### Unfixed Bugs
 
