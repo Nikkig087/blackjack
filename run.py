@@ -123,7 +123,7 @@ def card_value(card):
         return int(card[0])
 
 
-def typingPrint(text,padding=PADDING_SIZE):
+def typingPrint(text):
     """
     Print text gradually, simulating typing.
 
