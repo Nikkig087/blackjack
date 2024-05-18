@@ -20,7 +20,6 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
 
-PADDING_SIZE = int(os.getenv('PADDING_SIZE', 5))
 
 def update_scores(player_name, score, difficulty_level):
     """
@@ -131,14 +130,10 @@ def typingPrint(text,padding=PADDING_SIZE):
     Args:
         text (str): The text to print.
     """
-    padding_spaces = ' ' * padding
-    for line in text.split('\n'):
-        for char in padding_spaces + line:
-            sys.stdout.write(char)
-            sys.stdout.flush()
-            time.sleep(0.02)
-        sys.stdout.write('\n')  
+    for character in text:
+        sys.stdout.write(character)
         sys.stdout.flush()
+        time.sleep(0.02)
 
 
 def get_username():
