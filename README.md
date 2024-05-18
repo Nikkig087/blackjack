@@ -9,40 +9,58 @@ The Player can choose to draw additional cards ("hit") or stop drawing ("stand")
 
 Once the player decides to stop drawing cards, the computer takes its turn, and the winner is determined based on the total scores of both the player and the computer. This Blackjack game offers an entertaining and challenging experience for players of all skill levels.
 
-This project was built with Python3 as the "Python's Essentials" Project (portfolio project 3) for Code Insitute. 
+This project was built with Python version 3.12.3 as the "Python's Essentials" Project (portfolio project 3) for Code Insitute. 
 
 [Link to live site](https://blackjack-ng-941132ac49c5.herokuapp.com/)
-
-
 
 
 ## Index - Table of Contents
 
 - [Planning](#planning)
-
-- [Design](#design)
-
+- [How the Game Works](#how-the-game-works)
+    - [Game Flow](#game-flow)
+        - [Welcome Screen](#welcome-screen)
+        - [Game Setup](#game-setup)
+        - [Gameplay](#gameplay)
+        - [Difficulty levels](#difficulty-levels)
+        - [Scoring](#scoring)
+        - [End of Game](#end-of-game)
 - [UX](#ux)
     - [Programm Goals](#programm-goals)
     - [User Stories](#user-stories)
-
+        - [New User Goals](#new-user-goals)
+        - [Frequent User Goals](#frequent-user-goals)
+        - [Returning User Goals](#returning-user-goals)
 - [Features](#features)
     - [Existing Features](#existing-features)
-    - [Future Features](#possible-future-features)
-
+        -[Logo](#logo)
+        -[Personalization](#personalization)
+        -[Google Sheets Integration](#google-sheets-integration)
+        -[Instructions](#instructions)
+        -[View High Scores](#view-high-scores)
+        -[Level Choice](#level-choice)
+        -[Invalid Data Error](#invalid-data-error)
+        -[Cards Drawn Display](#cards-drawn-display)
+        -[Game Won Message](#game-won-message)
+        -[Game Lost Message](#game-lost-message)
+        -[It's a Tie Message](#it's-a-tie-message)
+        -[Restart Game Option](#restart-game-option)
+        
+    - [Possible Future Features](#possible-future-features)
+        -[Username Recognition](#username-recognition)
+        
 - [Data Model](#data-model)
-
+    - [Data Validation](#data-validation)
+        - [Error Handling during Score Update](#error-handling-during-score-update)
+        - [Error Handling on Restart Game](#error-handling-on-restart-game)
 - [Testing](#testing)
     - [Validator Testing](#validator-testing)
     - [Browser Testing](#browser-testing)
     - [Testing User Stories](#testing-user-stories-functionality)
-
 - [Debugging](#debugging)
     - [Fixed bugs](#fixed-bugs)
     - [Unfixed bugs](#unfixed-bugs)
-
 - [Deployment](#deployment)
-
 - [Credits](#credits)
     - [Data](#data)
     - [Code](#code)
@@ -52,7 +70,7 @@ This project was built with Python3 as the "Python's Essentials" Project (portfo
 
 ## Planning
 
-The following flowchart (created with [daigrams.net](https://app.diagrams.net/)) visualizes the planning process for this application.
+The following flowchart (created with [diagrams.net](https://app.diagrams.net/)) visualizes the planning process for this application.
 
 ![Flowchart](assets/design/overview.webp)
 
@@ -214,7 +232,7 @@ As a user I want to
 ![cards displayed](assets/screenshots/display_cards.png)
 
 
-#### Game won message
+#### Game Won message
 - Informs the player when they have won 
 
 ![game won message](assets/screenshots/win.png)
@@ -237,7 +255,7 @@ As a user I want to
 
 ### Possible Future Features
 
-**Username recogition**
+**Username recognition**
 - When a returning user logs in they are asked if they would like to play at the level that they played before.
 
 <br>
@@ -325,8 +343,8 @@ To deploy:
 
 - Clone or fork this public repository
 - Create a Heroku account (if not already existing)
-- Create a new app with Heroku
-- In **Settings**, add 2 buildpacks:
+- Create a new app with Heroku (this must have a unique name)
+- In **Settings**, add 2 buildpacks (the order is very important):
     - ```Python```
     - ```NodeJS```
     
