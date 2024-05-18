@@ -131,10 +131,14 @@ def typingPrint(text,padding=PADDING_SIZE):
     Args:
         text (str): The text to print.
     """
-    for character in text:
-        sys.stdout.write(character)
+    padding_spaces = ' ' * padding
+    for line in text.split('\n'):
+        for char in padding_spaces + line:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(0.02)
+        sys.stdout.write('\n')  
         sys.stdout.flush()
-        time.sleep(0.02)
 
 
 def get_username():
