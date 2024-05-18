@@ -1,4 +1,3 @@
-import json
 import random
 import re
 import time
@@ -21,11 +20,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
 
-# Load configuration from config.json
-with open('config.json', 'r') as config_file:
-    config = json.load(config_file)
-
-PADDING_SIZE = config.get('padding_size', 5)
+PADDING_SIZE = int(os.getenv('PADDING_SIZE', 5))
 
 def update_scores(player_name, score, difficulty_level):
     """
