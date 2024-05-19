@@ -2,6 +2,9 @@ import random
 import re
 import time
 import sys
+import tty
+import termios
+import threading
 import os
 from colorama import Fore, Style
 import gspread
@@ -19,6 +22,47 @@ CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
+
+import sys
+import tty
+import termios
+import threading
+
+class KeyboardDisable:
+    def __init__(self):
+        self.fd = sys.stdin.fileno()
+        self.old_settings = termios.tcgetattr(self.fd)
+        self.running = False
+        self._thread = None
+
+    def start(self):
+        if not self.running:
+            self.running = True
+            tty.setcbreak(self.fd)  # Disable buffering
+            self._thread = threading.Thread(target=self._disable_input)
+            self._thread.start()
+
+    def stop(self):
+        if self.running:
+            self.running = False
+            termios.tcsetattr(self.fd, termios.TCSADRAIN, self.old_settings)
+            if self._thread is not None:
+                self._thread.join()  # Ensure the thread has finished
+
+    def _disable_input(self):
+        while self.running:
+            try:
+                # Use select to check if there's any input without blocking
+                if select.select([sys.stdin], [], [], 0.1)[0]:
+                    sys.stdin.read(1)  # Read a single character to effectively block input
+            except Exception:
+                pass
+
+def typingPrint(text, delay=0):
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+
 
 
 def update_scores(player_name, score, difficulty_level):
@@ -104,6 +148,7 @@ YELLOW = Fore.YELLOW
 RED = Fore.RED
 RESET = Style.RESET_ALL
 
+disable = KeyboardDisable()
 
 def card_value(card):
     """
@@ -122,7 +167,7 @@ def card_value(card):
     else:
         return int(card[0])
 
-
+'''
 def typingPrint(text):
     """
     Print text gradually, simulating typing.
@@ -135,7 +180,7 @@ def typingPrint(text):
         sys.stdout.flush()
         time.sleep(0.02)
 
-
+'''
 def get_username():
     """
     Get the username from the user.
@@ -161,8 +206,11 @@ def get_username():
         if re.match(r"^[A-Za-z]+$", first_name):
             return first_name.title()
         else:
-            typingPrint("Please enter a valid first name with only letters.\n")
-
+            disable.start()
+            try:
+                typingPrint("Please enter a valid first name with only letters.\n",delay=0)
+            finally:
+                disable.stop()
 
 def display_username(username):
     """
@@ -171,8 +219,11 @@ def display_username(username):
     Args:
         username (str): The username to display.
     """
-    typingPrint(f"Welcome {username}!\n")
-
+    disable.start()
+    try:
+        typingPrint(f"Welcome {username}!\n", delay=0.05)
+    finally:
+        disable.stop()
 
 def select_difficulty():
     """
