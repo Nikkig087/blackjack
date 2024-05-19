@@ -70,7 +70,7 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
 
 ## Planning
 
-The following flowchart (created with [diagrams.net](https://app.diagrams.net/)) visualizes the planning process for this application.
+The following flowchart (created with [draw.io](https://app.diagrams.net/)) visualizes the planning process for this application.
 
 ![Flowchart](assets/design/overview.webp)
 
@@ -290,6 +290,16 @@ No further change or manipulation of the template's default HTML, CSS and JavaSc
 
     ![PEP8 results](assets/screenshots/pep8_validation.png) 
 
+- Lighthouse testing
+    - Desktop Testing
+
+        ![lighthouse desktop](assets/testing/lighthouse_desktop.png) 
+    
+    - Mobile Testing
+
+        ![lighthouse mobile](assets/testing/lighthouse_mobile.png) 
+
+As SEO was not an explicit requirement of this particular project, I was content with a rating that is barely below 90.
 <br>
 
 ### Browser Testing
