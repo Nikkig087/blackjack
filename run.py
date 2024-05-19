@@ -208,7 +208,7 @@ def get_username():
         else:
             disable.start()
             try:
-                typingPrint("Please enter a valid first name with only letters.\n",delay=0)
+                typingPrint("Please enter a valid first name with only letters.\n",delay=0.1)
             finally:
                 disable.stop()
 
@@ -221,7 +221,7 @@ def display_username(username):
     """
     disable.start()
     try:
-        typingPrint(f"Welcome {username}!\n", delay=0.05)
+        typingPrint(f"Welcome {username}!\n", delay=0.1)
     finally:
         disable.stop()
 
