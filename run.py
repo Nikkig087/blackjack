@@ -55,7 +55,7 @@ class KeyboardDisable:
             except Exception:
                 pass
 
-def typingPrint(text, delay=0.1):
+def typingPrint(text, delay=0.05):
     for char in text:
         print(char, end='', flush=True)
         time.sleep(delay)
@@ -213,7 +213,7 @@ def get_username():
         else:
             disable.start()
             try:
-                typingPrint("Please enter a valid first name with only letters.\n",delay=0.1)
+                typingPrint("Please enter a valid first name with only letters.\n")
             finally:
                 disable.stop()
                 
@@ -229,7 +229,7 @@ def display_username(username):
     """
     disable.start()
     try:
-        typingPrint(f"Welcome {username}!\n", delay=0.1)
+        typingPrint(f"Welcome {username}!\n")
     finally:
         disable.stop()
 
@@ -246,7 +246,7 @@ def select_difficulty():
     while True:
         disable.start()
         try:
-            typingPrint("\nSelect difficulty level:\n", delay=0.1)
+            typingPrint("\nSelect difficulty level:\n")
             for level, desc in difficulty_levels.items():
                 typingPrint(f"{level}. {desc}\n")
 
