@@ -81,7 +81,11 @@ The following flowchart (created with [draw.io](https://app.diagrams.net/)) visu
 ### Game Flow
 
 #### Welcome Screen
-When the game starts, players are greeted with a welcome screen where they can enter their first name to personalize their experience.
+When the game starts, players are greeted with a welcome screen where they can chose from either of the following options:
+- Start a new game
+- View high scores
+- View instructions
+- Exit
 
 
 #### Game Setup
@@ -99,7 +103,7 @@ Otherwise, the player with the highest score (not exceeding 21) wins the round.
 #### Difficulty levels
 
 - Beginner Level:
-The computer opponent draws cards until its score reaches 17 or higher, regardless of the player's score or the game state.
+The dealer (computer opponent) draws cards until its score reaches 17 or higher, regardless of the player's score or the game state.
 
 <br>
 

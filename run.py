@@ -5,6 +5,7 @@ import sys
 import tty
 import termios
 import threading
+import select
 import os
 from colorama import Fore, Style
 import gspread
@@ -18,16 +19,10 @@ SCOPE = [
 
 # Load credentials from my creds file
 
-
 CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
-
-import sys
-import tty
-import termios
-import threading
 
 
 class KeyboardDisable:
@@ -55,20 +50,22 @@ class KeyboardDisable:
         while self.running:
             try:
                 # Use select to check if there's any input without blocking
-
                 if select.select([sys.stdin], [], [], 0.1)[0]:
-                    sys.stdin.read(
-                        1
-                    )  # Read a single character to effectively block input
+                    sys.stdin.read(1)  # Read a single character to effectively block input
             except Exception:
                 pass
 
-
-def typingPrint(text, delay=0.05):
+def typingPrint(text, delay=0.1):
     for char in text:
-        print(char, end="", flush=True)
+        print(char, end='', flush=True)
         time.sleep(delay)
 
+def clear_input_buffer():
+    """
+    Clear the input buffer to prevent any lingering input.
+    """
+    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+    os.system('clear' if os.name == 'posix' else 'cls')
 
 def update_scores(player_name, score, difficulty_level):
     """
@@ -105,25 +102,28 @@ def view_high_scores():
     Display the top 10 high scores from my Google
     Sheets topscore worksheet.
     """
-    topscore = SHEET.worksheet("topscore")
-    high_scores = topscore.get_all_values()
+    disable.start()
+    try:
+        topscore = SHEET.worksheet("topscore")
+        high_scores = topscore.get_all_values()
 
-    print("\nTop 10 High Scores:\n")
+        typingPrint("\nTop 10 High Scores:\n")
 
-    data_rows = high_scores[1:]
+        data_rows = high_scores[1:]
 
-    if not any(data_rows):
-        print("\nNo high scores yet!")
-    else:
-        header = high_scores[0]
-        print(f"{' | '.join(header)}")
-        print("-" * 30)
+        if not any(data_rows):
+            typingPrint("\nNo high scores yet!")
+        else:
+            header = high_scores[0]
+            print(f"{' | '.join(header)}")
+            print("-" * 30)
 
-        data_rows.sort(key=lambda x: int(x[1]), reverse=True)
+            data_rows.sort(key=lambda x: int(x[1]), reverse=True)
 
-        for i, score in enumerate(data_rows[:10], 1):
-            print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
-
+            for i, score in enumerate(data_rows[:10], 1):
+                print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
+    finally:
+        disable.stop()
 
 card_categories = ["Hearts", "Diamonds", "Clubs", "Spades"]
 cards_list = [
@@ -155,7 +155,6 @@ RESET = Style.RESET_ALL
 
 disable = KeyboardDisable()
 
-
 def card_value(card):
     """
     Get the value of a card.
@@ -173,7 +172,6 @@ def card_value(card):
     else:
         return int(card[0])
 
-
 '''
 def typingPrint(text):
     """
@@ -188,8 +186,6 @@ def typingPrint(text):
         time.sleep(0.02)
 
 '''
-
-
 def get_username():
     """
     Get the username from the user.
@@ -217,13 +213,12 @@ def get_username():
         else:
             disable.start()
             try:
-                typingPrint(
-                    "Please enter a valid first name with only letters.\n",
-                    delay=0.1,
-                )
+                typingPrint("Please enter a valid first name with only letters.\n",delay=0.1)
             finally:
                 disable.stop()
-
+                
+            # Clear input buffer
+            clear_input_buffer()
 
 def display_username(username):
     """
@@ -234,10 +229,9 @@ def display_username(username):
     """
     disable.start()
     try:
-        typingPrint(f"Welcome {username}!\n", delay=0)
+        typingPrint(f"Welcome {username}!\n", delay=0.1)
     finally:
         disable.stop()
-
 
 def select_difficulty():
     """
@@ -247,70 +241,35 @@ def select_difficulty():
         int: The selected difficulty level (1 for Beginner,
         2 for Intermediate, 3 for Advanced).
     """
-    disable.start()
-    
-    difficulty_levels = {
-        1: "Beginner",
-        2: "Intermediate",
-        3: "Advanced",
-    }
-    
-    typingPrint("\nSelect difficulty level:\n")
-    for level, desc in difficulty_levels.items():
-        typingPrint(f"{level}. {desc}\n")
-    
-    disable.stop()
-    
-    choice = None
-    while choice not in ["1", "2", "3"]:
-        choice = input("Enter either 1, 2, or 3: \n")
-        if choice not in ["1", "2", "3"]:
-            typingPrint("Please choose 1, 2, or 3 only\n")
+    difficulty_levels = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
 
-    level = int(choice)
+    while True:
+        disable.start()
+        try:
+            typingPrint("\nSelect difficulty level:\n", delay=0.1)
+            for level, desc in difficulty_levels.items():
+                typingPrint(f"{level}. {desc}\n")
 
-    disable.start()
-    try:
-        typingPrint(
-            f"Great, you have chosen the {difficulty_levels[level]} level\n"
-        )
-    finally:
-        disable.stop()
+            # Clear input buffer
+            while sys.stdin in select.select([sys.stdin], [], [], 0.1)[0]:
+                sys.stdin.read(1)
 
-    return level
+            typingPrint("Enter either 1, 2, or 3: \n")
+        finally:
+            disable.stop()
 
-
-
-
-
-def display_instructions():
-    """
-    Display the game instructions to the user.
-    """
-    disable.start()
-    try:
-        typingPrint("\nGame Instructions\n")
-        typingPrint(
-            "Your goal is to achieve a score as close to"
-            " 21 as possible without going over 21.\n"
-        )
-        typingPrint("Jack, Queen, and King cards" " are worth 10 points.\n")
-        typingPrint(
-            "Aces are worth either 1 or 11," " whichever is more favorable.\n"
-        )
-        typingPrint("You will be asked if you want another card.\n")
-        typingPrint(
-            "Enter 'play' to request another card or 'stop' to stop.\n"
-        )
-        typingPrint("Exceed 21 and you lose!\n")
-        typingPrint(
-            "Should you decide to stop, the dealer (the computer)\n"
-            "will then draw cards until its score is at least 17.\n"
-        )
-        typingPrint("The player with the highest score wins!\n")
-    finally:
-        disable.stop()
-
+        choice = input()
+        
+        disable.start()
+        try:
+            if choice.strip() in ["1", "2", "3"]:
+                level = int(choice)
+                typingPrint(f"Great, you have chosen the {difficulty_levels[level]} level\n")
+                break  # Exit the loop after a valid choice is made
+            else:
+                typingPrint("Please choose 1, 2, or 3 only\n")
+        finally:
+            disable.stop()
 
 def display_cards_ascii(cards):
     """
@@ -319,42 +278,47 @@ def display_cards_ascii(cards):
     Args:
         cards (list of tuples): List of tuples representing the cards.
     """
-    suit_symbols = {
-        "Hearts": "♥",
-        "Diamonds": "♦",
-        "Clubs": "♣",
-        "Spades": "♠",
-    }
+    disable.start()
+    try:
+        suit_symbols = {
+            "Hearts": "♥",
+            "Diamonds": "♦",
+            "Clubs": "♣",
+            "Spades": "♠",
+        }
 
-    if isinstance(cards, tuple):
-        cards = [cards]
-    lines = ["" for _ in range(6)]
+        if isinstance(cards, tuple):
+            cards = [cards]
+        lines = ["" for _ in range(6)]
 
-    for rank, suit in cards:
-        if rank == "Ace":
-            rank_str = " A "
-        elif rank == "Jack":
-            rank_str = " J "
-        elif rank == "Queen":
-            rank_str = " Q "
-        elif rank == "King":
-            rank_str = " K "
-        else:
-            rank_str = f" {rank} "
-        suit_symbol = suit_symbols[suit]
+        for rank, suit in cards:
+            if rank == "Ace":
+                rank_str = " A "
+            elif rank == "Jack":
+                rank_str = " J "
+            elif rank == "Queen":
+                rank_str = " Q "
+            elif rank == "King":
+                rank_str = " K "
+            else:
+                rank_str = f" {rank} "
+            suit_symbol = suit_symbols[suit]
 
-        lines[0] += " _________ "
-        lines[1] += f"|{rank_str:<2}       |"
-        lines[2] += "|         |"
-        lines[3] += f"|    {suit_symbol}    |"
-        lines[4] += "|         |"
-        lines[5] += f"|_______{rank_str:>1}|"
-    for line in lines:
-        disable.start()
-        try:
-            typingPrint(line + "\n")
-        finally:
-            disable.stop()
+            lines[0] += " _________ "
+            lines[1] += f"|{rank_str:<2}       |"
+            lines[2] += "|         |"
+            lines[3] += f"|    {suit_symbol}    |"
+            lines[4] += "|         |"
+            lines[5] += f"|_______{rank_str:>1}|"
+
+        # Concatenate all lines into a single string
+        ascii_representation = "\n".join(lines)
+
+        # Print the ASCII representation all at once
+        typingPrint(ascii_representation + "\n")
+    finally:
+        disable.stop()
+
 
 def player_turn(deck, player_card):
     """
@@ -369,34 +333,44 @@ def player_turn(deck, player_card):
         bool: True if the player continues playing,
         False if they bust or choose to stop.
     """
-    disable.start()
     try:
         while True:
             player_score = sum(card_value(card) for card in player_card)
+            disable.start()
             typingPrint("\nYour cards:\n")
+            disable.stop()
             for card in player_card:
                 display_cards_ascii(card)
+            disable.start()
             typingPrint(f"\nYour score: {player_score}\n")
+            disable.stop()
+            
 
             if player_score >= 21:
                 if player_score == 21:
                     typingPrint(f"{YELLOW}Your score is 21!{RESET}\n")
                 else:
-                    typingPrint(
-                        f"{RED}Your score is over 21! You lose!{RESET}\n"
-                    )
+                    typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
                 return False
+
+            disable.stop()  # Stop disabling input before asking for user input
             choice = input(
                 'What do you want to do? ("play" to request'
                 ' another card, "stop" to finish game): \n'
             ).lower()
-            
-            if choice not in ["play", "stop"]:
+            disable.start()  # Start disabling input after getting user input
+
+            while choice not in ["play", "stop"]:
                 typingPrint(
-                    f"{RED}You must choose" f" to either Play or Stop{RESET}\n"
+                    f"{RED}You must choose to either Play or Stop{RESET}\n"
                 )
-                continue
-                
+                disable.stop()  # Stop disabling input before asking for user input
+                choice = input(
+                    'What do you want to do? ("play" to request'
+                    ' another card, "stop" to finish game): \n'
+                ).lower()
+                disable.start()  # Start disabling input after getting user input
+
             if choice == "play":
                 new_card = deck.pop()
                 player_card.append(new_card)
@@ -407,6 +381,7 @@ def player_turn(deck, player_card):
                 break
     finally:
         disable.stop()
+
     return True
 
 
@@ -426,70 +401,83 @@ def computer_turn(deck, computer_card, difficulty_level):
         bool: True if the computer continues playing,
         False if it busts or chooses to stop.
     """
-    disable.start()
+    disable.start()  # Start disabling input before printing messages
     try:
         while True:
             computer_score = sum(card_value(card) for card in computer_card)
             if computer_score >= 17:
-                break  # Break out of the loop if the score is 17 or higher
+                break
             if random.random() < 0.5:
                 new_card = deck.pop()
                 computer_card.append(new_card)
             else:
-                break  # Break out of the loop with 50% probability
-            typingPrint("\nComputer's Cards:\n")
-            for card in computer_card:
-                display_cards_ascii(card)
-            if computer_score > 21:
-                print("Computer's Score:", computer_score)
-                print(f"{RED}Computer is over 21, you win!{RESET}")
-                return False
-            return True
+                break
+
+        typingPrint("\nComputer's Cards:\n")
+        for card in computer_card:
+            display_cards_ascii(card)
+
+        if computer_score > 21:
+            typingPrint("Computer's Score:", computer_score)
+            typingPrint(f"{RED}Computer is over 21, you win!{RESET}")
+            return False
+        return True
     finally:
-        disable.stop()
-
-
-def determine_winner(player_card, computer_card, username, difficulty_level):
+        disable.stop()  # Stop disabling input after printing messages
+def determine_winner(player_card, computer_card, username, difficulty_level, first_game):
     """
     Determine the winner of the game.
 
     Args:
-        player_card (list of tuples): List of tuples
-        representing the player's cards.
-        computer_card (list of tuples): List of tuples
-        representing the computer's cards.
+        player_card (list of tuples): List of tuples representing the player's cards.
+        computer_card (list of tuples): List of tuples representing the computer's cards.
         username (str): The username of the player.
-        difficulty_level (int): The level of difficulty
-        (1 for Beginner, 2 for Intermediate, 3 for Advanced).
+        difficulty_level (int): The level of difficulty (1 for Beginner, 2 for Intermediate, 3 for Advanced).
     """
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
+    
+    try:
+        disable.start()  # Start disabling input before printing messages
+        typingPrint("\nYour Cards: ")
+        for card in player_card:
+            typingPrint(f"{card[0]} of {card[1]}, ")
+        typingPrint("\n")
+        typingPrint(f"Your Score: {player_score}\n")
+        typingPrint("\nComputer Cards:\n")
+        for card in computer_card:
+            typingPrint(f"{card[0]} of {card[1]}, ")
+        typingPrint("\n")
+        typingPrint(f"Computer Score: {computer_score}\n")
 
-    typingPrint("\nYour Cards: ")
-    for card in player_card:
-        typingPrint(f"{card[0]} of {card[1]}, ")
-    typingPrint("\n")
-    typingPrint(f"Your Score: {player_score}\n")
-    typingPrint("\nComputer Cards:\n")
-    for card in computer_card:
-        typingPrint(f"{card[0]} of {card[1]}, ")
-    typingPrint("\n")
-    typingPrint(f"Computer Score: {computer_score}\n")
+        if player_score == computer_score:
+            print("\nIt's a tie!\n")
+        elif player_score == 21:
+            print("\nCongratulations! You have a Blackjack!\n")
+            print("\nUpdating scores...")
+            update_scores(username, player_score, difficulty_level)
+        elif player_score <= 21 and (
+            player_score > computer_score or computer_score > 21
+        ):
+            print("\nYou win!\n")
+            print("\nUpdating scores...")
+            update_scores(username, player_score, difficulty_level)
+        else:
+            print(f"\n{BLUE}You lose!{RESET}")
 
-    if player_score == computer_score:
-        print("\nIt's a tie!\n")
-    elif player_score == 21:
-        print("\nCongratulations! You have a Blackjack!\n")
-        print("\nUpdating scores...")
-        update_scores(username, player_score, difficulty_level)
-    elif player_score <= 21 and (
-        player_score > computer_score or computer_score > 21
-    ):
-        print("\nYou win!\n")
-        print("\nUpdating scores...")
-        update_scores(username, player_score, difficulty_level)
-    else:
-        print(f"\n{BLUE}You lose!{RESET}")
+        # Stop input disabling before prompting for restart
+        disable.stop()
+        
+        if not restart_game():
+            os.system("cls" if os.name == "nt" else "clear")
+            return
+        else:
+            if first_game:
+                first_game = False
+            else:
+                typingPrint("Welcome back!!\n")
+    finally:
+        disable.stop()  # Ensure input disabling is stopped even if an exception occurs
 
 
 def restart_game():
@@ -503,15 +491,17 @@ def restart_game():
         return False
     else:
         try:
-            choice = input("Do you want to play again? (yes/no): \n").lower()
-            if choice not in ["yes", "no"]:
-                raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
+            while True:
+                # Stop disabling input before asking for user input
+                choice = input("Do you want to play again? (yes/no): \n").lower()
+              # Start disabling input after getting user input
+                if choice in ["yes", "no"]:
+                    break
+                typingPrint(f"{RED}Invalid choice. Please enter 'yes' or 'no'.{RESET}\n")
             return choice == "yes"
-        except ValueError as e:
+        except Exception as e:
             typingPrint(f"{RED}{e}{RESET}\n")
             return restart_game()
-
-
 def main():
     """
     Main function to start the game.
@@ -524,11 +514,14 @@ def main():
             username = get_username()
             display_username(username)
         else:
+            disable.start()
             typingPrint("\n Welcome back!!\n")
+
         if first_game:
             view_scores = input(
                 "\nWould you like to view high scores? " "(yes/no): \n"
             ).lower()
+            disable.stop()
             while view_scores not in ["yes", "no"]:
                 view_scores = input(
                     "You must choose either 'yes' or 'no' "
@@ -536,6 +529,7 @@ def main():
                 ).lower()
             if view_scores == "yes":
                 view_high_scores()
+
         difficulty_level = select_difficulty()
         global deck
         random.shuffle(deck)
@@ -549,8 +543,10 @@ def main():
                     "You must choose either 'yes' or 'no' "
                     "for viewing instructions: \n"
                 ).lower()
+
             if view_instructions == "yes":
                 display_instructions()
+
         player_card = [deck.pop(), deck.pop()]
         computer_card = [deck.pop(), deck.pop()]
 
@@ -564,11 +560,14 @@ def main():
             )
             if not restart_game():
                 os.system("cls" if os.name == "nt" else "clear")
+                disable.start()
                 typingPrint("Thank you for playing! Goodbye\n")
+                disable.stop()
                 break
             else:
                 first_game = False
                 continue
+
         print("\nComputer's turn:")
         computer_continue = computer_turn(
             deck, computer_card, difficulty_level
@@ -578,30 +577,24 @@ def main():
             or sum(card_value(card) for card in computer_card) >= 21
         ):
             determine_winner(
-                player_card, computer_card, username, difficulty_level
+                player_card, computer_card, username, difficulty_level, first_game
             )
             if not restart_game():
-                os.system("cls" if os.name == "nt" else "clear")
-                print("Thank you for playing! Goodbye\n")
-                break
-            else:
                 first_game = False
                 continue
+
         determine_winner(
-            player_card, computer_card, username, difficulty_level
+            player_card, computer_card, username, difficulty_level, first_game
         )
 
-        if not restart_game():
-            os.system("cls" if os.name == "nt" else "clear")
-            typingPrint("Thank you for playing! Goodbye\n")
+        # No need to call restart_game() here
 
-            break
-        else:
-            if first_game:
-                first_game = False
-            else:
-                typingPrint("Welcome back!!\n")
-
+        # Print the goodbye message outside the loop
+        os.system("cls" if os.name == "nt" else "clear")
+        disable.start()
+        typingPrint("Thank you for playing! Goodbye\n")
+        disable.stop()
+        break
 
 if __name__ == "__main__":
     main()
