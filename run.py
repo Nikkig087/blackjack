@@ -46,7 +46,7 @@ def update_scores(player_name, score, difficulty_level):
         topscore.update_cell(next_row, 1, player_name)
         topscore.update_cell(next_row, 2, score)
         topscore.update_cell(next_row, 3, difficulty_word)
-        typingPrint("Scores updated successfully.")
+        typingPrint("Scores updated successfully.\n")
     except Exception as e:
         typingPrint("Error updating scores:", e)
 
@@ -64,7 +64,7 @@ def view_high_scores():
     data_rows = high_scores[1:]
 
     if not any(data_rows):
-        typingPrint("\nNo high scores yet!")
+        typingPrint("\nNo high scores yet!\n")
     else:
         header = high_scores[0]
         print(f"{' | '.join(header)}")
@@ -339,7 +339,7 @@ def computer_turn(deck, computer_card, difficulty_level):
         display_cards_ascii(card)
     if computer_score > 21:
         print("Computer's Score:", computer_score)
-        print(f"{RED}Computer is over 21, you win!{RESET}")
+        print(f"{RED}Computer is over 21, you win!{RESET}\n")
         return False
     return True
 
@@ -375,16 +375,16 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
         typingPrint("\nIt's a tie!\n")
     elif player_score == 21:
         typingPrint("\nCongratulations! You have a Blackjack!\n")
-        typingPrint("\nUpdating scores...")
+        typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     elif player_score <= 21 and (
         player_score > computer_score or computer_score > 21
     ):
         typingPrint("\nYou win!\n")
-        typingPrint("\nUpdating scores...")
+        typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     else:
-        typingPrint(f"\n{BLUE}You lose!{RESET}")
+        typingPrint(f"\n{BLUE}You lose!{RESET}\n")
 
 
 def restart_game():
@@ -419,7 +419,7 @@ def main():
             username = get_username()
             display_username(username)
         else:
-            typingPrint("\n Welcome back!!\n")
+            typingPrint(f"\n Welcome back {username}!!\n")
         if first_game:
             view_scores = input(
                 "\nWould you like to view high scores? " "(yes/no): \n"
@@ -464,7 +464,7 @@ def main():
             else:
                 first_game = False
                 continue
-        print("\nComputer's turn:")
+        print("\nComputer's turn:\n")
         computer_continue = computer_turn(
             deck, computer_card, difficulty_level
         )
