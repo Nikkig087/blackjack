@@ -22,14 +22,42 @@ SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
 
 
 def disable_input():
-    os.system("stty -echo")
+    fd = sys.stdin.fileno()
+    if os.isatty(fd):
+        old_settings = termios.tcgetattr(fd)
+        new_settings = termios.tcgetattr(fd)
+        new_settings[3] = new_settings[3] & ~termios.ECHO
+        termios.tcsetattr(fd, termios.TCSADRAIN, new_settings)
+        return old_settings
+    return None
 
+def enable_input(old_settings):
+    fd = sys.stdin.fileno()
+    if os.isatty(fd) and old_settings:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        termios.tcflush(fd, termios.TCIOFLUSH)
 
-def enable_input():
-    os.system("stty echo")
-    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+def typingPrint(text, delay_before=0, delay_after=0):
+    """
+    Print text gradually, simulating typing, with optional delays
+    before and after.
+    Parameters:
+    - text: The text to be printed.
+    - delay_before: Delay in seconds before starting to print text.
+    - delay_after: Delay in seconds after printing the text.
+    """
+    old_settings = disable_input()
 
-
+    if delay_before > 0:
+        time.sleep(delay_before)
+    for char in text:
+        time.sleep(0.05)
+        sys.stdout.write(char)
+        sys.stdout.flush()
+    if delay_after > 0:
+        time.sleep(delay_after)
+    enable_input(old_settings)
+'''
 def typingPrint(text, delay_before=0, delay_after=0):
     """
     Print text gradually, simulating typing, with optional delays
@@ -52,7 +80,7 @@ def typingPrint(text, delay_before=0, delay_after=0):
         time.sleep(delay_after)
     os.system("stty echo")
     termios.tcflush(sys.stdin, termios.TCIOFLUSH)
-
+'''
 
 def update_scores(player_name, score, difficulty_level):
     """
@@ -81,41 +109,6 @@ def update_scores(player_name, score, difficulty_level):
     except Exception as e:
         typingPrint("Error updating scores:", e)
 
-
-def disable_input_for_view_high_scores():
-    """
-    Temporarily disables terminal input echoing during high scores display.
-
-    Disables terminal input echoing to hide user input
-    during high scores display.
-    Retrieves and temporarily modifies terminal settings for this purpose.
-
-    Returns:
-        list: Original terminal settings.
-    """
-    fd = sys.stdin.fileno()
-    if os.isatty(fd):
-        old_settings = termios.tcgetattr(fd)
-        new_settings = termios.tcgetattr(fd)
-        new_settings[3] = new_settings[3] & ~termios.ECHO
-        termios.tcsetattr(fd, termios.TCSADRAIN, new_settings)
-        return old_settings
-
-
-def enable_input_for_view_high_scores(old_settings):
-    """
-    Restores normal terminal input behavior after high scores display.
-
-    Restores terminal input behavior to its
-    original state after viewing high scores.
-
-    Args:
-        old_settings (list): Original terminal settings.
-    """
-    fd = sys.stdin.fileno()
-    if os.isatty(fd):
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        termios.tcflush(sys.stdin, termios.TCIOFLUSH)
 
 
 '''
@@ -171,16 +164,14 @@ def update_scores(player_name, score, difficulty_level):
     except Exception as e:
         typingPrint("Error updating scores:", e)
 
-
 def view_high_scores():
     """
-    Display the top 10 high scores from my Google
-    Sheets topscore worksheet.
+    Display the top 10 high scores from my Google Sheets topscore worksheet.
     """
-    old_settings = disable_input_for_view_high_scores()
+    old_settings = disable_input()
 
     try:
-        typingPrint("Fetching high scores...", delay_before=0, delay_after=2)
+        #typingPrint("Fetching high scores...", delay_before=0, delay_after=2)
         topscore = SHEET.worksheet("topscore")
         high_scores = topscore.get_all_values()
 
@@ -189,9 +180,7 @@ def view_high_scores():
         data_rows = high_scores[1:]
 
         if not any(data_rows):
-            typingPrint(
-                "\nNo high scores yet!\n", delay_before=0, delay_after=0
-            )
+            typingPrint("\nNo high scores yet!\n", delay_before=0, delay_after=0)
         else:
             header = high_scores[0]
             print(f"{' | '.join(header)}")
@@ -202,8 +191,7 @@ def view_high_scores():
             for i, score in enumerate(data_rows[:10], 1):
                 print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
     finally:
-        enable_input_for_view_high_scores(old_settings)
-
+        enable_input(old_settings)
 
 card_categories = ["Hearts", "Diamonds", "Clubs", "Spades"]
 cards_list = [
