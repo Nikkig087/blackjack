@@ -13,61 +13,65 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
 
 [Link to live site](https://blackjack-ng-941132ac49c5.herokuapp.com/)
 
-
-# Index - Table of Contents
+# Table of Contents
 
 ## [Planning](#planning)
-### [How the Game Works](#how-the-game-works)
-- [Game Flow](#game-flow)
-  - [Welcome Screen](#welcome-screen)
-  - [Game Setup](#game-setup)
-  - [Gameplay](#gameplay)
-  - [Difficulty Levels](#difficulty-levels)
-  - [Scoring](#scoring)
-  - [End of Game](#end-of-game)
+## [How the Game Works](#how-the-game-works)
+  - ### [Game Flow](#game-flow)
+    - #### [Welcome Screen](#welcome-screen)
+    - #### [Game Setup](#game-setup)
+    - #### [Gameplay](#gameplay)
+    - #### [Difficulty Levels](#difficulty-levels)
+    - #### [Scoring](#scoring)
+    - #### [End of Game](#end-of-game)
 
-- [UX](#ux)
-    - [Programm Goals](#programm-goals)
-    - [User Stories](#user-stories)
-        - [New User Goals](#new-user-goals)
-        - [Frequent User Goals](#frequent-user-goals)
-        - [Returning User Goals](#returning-user-goals)
+## [UX](#ux)
+- ### [Program Goals](#program-goals)
+- ### [User Stories](#user-stories)
+  - #### [New User Goals](#new-user-goals)
+  - #### [Frequent User Goals](#frequent-user-goals)
+  - #### [Returning User Goals](#returning-user-goals)
+
 ## [Features](#features)
-### [Existing Features](#existing-features)
-- [Logo](#logo)
-- [Personalization](#personalization)
-- [Google Sheets Integration](#google-sheets-integration)
-- [Instructions](#instructions)
-- [View High Scores](#view-high-scores)
-- [Level Choice](#level-choice)
-- [Invalid Data Error](#invalid-data-error)
-- [Cards Drawn Display](#cards-drawn-display)
-- [Game Won Message](#game-won-message)
-- [Game Lost Message](#game-lost-message)
-- [It's a Tie Message](#its-a-tie-message)
-- [Restart Game Option](#restart-game-option)
+- ### [Existing Features](#existing-features)
+  - #### [Logo](#logo)
+  - #### [Personalization](#personalization)
+  - #### [Google Sheets Integration](#google-sheets-integration)
+  - #### [Instructions](#instructions)
+  - #### [View High Scores](#view-high-scores)
+  - #### [Level Choice](#level-choice)
+  - #### [Invalid Data Error](#invalid-data-error)
+  - #### [Cards Drawn Display](#cards-drawn-display)
+  - #### [Game Won Message](#game-won-message)
+  - #### [Game Lost Message](#game-lost-message)
+  - #### [It's a Tie Message](#its-a-tie-message)
+  - #### [Restart Game Option](#restart-game-option)
+- ### [Possible Future Features](#possible-future-features)
+  - #### [Username Recognition](#username-recognition)
+  - #### [Resolve Issues Identified with the Python Text Effect Functionality](#resolve-issues-identified-with-the-python-text-effect-functionality)
 
-        
-### [Possible Future Features](#possible-future-features)
-    - [Username Recognition](#username-recognition)
-    - [Resolve Issues Idenfied with the Python Text Effect Functionality](#resolve-issues-identified-with-python-text-effect)
-        
-- [Data Model](#data-model)
-    - [Data Validation](#data-validation)
-        - [Error Handling during Score Update](#error-handling-during-score-update)
-        - [Error Handling on Restart Game](#error-handling-on-restart-game)
-- [Testing](#testing)
-    - [Validator Testing](#validator-testing)
-    - [Browser Testing](#browser-testing)
-    - [Testing User Stories](#testing-user-stories-functionality)
-- [Debugging](#debugging)
-    - [Fixed bugs](#fixed-bugs)
-    - [Unfixed bugs](#unfixed-bugs)
-- [Deployment](#deployment)
-- [Credits](#credits)
-    - [Data](#data)
-    - [Code](#code)
-    - [Styling](#styling)
+## [Data Model](#data-model)
+- ### [Data Validation](#data-validation)
+- #### [Error Handling during Score Update](#error-handling-during-score-update)
+- #### [Error Handling on Restart Game](#error-handling-on-restart-game)
+
+## [Testing](#testing)
+- ### [Validator Testing](#validator-testing)
+- ### [Browser Testing](#browser-testing)
+- ### [Testing User Stories Functionality](#testing-user-stories-functionality)
+
+## [Debugging](#debugging)
+- ### [Fixed Bugs](#fixed-bugs)
+- ### [Unfixed Bugs](#unfixed-bugs)
+
+## [Deployment](#deployment)
+
+## [Credits](#credits)
+- ### [Data](#data)
+- ### [Code](#code)
+- ### [Styling](#styling)
+
+
 
 <br>
 
@@ -259,10 +263,10 @@ As a user I want to
 
 ### Possible Future Features
 
-**Username recognition**
+#### Username recognition
 - When a returning user logs in they are asked if they would like to play at the level that they played before.
 
-**Resolve Issues Idenfied with the Python Text Effect Functionality**
+#### Resolve Issues Idenfied with the Python Text Effect Functionality
 - Further investigate the use of KeyboardDisable and how it may resolve the issue that allows users to input text while the game's text is being printed to the terminal
 
 <br>
