@@ -469,9 +469,11 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
 
-    typingPrint("\nYour Cards: ")
+    typingPrint("\nYour Cards: \n")
     for card in player_card:
         typingPrint(f"{card[0]} of {card[1]}, ")
+    typingPrint("\n")
+    typingPrint(f"Your Score: {player_score}\n")
     typingPrint("\n")
     typingPrint("\nComputer Cards:\n")
     for card in computer_card:
