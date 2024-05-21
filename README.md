@@ -348,6 +348,28 @@ However, I was able to fix this issue using a suggested [solution](https://githu
 
 ![typingPrint Function and Bug Fix](assets/screenshots/typingPrint_bug_solution.JPG) 
 
+The disable_input and enable_input functions directly change the terminal settings using termios to disable and enable user input display. This means that when disable_input is called, any text typed by the user will not be shown on the screen.
+Saving and restoring settings:
+
+disable_input saves the current terminal settings before making changes and returns them. This allows us to revert back to these saved settings later.
+Ensuring consistent input control:
+
+The saved settings are passed to enable_input, which uses them to restore the terminal to its original state, ensuring user input is displayed again.
+
+However to prevent the user from being able to input whilst the high scores are being pulled from the spreadsheet, 2 specific functions were created.  
+
+These functions, disable_input_for_view_high_scores() and enable_input_for_view_high_scores(old_settings), are designed to temporarily disable and then restore terminal input behavior, respectively.
+
+- disable_input_for_view_high_scores(): Temporarily disables terminal input echoing during high scores display. This function retrieves and temporarily modifies terminal settings to hide user input while viewing high scores, returning the original settings for later restoration.
+
+- enable_input_for_view_high_scores(old_settings): Restores normal terminal input behavior after high scores display. This function restores terminal input behavior to its original state after viewing high scores, using the original terminal settings provided as input.
+
+![High Scores View Disabled/Enabled Functions](assets/screenshots/highscores_input_disabled_enabled.JPG) 
+
+These functions ensure that user input is disabled only during the high scores display process, providing a seamless user experience.
+
+![High Scores View Function](assets/screenshots/view_highscores_function.JPG) 
+
 I did however chose not to apply the Python typing effect to the logo, the high scores table, and other elements where it would not be suitable, prioritizing quick readability for these parts of the game.
 
 ### Unfixed Bugs

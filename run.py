@@ -14,12 +14,132 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-# Load credentials from my creds file
 
 CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
+
+
+def disable_input():
+    os.system("stty -echo")
+
+
+def enable_input():
+    os.system("stty echo")
+    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+
+
+def typingPrint(text, delay_before=0, delay_after=0):
+    """
+    Print text gradually, simulating typing, with optional delays
+    before and after.
+
+    Parameters:
+    - text: The text to be printed.
+    - delay_before: Delay in seconds before starting to print text.
+    - delay_after: Delay in seconds after printing the text.
+    """
+    os.system("stty -echo")
+
+    if delay_before > 0:
+        time.sleep(delay_before)
+    for char in text:
+        time.sleep(0.05)
+        sys.stdout.write(char)
+        sys.stdout.flush()
+    if delay_after > 0:
+        time.sleep(delay_after)
+    os.system("stty echo")
+    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+
+
+def update_scores(player_name, score, difficulty_level):
+    """
+    Update the high scores in the Google Sheets document.
+
+    Args:
+        player_name (str): The name of the player.
+        score (int): The score of the player.
+        difficulty_level (int): The level of difficulty (1 for Beginner,
+                                2 for Intermediate, 3 for Advanced).
+    """
+    try:
+        difficulty_words = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
+        difficulty_word = difficulty_words.get(difficulty_level, "Unknown")
+
+        topscore = SHEET.worksheet("topscore")
+
+        if len(topscore.get_all_values()) == 1:
+            next_row = 2
+        else:
+            next_row = len(topscore.col_values(1)) + 1
+        topscore.update_cell(next_row, 1, player_name)
+        topscore.update_cell(next_row, 2, score)
+        topscore.update_cell(next_row, 3, difficulty_word)
+        typingPrint("Scores updated successfully.\n")
+    except Exception as e:
+        typingPrint("Error updating scores:", e)
+
+
+def disable_input_for_view_high_scores():
+    """
+    Temporarily disables terminal input echoing during high scores display.
+
+    Disables terminal input echoing to hide user input
+    during high scores display.
+    Retrieves and temporarily modifies terminal settings for this purpose.
+
+    Returns:
+        list: Original terminal settings.
+    """
+    fd = sys.stdin.fileno()
+    if os.isatty(fd):
+        old_settings = termios.tcgetattr(fd)
+        new_settings = termios.tcgetattr(fd)
+        new_settings[3] = new_settings[3] & ~termios.ECHO
+        termios.tcsetattr(fd, termios.TCSADRAIN, new_settings)
+        return old_settings
+
+
+def enable_input_for_view_high_scores(old_settings):
+    """
+    Restores normal terminal input behavior after high scores display.
+
+    Restores terminal input behavior to its
+    original state after viewing high scores.
+
+    Args:
+        old_settings (list): Original terminal settings.
+    """
+    fd = sys.stdin.fileno()
+    if os.isatty(fd):
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+
+
+'''
+def typingPrint(text, delay_before=0, delay_after=0):
+    """
+    Print text gradually, simulating typing,
+    with optional delays before and after.
+
+    Parameters:
+    - text: The text to be printed.
+    - delay_before: Delay in seconds before starting to print text.
+    - delay_after: Delay in seconds after printing the text.
+    """
+    if delay_before > 0:
+        time.sleep(delay_before)
+
+    for char in text:
+        time.sleep(0.05)  # Add delay to simulate typing
+        sys.stdout.write(char)  # Write character to stdout
+        sys.stdout.flush()  # Flush the output
+
+    if delay_after > 0:
+        time.sleep(delay_after)
+'''
 
 
 def update_scores(player_name, score, difficulty_level):
@@ -57,24 +177,32 @@ def view_high_scores():
     Display the top 10 high scores from my Google
     Sheets topscore worksheet.
     """
-    topscore = SHEET.worksheet("topscore")
-    high_scores = topscore.get_all_values()
+    old_settings = disable_input_for_view_high_scores()
 
-    typingPrint("\nTop 10 High Scores:\n")
+    try:
+        typingPrint("Fetching high scores...", delay_before=0, delay_after=2)
+        topscore = SHEET.worksheet("topscore")
+        high_scores = topscore.get_all_values()
 
-    data_rows = high_scores[1:]
+        typingPrint("\nTop 10 High Scores:\n", delay_before=0, delay_after=0)
 
-    if not any(data_rows):
-        typingPrint("\nNo high scores yet!\n")
-    else:
-        header = high_scores[0]
-        print(f"{' | '.join(header)}")
-        print("-" * 30)
+        data_rows = high_scores[1:]
 
-        data_rows.sort(key=lambda x: int(x[1]), reverse=True)
+        if not any(data_rows):
+            typingPrint(
+                "\nNo high scores yet!\n", delay_before=0, delay_after=0
+            )
+        else:
+            header = high_scores[0]
+            print(f"{' | '.join(header)}")
+            print("-" * 30)
 
-        for i, score in enumerate(data_rows[:10], 1):
-            print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
+            data_rows.sort(key=lambda x: int(x[1]), reverse=True)
+
+            for i, score in enumerate(data_rows[:10], 1):
+                print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
+    finally:
+        enable_input_for_view_high_scores(old_settings)
 
 
 card_categories = ["Hearts", "Diamonds", "Clubs", "Spades"]
@@ -124,21 +252,6 @@ def card_value(card):
         return int(card[0])
 
 
-def typingPrint(text):
-    """
-    Print text gradually, simulating typing.
-
-    """
-    os.system("stty -echo")
-    for char in text:
-        time.sleep(0.05)
-        sys.stdout.write(char)
-        sys.stdout.flush()
-    os.system("stty echo")
-    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
-
-
-
 def get_username():
     """
     Get the username from the user.
@@ -164,7 +277,9 @@ def get_username():
         if re.match(r"^[A-Za-z]+$", first_name):
             return first_name.title()
         else:
-            typingPrint("Please enter a valid first name with only letters.\n")
+            typingPrint(
+                "Please enter a valid first name with only letters.\n"
+            )
 
 
 def display_username(username):
@@ -405,7 +520,9 @@ def restart_game():
         try:
             choice = input("Do you want to play again? (yes/no): \n").lower()
             if choice not in ["yes", "no"]:
-                raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
+                raise ValueError(
+                    "Invalid choice. Please enter 'yes' or 'no'."
+                )
             return choice == "yes"
         except ValueError as e:
             typingPrint(f"{RED}{e}{RESET}\n")
@@ -435,6 +552,7 @@ def main():
                     "for viewing high scores: \n"
                 ).lower()
             if view_scores == "yes":
+
                 view_high_scores()
         difficulty_level = select_difficulty()
         global deck
