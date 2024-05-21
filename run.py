@@ -328,7 +328,6 @@ def display_instructions():
     )
     typingPrint("The player with the highest score wins!\n")
 
-
 def display_cards_ascii(cards):
     """
     Display ASCII representation of the given cards.
@@ -337,38 +336,41 @@ def display_cards_ascii(cards):
         cards (list of tuples): List of tuples representing the cards.
     """
     suit_symbols = {
-        "Hearts": f"{RED}♥{RESET}",
-        "Diamonds": f"{RED}♦{RESET}",
+        "Hearts": "♥",
+        "Diamonds": "♦",
         "Clubs": "♣",
         "Spades": "♠",
     }
 
     if isinstance(cards, tuple):
         cards = [cards]
-    lines = ["" for _ in range(6)]
+
+    # Lines for the card display
+    lines = [""] * 6
 
     for rank, suit in cards:
         if rank == "Ace":
-            rank_str = " A "
+            rank_str = " A"
         elif rank == "Jack":
-            rank_str = " J "
+            rank_str = " J"
         elif rank == "Queen":
-            rank_str = " Q "
+            rank_str = " Q"
         elif rank == "King":
-            rank_str = " K "
+            rank_str = " K"
         else:
-            rank_str = f" {rank} "
+            rank_str = f" {rank}"
+
         suit_symbol = suit_symbols[suit]
 
-        lines[0] += " _________ "
-        lines[1] += f"|{rank_str:<2}       |"
-        lines[2] += "|         |"
-        lines[3] += f"|    {suit_symbol}    |"
-        lines[4] += "|         |"
-        lines[5] += f"|_______{rank_str:>1}|"
-    for line in lines:
-        typingPrint(line + "\n")
+        lines[0] += " _________  "
+        lines[1] += f"|{rank_str:<2}        | "
+        lines[2] += "|          | "
+        lines[3] += f"|    {suit_symbol}     | "
+        lines[4] += "|          | "
+        lines[5] += f"|_______{rank_str:>2}| "
 
+    for line in lines:
+        print(line)
 
 def player_turn(deck, player_card):
     """
@@ -376,18 +378,15 @@ def player_turn(deck, player_card):
 
     Args:
         deck (list): The deck of cards.
-        player_card (list of tuples): List of tuples
-        representing the player's cards.
+        player_card (list of tuples): List of tuples representing the player's cards.
 
     Returns:
-        bool: True if the player continues playing,
-        False if they bust or choose to stop.
+        bool: True if the player continues playing, False if they bust or choose to stop.
     """
     while True:
         player_score = sum(card_value(card) for card in player_card)
         typingPrint("\nYour cards:\n")
-        for card in player_card:
-            display_cards_ascii(card)
+        display_cards_ascii(player_card)
         typingPrint(f"\nYour score: {player_score}\n")
 
         if player_score >= 21:
@@ -397,16 +396,14 @@ def player_turn(deck, player_card):
                 typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
         choice = input(
-            'What do you want to do? ("play" to request'
-            ' another card, "stop" to finish game): \n'
+            'What do you want to do? ("play" to request another card, "stop" to finish game): \n'
         ).lower()
         while choice not in ["play", "stop"]:
             typingPrint(
                 f"{RED}You must choose to either Play or Stop{RESET}\n"
             )
             choice = input(
-                'What do you want to do? ("play" to request'
-                ' another card, "stop" to finish game): \n'
+                'What do you want to do? ("play" to request another card, "stop" to finish game): \n'
             ).lower()
         if choice == "play":
             new_card = deck.pop()
@@ -418,21 +415,17 @@ def player_turn(deck, player_card):
             break
     return True
 
-
 def computer_turn(deck, computer_card, difficulty_level):
     """
     Simulate the computer's turn in the game.
 
     Args:
         deck (list): The deck of cards.
-        computer_card (list of tuples): List of tuples representing
-        the computer's cards.
-        difficulty_level (int): The level of difficulty (1 for Beginner,
-        2 for Intermediate, 3 for Advanced).
+        computer_card (list of tuples): List of tuples representing the computer's cards.
+        difficulty_level (int): The level of difficulty (1 for Beginner, 2 for Intermediate, 3 for Advanced).
 
     Returns:
-        bool: True if the computer continues playing,
-        False if it busts or chooses to stop.
+        bool: True if the computer continues playing, False if it busts or chooses to stop.
     """
     while True:
         computer_score = sum(card_value(card) for card in computer_card)
@@ -444,8 +437,7 @@ def computer_turn(deck, computer_card, difficulty_level):
         else:
             break
     typingPrint("\nComputer's Cards:\n")
-    for card in computer_card:
-        display_cards_ascii(card)
+    display_cards_ascii(computer_card)
     if computer_score > 21:
         print("Computer's Score:", computer_score)
         print(f"{RED}Computer is over 21,{YELLOW} you win!{RESET}\n")
@@ -458,28 +450,22 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     Determine the winner of the game.
 
     Args:
-        player_card (list of tuples): List of tuples
-        representing the player's cards.
-        computer_card (list of tuples): List of tuples
-        representing the computer's cards.
+        player_card (list of tuples): List of tuples representing the player's cards.
+        computer_card (list of tuples): List of tuples representing the computer's cards.
         username (str): The username of the player.
-        difficulty_level (int): The level of difficulty
-        (1 for Beginner, 2 for Intermediate, 3 for Advanced).
+        difficulty_level (int): The level of difficulty (1 for Beginner, 2 for Intermediate, 3 for Advanced).
     """
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
 
-    typingPrint("\nYour Cards: \n")
-    for card in player_card:
-        typingPrint(f"{card[0]} of {card[1]}, ")
-    typingPrint("\n")
-    typingPrint(f"Your Score: {player_score}\n")
-    typingPrint("\n")
-    typingPrint("\nComputer Cards:\n")
-    for card in computer_card:
-        typingPrint(f"{card[0]} of {card[1]}, ")
-    typingPrint("\n")
+    #typingPrint("\nYour Cards: \n")
+    #display_cards_ascii(player_card)
+    
+
+    typingPrint("\nComputer's Cards:\n")
+    display_cards_ascii(computer_card)
     typingPrint(f"Computer Score: {computer_score}\n")
+    typingPrint(f"Your Score: {player_score}\n")
 
     if player_score == computer_score:
         typingPrint("\nIt's a tie!\n")
@@ -487,10 +473,8 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
         typingPrint("\nCongratulations! You have a Blackjack!\n")
         typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
-    elif player_score <= 21 and (
-        player_score > computer_score or computer_score > 21
-    ):
-        typingPrint(f"\n{YELLOW}You win!{RESET}\n")
+    elif player_score <= 21 and (player_score > computer_score or computer_score > 21):
+        typingPrint(f"\n{YELLOW}You win!\n")
         typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     else:
@@ -517,7 +501,6 @@ def restart_game():
         except ValueError as e:
             typingPrint(f"{RED}{e}{RESET}\n")
             return restart_game()
-
 
 def main():
     """
