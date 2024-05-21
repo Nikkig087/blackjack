@@ -462,8 +462,8 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     #display_cards_ascii(player_card)
     
 
-    typingPrint("\nComputer's Cards:\n")
-    display_cards_ascii(computer_card)
+    #typingPrint("\nComputer's Cards:\n")
+    #display_cards_ascii(computer_card)
     typingPrint(f"Computer Score: {computer_score}\n")
     typingPrint(f"Your Score: {player_score}\n")
 
@@ -474,7 +474,7 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
         typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     elif player_score <= 21 and (player_score > computer_score or computer_score > 21):
-        typingPrint(f"\n{YELLOW}You win!\n")
+        typingPrint(f"\n{YELLOW}You win!{RESET}\n")
         typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     else:
