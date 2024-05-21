@@ -14,37 +14,39 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
 [Link to live site](https://blackjack-ng-941132ac49c5.herokuapp.com/)
 
 
-## Index - Table of Contents
+# Index - Table of Contents
 
-- [Planning](#planning)
-- [How the Game Works](#how-the-game-works)
-    - [Game Flow](#game-flow)
-        - [Welcome Screen](#welcome-screen)
-        - [Game Setup](#game-setup)
-        - [Gameplay](#gameplay)
-        - [Difficulty levels](#difficulty-levels)
-        - [Scoring](#scoring)
-        - [End of Game](#end-of-game)
+## [Planning](#planning)
+### [How the Game Works](#how-the-game-works)
+- [Game Flow](#game-flow)
+  - [Welcome Screen](#welcome-screen)
+  - [Game Setup](#game-setup)
+  - [Gameplay](#gameplay)
+  - [Difficulty Levels](#difficulty-levels)
+  - [Scoring](#scoring)
+  - [End of Game](#end-of-game)
+
 - [UX](#ux)
     - [Programm Goals](#programm-goals)
     - [User Stories](#user-stories)
         - [New User Goals](#new-user-goals)
         - [Frequent User Goals](#frequent-user-goals)
         - [Returning User Goals](#returning-user-goals)
-- [Features](#features)
-    - [Existing Features](#existing-features)
-        -[Logo](#logo)
-        -[Personalization](#personalization)
-        -[Google Sheets Integration](#google-sheets-integration)
-        -[Instructions](#instructions)
-        -[View High Scores](#view-high-scores)
-        -[Level Choice](#level-choice)
-        -[Invalid Data Error](#invalid-data-error)
-        -[Cards Drawn Display](#cards-drawn-display)
-        -[Game Won Message](#game-won-message)
-        -[Game Lost Message](#game-lost-message)
-        -[It's a Tie Message](#it's-a-tie-message)
-        -[Restart Game Option](#restart-game-option)
+## [Features](#features)
+### [Existing Features](#existing-features)
+- [Logo](#logo)
+- [Personalization](#personalization)
+- [Google Sheets Integration](#google-sheets-integration)
+- [Instructions](#instructions)
+- [View High Scores](#view-high-scores)
+- [Level Choice](#level-choice)
+- [Invalid Data Error](#invalid-data-error)
+- [Cards Drawn Display](#cards-drawn-display)
+- [Game Won Message](#game-won-message)
+- [Game Lost Message](#game-lost-message)
+- [It's a Tie Message](#its-a-tie-message)
+- [Restart Game Option](#restart-game-option)
+
         
     - [Possible Future Features](#possible-future-features)
         -[Username Recognition](#username-recognition)
@@ -81,11 +83,8 @@ The following flowchart (created with [draw.io](https://app.diagrams.net/)) visu
 ### Game Flow
 
 #### Welcome Screen
-When the game starts, players are greeted with a welcome screen where they can chose from either of the following options:
-- Start a new game
-- View high scores
-- View instructions
-- Exit
+
+When the game starts, players are greeted with the Blackjack Game Logo and a username prompt where they can enter their first name to personalize their experience.
 
 
 #### Game Setup
