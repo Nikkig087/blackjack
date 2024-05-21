@@ -48,8 +48,9 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
 - [Restart Game Option](#restart-game-option)
 
         
-    - [Possible Future Features](#possible-future-features)
-        -[Username Recognition](#username-recognition)
+### [Possible Future Features](#possible-future-features)
+    - [Username Recognition](#username-recognition)
+    - [Resolve Issues Idenfied with the Python Text Effect Functionality](#resolve-issues-identified-with-python-text-effect)
         
 - [Data Model](#data-model)
     - [Data Validation](#data-validation)
@@ -261,6 +262,9 @@ As a user I want to
 **Username recognition**
 - When a returning user logs in they are asked if they would like to play at the level that they played before.
 
+**Resolve Issues Idenfied with the Python Text Effect Functionality**
+- Further investigate the use of KeyboardDisable and how it may resolve the issue that allows users to input text while the game's text is being printed to the terminal
+
 <br>
 
 ## Data Model
@@ -342,7 +346,7 @@ To guarantee consistent line breaks, whitespaces and indentation, run.py was for
 
 ### Unfixed Bugs
 
-Despite the known bug that allows users to input text while the game's text is displayed, the captivating visual effects and enhanced gameplay experience offered to the player outweigh this minor inconvenience. The engaging card displays, accompanied by clear instructions, significantly enhance the game's appeal and provide players with an immersive blackjack experience. While the bug may disrupt the flow slightly, its impact is minimal compared to the overall enjoyment and entertainment value provided by the game.
+Despite the known bug that allows users to input text while the game's text is being printed to the terminal, the captivating visual effects and enhanced gameplay experience offered to the player outweigh this minor inconvenience. The engaging card displays, accompanied by clear instructions, significantly enhance the game's appeal and provide players with an immersive blackjack experience. While the bug may disrupt the flow slightly, its impact is minimal compared to the overall enjoyment and entertainment value provided by the game.
 
 Addressing this bug on Gitpod and Heroku presents a difficult challenge due to the remote execution environments and limitations on direct user interaction with the terminal. The complexity of the bug and its resolution are further impacted by how these platforms handle user input and terminal display, making it non-trivial to resolve without compromising other aspects of the application's functionality.
 
