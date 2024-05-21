@@ -338,13 +338,21 @@ Ensuring all parts of the programm function as expected in all major browsers.
 
 To guarantee consistent line breaks, whitespaces and indentation, run.py was formatted using [Black Playground](https://black.vercel.app/)
 
-### Unfixed Bugs
+**Python Text Effect Bug**
 
 Despite the known bug that allows users to input text while the game's text is being printed to the terminal, the captivating visual effects and enhanced gameplay experience offered to the player outweigh this minor inconvenience. The engaging card displays, accompanied by clear instructions, significantly enhance the game's appeal and provide players with an immersive blackjack experience. While the bug may disrupt the flow slightly, its impact is minimal compared to the overall enjoyment and entertainment value provided by the game.
 
 Addressing this bug on Gitpod and Heroku presents a difficult challenge due to the remote execution environments and limitations on direct user interaction with the terminal. The complexity of the bug and its resolution are further impacted by how these platforms handle user input and terminal display, making it non-trivial to resolve without compromising other aspects of the application's functionality.
 
-However, I chose not to apply the Python typing effect to the logo, the high scores table, and other elements where it would not be suitable, prioritizing quick readability for these parts of the game.
+However, I was able to fix this issue using a suggested [solution](https://github.com/rockroman/PP3_The_Coach/blob/main/validate.py) in Slack . The provided code ensures that user input is temporarily disabled while text is being printed, simulating a typing effect:
+
+![typingPrint Function and Bug Fix](assets/screenshots/typingPrint_bug_solution.JPG) 
+
+I did however chose not to apply the Python typing effect to the logo, the high scores table, and other elements where it would not be suitable, prioritizing quick readability for these parts of the game.
+
+### Unfixed Bugs
+
+None
 
 <br>
 
@@ -389,7 +397,13 @@ To deploy:
     [Python Essentials Template](https://github.com/Code-Institute-Org/python-essentials-template) provided by Code Institute 
 
 - **Python Typing Effect**
+
     [Python Typing Effect](https://www.101computing.net/python-typing-text-effect/)
+
+- **Python Typing Effect Bug Fix Solution**
+
+    [solution](https://github.com/rockroman/PP3_The_Coach/blob/main/validate.py)
+
 
 
 ### Styling

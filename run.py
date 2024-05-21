@@ -3,6 +3,7 @@ import re
 import time
 import sys
 import os
+import termios
 from colorama import Fore, Style
 import gspread
 from google.oauth2.service_account import Credentials
@@ -127,13 +128,15 @@ def typingPrint(text):
     """
     Print text gradually, simulating typing.
 
-    Args:
-        text (str): The text to print.
     """
-    for character in text:
-        sys.stdout.write(character)
+    os.system("stty -echo")
+    for char in text:
+        time.sleep(0.05)
+        sys.stdout.write(char)
         sys.stdout.flush()
-        time.sleep(0.02)
+    os.system("stty echo")
+    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+
 
 
 def get_username():
@@ -171,6 +174,7 @@ def display_username(username):
     Args:
         username (str): The username to display.
     """
+    print(" ")
     typingPrint(f"Welcome {username}!\n")
 
 
@@ -191,9 +195,11 @@ def select_difficulty():
         typingPrint("Please choose 1, 2, or 3 only\n")
         choice = input("Enter either 1, 2, or 3: \n")
     level = int(choice)
+    print(" ")
     typingPrint(
         f"Great, you have chosen the" f" {difficulty_levels[level]} level\n"
     )
+    print(" ")
     return level
 
 
@@ -339,7 +345,7 @@ def computer_turn(deck, computer_card, difficulty_level):
         display_cards_ascii(card)
     if computer_score > 21:
         print("Computer's Score:", computer_score)
-        print(f"{RED}Computer is over 21, you win!{RESET}\n")
+        print(f"{RED}Computer is over 21,{YELLOW} you win!{RESET}\n")
         return False
     return True
 
@@ -364,7 +370,6 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     for card in player_card:
         typingPrint(f"{card[0]} of {card[1]}, ")
     typingPrint("\n")
-    typingPrint(f"Your Score: {player_score}\n")
     typingPrint("\nComputer Cards:\n")
     for card in computer_card:
         typingPrint(f"{card[0]} of {card[1]}, ")
@@ -380,7 +385,7 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     elif player_score <= 21 and (
         player_score > computer_score or computer_score > 21
     ):
-        typingPrint("\nYou win!\n")
+        typingPrint(f"\n{YELLOW}You win!\n")
         typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     else:
