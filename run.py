@@ -46,9 +46,9 @@ def update_scores(player_name, score, difficulty_level):
         topscore.update_cell(next_row, 1, player_name)
         topscore.update_cell(next_row, 2, score)
         topscore.update_cell(next_row, 3, difficulty_word)
-        print("Scores updated successfully.")
+        typingPrint("Scores updated successfully.")
     except Exception as e:
-        print("Error updating scores:", e)
+        typingPrint("Error updating scores:", e)
 
 
 def view_high_scores():
@@ -59,12 +59,12 @@ def view_high_scores():
     topscore = SHEET.worksheet("topscore")
     high_scores = topscore.get_all_values()
 
-    print("\nTop 10 High Scores:\n")
+    typingPrint("\nTop 10 High Scores:\n")
 
     data_rows = high_scores[1:]
 
     if not any(data_rows):
-        print("\nNo high scores yet!")
+        typingPrint("\nNo high scores yet!")
     else:
         header = high_scores[0]
         print(f"{' | '.join(header)}")
@@ -372,19 +372,19 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     typingPrint(f"Computer Score: {computer_score}\n")
 
     if player_score == computer_score:
-        print("\nIt's a tie!\n")
+        typingPrint("\nIt's a tie!\n")
     elif player_score == 21:
-        print("\nCongratulations! You have a Blackjack!\n")
-        print("\nUpdating scores...")
+        typingPrint("\nCongratulations! You have a Blackjack!\n")
+        typingPrint("\nUpdating scores...")
         update_scores(username, player_score, difficulty_level)
     elif player_score <= 21 and (
         player_score > computer_score or computer_score > 21
     ):
-        print("\nYou win!\n")
-        print("\nUpdating scores...")
+        typingPrint("\nYou win!\n")
+        typingPrint("\nUpdating scores...")
         update_scores(username, player_score, difficulty_level)
     else:
-        print(f"\n{BLUE}You lose!{RESET}")
+        typingPrint(f"\n{BLUE}You lose!{RESET}")
 
 
 def restart_game():
@@ -477,7 +477,7 @@ def main():
             )
             if not restart_game():
                 os.system("cls" if os.name == "nt" else "clear")
-                print("Thank you for playing! Goodbye\n")
+                typingPrint("Thank you for playing! Goodbye\n")
                 break
             else:
                 first_game = False

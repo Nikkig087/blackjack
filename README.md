@@ -12,66 +12,56 @@ Once the player decides to stop drawing cards, the computer takes its turn, and 
 This project was built with Python version 3.12.3 as the "Python's Essentials" Project (portfolio project 3) for Code Insitute. 
 
 [Link to live site](https://blackjack-ng-941132ac49c5.herokuapp.com/)
-
 # Table of Contents
 
 ## [Planning](#planning)
 ## [How the Game Works](#how-the-game-works)
-  - ### [Game Flow](#game-flow)
-    - #### [Welcome Screen](#welcome-screen)
-    - #### [Game Setup](#game-setup)
-    - #### [Gameplay](#gameplay)
-    - #### [Difficulty Levels](#difficulty-levels)
-    - #### [Scoring](#scoring)
-    - #### [End of Game](#end-of-game)
-
+1. [Game Flow](#game-flow)
+      - [Welcome Screen](#welcome-screen)
+      - [Game Setup](#game-setup)
+      - [Gameplay](#gameplay)
+      - [Difficulty Levels](#difficulty-levels)
+      - [Scoring](#scoring)
+      - [End of Game](#end-of-game)
 ## [UX](#ux)
-- ### [Program Goals](#program-goals)
-- ### [User Stories](#user-stories)
-  - #### [New User Goals](#new-user-goals)
-  - #### [Frequent User Goals](#frequent-user-goals)
-  - #### [Returning User Goals](#returning-user-goals)
-
+  1. [Program Goals](#program-goals)
+  2. [User Stories](#user-stories)
+      - [New User Goals](#new-user-goals)
+      - [Frequent User Goals](#frequent-user-goals)
+      - [Returning User Goals](#returning-user-goals)
 ## [Features](#features)
-- ### [Existing Features](#existing-features)
-  - #### [Logo](#logo)
-  - #### [Personalization](#personalization)
-  - #### [Google Sheets Integration](#google-sheets-integration)
-  - #### [Instructions](#instructions)
-  - #### [View High Scores](#view-high-scores)
-  - #### [Level Choice](#level-choice)
-  - #### [Invalid Data Error](#invalid-data-error)
-  - #### [Cards Drawn Display](#cards-drawn-display)
-  - #### [Game Won Message](#game-won-message)
-  - #### [Game Lost Message](#game-lost-message)
-  - #### [It's a Tie Message](#its-a-tie-message)
-  - #### [Restart Game Option](#restart-game-option)
-- ### [Possible Future Features](#possible-future-features)
-  - #### [Username Recognition](#username-recognition)
-  - #### [Resolve Issues Identified with the Python Text Effect Functionality](#resolve-issues-identified-with-the-python-text-effect-functionality)
-
+  1. [Existing Features](#existing-features)
+      - [Logo](#logo)
+      - [Personalization](#personalization)
+      - [Google Sheets Integration](#google-sheets-integration)
+      - [Instructions](#instructions)
+      - [View High Scores](#view-high-scores)
+      - [Level Choice](#level-choice)
+      - [Invalid Data Error](#invalid-data-error)
+      - [Cards Drawn Display](#cards-drawn-display)
+      - [Game Won Message](#game-won-message)
+      - [Game Lost Message](#game-lost-message)
+      - [It's a Tie Message](#its-a-tie-message)
+      - [Restart Game Option](#restart-game-option)
+  2. [Possible Future Features](#possible-future-features)
+      - [Username Recognition](#username-recognition)
+      - [Resolve Issues Identified with the Python Text Effect Functionality](#resolve-issues-identified-with-the-python-text-effect-functionality)
 ## [Data Model](#data-model)
-- ### [Data Validation](#data-validation)
-- #### [Error Handling during Score Update](#error-handling-during-score-update)
-- #### [Error Handling on Restart Game](#error-handling-on-restart-game)
-
+  1. [Data Validation](#data-validation)
+      - [Error Handling during Score Update](#error-handling-during-score-update)
+      - [Error Handling on Restart Game](#error-handling-on-restart-game)
 ## [Testing](#testing)
-- ### [Validator Testing](#validator-testing)
-- ### [Browser Testing](#browser-testing)
-- ### [Testing User Stories Functionality](#testing-user-stories-functionality)
-
+  1. [Validator Testing](#validator-testing)
+  2. [Browser Testing](#browser-testing)
+  3. [Testing User Stories Functionality](#testing-user-stories-functionality)
 ## [Debugging](#debugging)
-- ### [Fixed Bugs](#fixed-bugs)
-- ### [Unfixed Bugs](#unfixed-bugs)
-
+  1. [Fixed Bugs](#fixed-bugs)
+  2. [Unfixed Bugs](#unfixed-bugs)
 ## [Deployment](#deployment)
-
 ## [Credits](#credits)
-- ### [Data](#data)
-- ### [Code](#code)
-- ### [Styling](#styling)
-
-
+  1. [Data](#data)
+  2. [Code](#code)
+  3. [Styling](#styling)
 
 <br>
 
@@ -353,6 +343,8 @@ To guarantee consistent line breaks, whitespaces and indentation, run.py was for
 Despite the known bug that allows users to input text while the game's text is being printed to the terminal, the captivating visual effects and enhanced gameplay experience offered to the player outweigh this minor inconvenience. The engaging card displays, accompanied by clear instructions, significantly enhance the game's appeal and provide players with an immersive blackjack experience. While the bug may disrupt the flow slightly, its impact is minimal compared to the overall enjoyment and entertainment value provided by the game.
 
 Addressing this bug on Gitpod and Heroku presents a difficult challenge due to the remote execution environments and limitations on direct user interaction with the terminal. The complexity of the bug and its resolution are further impacted by how these platforms handle user input and terminal display, making it non-trivial to resolve without compromising other aspects of the application's functionality.
+
+However, I chose not to apply the Python typing effect to the logo, the high scores table, and other elements where it would not be suitable, prioritizing quick readability for these parts of the game.
 
 <br>
 
