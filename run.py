@@ -337,8 +337,8 @@ def display_cards_ascii(cards):
         cards (list of tuples): List of tuples representing the cards.
     """
     suit_symbols = {
-        "Hearts": "♥",
-        "Diamonds": "♦",
+        "Hearts": f"{RED}♥{RESET}",
+        "Diamonds": f"{RED}♦{RESET}",
         "Clubs": "♣",
         "Spades": "♠",
     }
@@ -402,7 +402,7 @@ def player_turn(deck, player_card):
         ).lower()
         while choice not in ["play", "stop"]:
             typingPrint(
-                f"{RED}You must choose" f" to either Play or Stop{RESET}\n"
+                f"{RED}You must choose to either Play or Stop{RESET}\n"
             )
             choice = input(
                 'What do you want to do? ("play" to request'
@@ -490,7 +490,7 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     elif player_score <= 21 and (
         player_score > computer_score or computer_score > 21
     ):
-        typingPrint(f"\n{YELLOW}You win!\n")
+        typingPrint(f"\n{YELLOW}You win!{RESET}\n")
         typingPrint("\nUpdating scores...\n")
         update_scores(username, player_score, difficulty_level)
     else:
