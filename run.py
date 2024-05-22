@@ -337,7 +337,7 @@ def player_turn(deck, player_card):
         print(" \n")
         typingPrint("Your cards:\n")
         display_cards_ascii(player_card)
-        typingPrint(f"Your score: {player_score}\n")
+        typingPrint(f"Your score: {player_score} \n")
 
         if player_score >= 21:
             if player_score == 21:
