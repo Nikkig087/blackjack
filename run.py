@@ -84,29 +84,6 @@ def update_scores(player_name, score, difficulty_level):
     except Exception as e:
         typingPrint("Error updating scores:", e)
 
-'''
-def typingPrint(text, delay_before=0, delay_after=0):
-    """
-    Print text gradually, simulating typing,
-    with optional delays before and after.
-
-    Parameters:
-    - text: The text to be printed.
-    - delay_before: Delay in seconds before starting to print text.
-    - delay_after: Delay in seconds after printing the text.
-    """
-    if delay_before > 0:
-        time.sleep(delay_before)
-
-    for char in text:
-        time.sleep(0.05)  # Add delay to simulate typing
-        sys.stdout.write(char)  # Write character to stdout
-        sys.stdout.flush()  # Flush the output
-
-    if delay_after > 0:
-        time.sleep(delay_after)
-'''
-
 def update_scores(player_name, score, difficulty_level):
     """
     Update the high scores in the Google Sheets document.
@@ -123,10 +100,8 @@ def update_scores(player_name, score, difficulty_level):
 
         topscore = SHEET.worksheet("topscore")
 
-        # Check if the sheet is empty (only contains the header row)
-
         if len(topscore.get_all_values()) == 1:
-            next_row = 2  # Start from the second row if the sheet is empty
+            next_row = 2 
         else:
             next_row = len(topscore.col_values(1)) + 1
         topscore.update_cell(next_row, 1, player_name)
@@ -191,6 +166,7 @@ BLUE = Fore.BLUE
 YELLOW = Fore.YELLOW
 RED = Fore.RED
 RESET = Style.RESET_ALL
+BRIGHT = Style.BRIGHT
 
 def card_value(card):
     """
@@ -234,7 +210,7 @@ def get_username():
         if re.match(r"^[A-Za-z]+$", first_name):
             return first_name.title()
         else:
-            typingPrint("Please enter a valid first name with only letters.\n")
+            typingPrint(f"{RED}{BRIGHT}Please enter a valid first name with only letters. {RESET} \n")
 
 def display_username(username):
     """
@@ -259,8 +235,8 @@ def select_difficulty():
         typingPrint(f"{level}. {desc}\n")
     choice = input("Enter either 1, 2, or 3: \n")
     while choice not in ["1", "2", "3"]:
-        typingPrint("Please choose 1, 2, or 3 only\n")
-        choice = input("Enter either 1, 2, or 3: \n")
+        typingPrint(f"{RED}{BRIGHT}Please choose 1, 2, or 3 only: {RESET} \n")
+        choice = input("")
     level = int(choice)
     print(" ")
     typingPrint(
@@ -359,7 +335,7 @@ def player_turn(deck, player_card):
         choice = input().lower()
         while choice not in ["play", "stop"]:
             typingPrint(
-                f"{RED}You must choose to either Play or Stop{RESET}\n"
+                f"{RED}{BRIGHT}You must choose to either Play or Stop{RESET}\n"
             )
             typingPrint('What do you want to do? ("play" to request another card, "stop" to finish game): \n')
             sys.stdout.flush()
@@ -454,7 +430,7 @@ def restart_game():
         try:
             choice = input("Do you want to play again? (yes/no): \n").lower()
             if choice not in ["yes", "no"]:
-                raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
+                raise ValueError(f"{RED}{BRIGHT}Invalid choice. Please enter 'yes' or 'no'. {RESET}\n")
             return choice == "yes"
         except ValueError as e:
             typingPrint(f"{RED}{e}{RESET} \n")
@@ -481,7 +457,8 @@ def main():
             sys.stdout.flush()
             view_scores = input().lower()
             while view_scores not in ["yes", "no"]:
-                typingPrint("You must choose either 'yes' or 'no' for viewing high scores: \n")
+                typingPrint(f"{RED}{BRIGHT}You must choose either 'yes'"
+                f"or 'no' for viewing high scores: {RESET} \n")
                 sys.stdout.flush()
                 view_scores = input().lower()
             if view_scores == "yes":
@@ -497,7 +474,7 @@ def main():
             sys.stdout.flush()
             view_instructions = input().lower()
             while view_instructions not in ["yes", "no"]:
-                typingPrint("You must choose either 'yes' or 'no' for viewing instructions: \n")
+                typingPrint(f"{RED}{BRIGHT}You must choose either 'yes' or 'no' for viewing instructions:{RESET} \n")
                 sys.stdout.flush()
                 view_instructions = input().lower()
             if view_instructions == "yes":
