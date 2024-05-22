@@ -470,9 +470,10 @@ def main():
         if first_game:
             username = get_username()
             display_username(username)
-        else:
-            print("")
-            typingPrint(f"Welcome back {username}!! \n")
+        #else:
+            #print("")
+            #typingPrint(f"Welcome back {username}!! \n")
+
         if first_game:
             typingPrint("Would you like to view high scores? (yes/no): \n")
             sys.stdout.flush()
