@@ -472,7 +472,7 @@ def main():
             display_username(username)
         #else:
             #print("")
-            #typingPrint(f"Welcome back {username}!! \n")
+            typingPrint(f"Welcome back {username}!! \n")
 
         if first_game:
             typingPrint("Would you like to view high scores? (yes/no): \n")
@@ -550,8 +550,8 @@ def main():
         else:
             if first_game:
                 first_game = False
-            else:
-                typingPrint(f"Welcome back {username}!! \n")
+            #else:
+                #typingPrint(f"Welcome back {username}!! \n")
 
 if __name__ == "__main__":
     main()
