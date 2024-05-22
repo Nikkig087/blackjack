@@ -161,7 +161,7 @@ def view_high_scores():
             data_rows.sort(key=lambda x: int(x[1]), reverse=True)
 
             for i, score in enumerate(data_rows[:10], 1):
-                print(f"{i}. {score[0]} | {score[1]} | {score[2]}")
+                print(f"{i}. {score[0]} | {score[1]} | {score[2]} \n")
     finally:
         enable_input(old_settings)
 
