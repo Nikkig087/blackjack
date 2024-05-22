@@ -37,8 +37,7 @@ def enable_input(old_settings):
 
 def typingPrint(text, delay_before=0, delay_after=0):
     """
-    Print text gradually, simulating typing, with optional delays
-    before and after.
+    Print text gradually, simulating typing, with optional delays before and after.
     Parameters:
     - text: The text to be printed.
     - delay_before: Delay in seconds before starting to print text.
@@ -54,32 +53,9 @@ def typingPrint(text, delay_before=0, delay_after=0):
         sys.stdout.flush()
     if delay_after > 0:
         time.sleep(delay_after)
+    sys.stdout.flush()  # Ensure output is flushed
     enable_input(old_settings)
 
-'''
-def typingPrint(text, delay_before=0, delay_after=0):
-    """
-    Print text gradually, simulating typing, with optional delays
-    before and after.
-
-    Parameters:
-    - text: The text to be printed.
-    - delay_before: Delay in seconds before starting to print text.
-    - delay_after: Delay in seconds after printing the text.
-    """
-    os.system("stty -echo")
-
-    if delay_before > 0:
-        time.sleep(delay_before)
-    for char in text:
-        time.sleep(0.05)
-        sys.stdout.write(char)
-        sys.stdout.flush()
-    if delay_after > 0:
-        time.sleep(delay_after)
-    os.system("stty echo")
-    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
-'''
 
 def update_scores(player_name, score, difficulty_level):
     """
@@ -378,16 +354,16 @@ def player_turn(deck, player_card):
             else:
                 typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
-        choice = input(
-            'What do you want to do? ("play" to request another card, "stop" to finish game): \n'
-        ).lower()
+        typingPrint('What do you want to do? ("play" to request another card, "stop" to finish game): \n')
+        sys.stdout.flush()
+        choice = input().lower()
         while choice not in ["play", "stop"]:
             typingPrint(
                 f"{RED}You must choose to either Play or Stop{RESET}\n"
             )
-            choice = input(
-                'What do you want to do? ("play" to request another card, "stop" to finish game): \n'
-            ).lower()
+            typingPrint('What do you want to do? ("play" to request another card, "stop" to finish game): \n')
+            sys.stdout.flush()
+            choice = input().lower()
         if choice == "play":
             new_card = deck.pop()
             player_card.append(new_card)
@@ -495,16 +471,16 @@ def main():
             username = get_username()
             display_username(username)
         else:
+            print("")
             typingPrint(f"Welcome back {username}!! \n")
         if first_game:
-            view_scores = input(
-                "Would you like to view high scores? " "(yes/no): \n"
-            ).lower()
+            typingPrint("Would you like to view high scores? (yes/no): \n")
+            sys.stdout.flush()
+            view_scores = input().lower()
             while view_scores not in ["yes", "no"]:
-                view_scores = input(
-                    "You must choose either 'yes' or 'no' "
-                    "for viewing high scores: \n"
-                ).lower()
+                typingPrint("You must choose either 'yes' or 'no' for viewing high scores: \n")
+                sys.stdout.flush()
+                view_scores = input().lower()
             if view_scores == "yes":
                 print("\n")
                 view_high_scores()
@@ -514,14 +490,13 @@ def main():
         random.shuffle(deck)
 
         if first_game:
-            view_instructions = input(
-                "Would you like to view the instructions?" " (yes/no): \n"
-            ).lower()
+            typingPrint("Would you like to view the instructions? (yes/no): \n")
+            sys.stdout.flush()
+            view_instructions = input().lower()
             while view_instructions not in ["yes", "no"]:
-                view_instructions = input(
-                    "You must choose either 'yes' or 'no' "
-                    "for viewing instructions: \n"
-                ).lower()
+                typingPrint("You must choose either 'yes' or 'no' for viewing instructions: \n")
+                sys.stdout.flush()
+                view_instructions = input().lower()
             if view_instructions == "yes":
                 print("\n")
                 display_instructions()
@@ -545,6 +520,7 @@ def main():
                 first_game = False
                 continue
         typingPrint("Computer's turn: \n")
+        sys.stdout.flush()
         computer_continue = computer_turn(
             deck, computer_card, difficulty_level
         )
@@ -569,7 +545,6 @@ def main():
         if not restart_game():
             os.system("cls" if os.name == "nt" else "clear")
             typingPrint("Thank you for playing! Goodbye \n")
-
             break
         else:
             if first_game:
