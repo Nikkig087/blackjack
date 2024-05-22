@@ -300,7 +300,7 @@ def display_instructions():
     typingPrint("Game Instructions\n")
     typingPrint(
         "Your goal is to achieve a score as close to"
-        " 21 as possible without going over 21.\n"
+        " 21 as possible but not over 21. \n"
     )
     typingPrint("Jack, Queen, and King cards" " are worth 10 points.\n")
     typingPrint(
@@ -313,7 +313,8 @@ def display_instructions():
         "Should you decide to stop, the dealer (the computer)\n"
         "will then draw cards until its score is at least 17.\n"
     )
-    typingPrint("The player with the highest score wins!\n")
+    typingPrint("The player with the highest score wins! \n")
+
 
 def display_cards_ascii(cards):
     """
@@ -364,6 +365,7 @@ def player_turn(deck, player_card):
     """
     while True:
         player_score = sum(card_value(card) for card in player_card)
+        print(" \n")
         typingPrint("Your cards:\n")
         display_cards_ascii(player_card)
         typingPrint(f"Your score: {player_score}\n")
@@ -504,8 +506,9 @@ def main():
                     "for viewing high scores: \n"
                 ).lower()
             if view_scores == "yes":
-
+                print("\n")
                 view_high_scores()
+                print("\n")
         difficulty_level = select_difficulty()
         global deck
         random.shuffle(deck)
@@ -520,7 +523,9 @@ def main():
                     "for viewing instructions: \n"
                 ).lower()
             if view_instructions == "yes":
+                print("\n")
                 display_instructions()
+                print("\n")
         player_card = [deck.pop(), deck.pop()]
         computer_card = [deck.pop(), deck.pop()]
 
