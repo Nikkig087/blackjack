@@ -348,7 +348,7 @@ def player_turn(deck, player_card):
                 typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
         typingPrint('What do you want to do? ("play" to'
-                    'request another card, "stop" to finish game): \n')
+                    ' request another card, "stop" to finish game): \n')
         sys.stdout.flush()
         choice = input().lower()
         while choice not in ["play", "stop"]:
@@ -357,7 +357,7 @@ def player_turn(deck, player_card):
             )
             typingPrint(
                 'What do you want to do? ("play" to'
-                'request another card, "stop" to finish game): \n'
+                ' request another card, "stop" to finish game): \n'
             )
             sys.stdout.flush()
             choice = input().lower()
@@ -492,7 +492,7 @@ def main():
             while view_scores not in ["yes", "no"]:
                 typingPrint(
                     f"{RED}{BRIGHT}You must choose either 'yes'"
-                    f"or 'no' for viewing high scores: {RESET} \n"
+                    f" or 'no' for viewing high scores: {RESET} \n"
                 )
                 sys.stdout.flush()
                 view_scores = input().lower()
@@ -513,7 +513,7 @@ def main():
             while view_instructions not in ["yes", "no"]:
                 typingPrint(
                     f"{RED}{BRIGHT}You must choose either 'yes' or"
-                    f"no' for viewing instructions:{RESET} \n"
+                    f" 'no' for viewing instructions:{RESET} \n"
                 )
                 sys.stdout.flush()
                 view_instructions = input().lower()
