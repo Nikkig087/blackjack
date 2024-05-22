@@ -45,7 +45,7 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
       - [Restart Game Option](#restart-game-option)
   2. [Possible Future Features](#possible-future-features)
       - [Username Recognition](#username-recognition)
-      - [Resolve Issues Identified with the Python Text Effect Functionality](#resolve-issues-identified-with-the-python-text-effect-functionality)
+      - [Resolve Issues Identified with the Python Text Effect Functionality](#resolve-issues-idenfied-with-the-python-text-effect-functionality)
 ## [Data Model](#data-model)
   1. [Data Validation](#data-validation)
       - [Error Handling during Score Update](#error-handling-during-score-update)
