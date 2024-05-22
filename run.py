@@ -479,7 +479,7 @@ def main():
             display_username(username)
         else:
             typingPrint(f"Welcome back {username}!! \n")
-            print(" \n")
+            print("\n")
         if first_game:
             print(" \n")
             typingPrint("Would you like to view high scores? (yes/no): \n")
