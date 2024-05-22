@@ -14,8 +14,8 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
 [Link to live site](https://blackjack-ng-941132ac49c5.herokuapp.com/)
 # Table of Contents
 
-## [Planning](#planning)
-## [How the Game Works](#how-the-game-works)
+## [Planning](#planning-1)
+## [How the Game Works](#how-the-game-works-1)
 1. [Game Flow](#game-flow)
       - [Welcome Screen](#welcome-screen)
       - [Game Setup](#game-setup)
@@ -23,7 +23,7 @@ This project was built with Python version 3.12.3 as the "Python's Essentials" P
       - [Difficulty Levels](#difficulty-levels)
       - [Scoring](#scoring)
       - [End of Game](#end-of-game)
-## [UX](#ux)
+## [UX](#ux-1)
   1. [Program Goals](#program-goals)
   2. [User Stories](#user-stories)
       - [New User Goals](#new-user-goals)
@@ -215,13 +215,13 @@ As a user I want to
 
 **Invalid view high scores**
 
-![invalid play again chosen](assets/screenshots/invalid_view_scores_message.png)
+![invalid view high scores](assets/screenshots/invalid_view_scores.png)
 
 <br>
 
 **Invalid view instructions**
 
-![invalid play again chosen](assets/screenshots/invalid_view_instructions_message.png)
+![invalid view instructions](assets/screenshots/invalid_view_instructions_message.png)
 
 
 #### Cards Drawn display
