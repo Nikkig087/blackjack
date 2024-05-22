@@ -289,7 +289,7 @@ No further change or manipulation of the template's default HTML, CSS and JavaSc
 
 - Python Validator [PEP8](https://pep8ci.herokuapp.com/#)
 
-    ![PEP8 results](assets/screenshots/pep8_validation.png) 
+    ![PEP8 results](assets/testing/pep8_validation.png) 
 
 - Lighthouse testing
     - Desktop Testing

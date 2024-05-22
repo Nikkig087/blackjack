@@ -569,8 +569,6 @@ def main():
         else:
             if first_game:
                 first_game = False
-            # else:
-            # typingPrint(f"Welcome back {username}!! \n")
 
 
 if __name__ == "__main__":
