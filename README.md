@@ -356,7 +356,7 @@ Here's a brief explanation of how these functions work:
 
 ![Python Type Print Effect Bug fix](assets/screenshots/typingPrint_bug_solution.JPG)
 
-I did, however, choose not to apply the Python typing effect to the logo, the high scores table, and other elements where it would not be suitable, prioritizing quick readability for these parts of the game.
+I did, however, choose not to apply the Python typing effect to the logo, the high scores table, the ascii cards printout and other elements where it would not be suitable to keep the user waiting.
 
 
 ### Unfixed Bugs

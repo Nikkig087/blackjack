@@ -14,12 +14,10 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-
 CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
-
 
 def disable_input():
     fd = sys.stdin.fileno()
@@ -57,6 +55,7 @@ def typingPrint(text, delay_before=0, delay_after=0):
     if delay_after > 0:
         time.sleep(delay_after)
     enable_input(old_settings)
+
 '''
 def typingPrint(text, delay_before=0, delay_after=0):
     """
@@ -109,8 +108,6 @@ def update_scores(player_name, score, difficulty_level):
     except Exception as e:
         typingPrint("Error updating scores:", e)
 
-
-
 '''
 def typingPrint(text, delay_before=0, delay_after=0):
     """
@@ -133,7 +130,6 @@ def typingPrint(text, delay_before=0, delay_after=0):
     if delay_after > 0:
         time.sleep(delay_after)
 '''
-
 
 def update_scores(player_name, score, difficulty_level):
     """
@@ -171,7 +167,7 @@ def view_high_scores():
     old_settings = disable_input()
 
     try:
-        #typingPrint("Fetching high scores...", delay_before=0, delay_after=2)
+
         topscore = SHEET.worksheet("topscore")
         high_scores = topscore.get_all_values()
 
@@ -215,12 +211,10 @@ deck = [
 
 # Color constants
 
-
 BLUE = Fore.BLUE
 YELLOW = Fore.YELLOW
 RED = Fore.RED
 RESET = Style.RESET_ALL
-
 
 def card_value(card):
     """
@@ -238,7 +232,6 @@ def card_value(card):
         return 11
     else:
         return int(card[0])
-
 
 def get_username():
     """
@@ -265,10 +258,7 @@ def get_username():
         if re.match(r"^[A-Za-z]+$", first_name):
             return first_name.title()
         else:
-            typingPrint(
-                "Please enter a valid first name with only letters.\n"
-            )
-
+            typingPrint("Please enter a valid first name with only letters.\n")
 
 def display_username(username):
     """
@@ -279,7 +269,6 @@ def display_username(username):
     """
     print(" ")
     typingPrint(f"Welcome {username}! \n")
-
 
 def select_difficulty():
     """
@@ -303,7 +292,6 @@ def select_difficulty():
     )
     print(" ")
     return level
-
 
 def display_instructions():
     """
@@ -382,7 +370,9 @@ def player_turn(deck, player_card):
 
         if player_score >= 21:
             if player_score == 21:
-                typingPrint(f"{YELLOW}Congratulations! You have a Blackjack!!{RESET}\n")
+                typingPrint(
+                    f"{YELLOW}Congratulations! You have a Blackjack!!{RESET}\n"
+                )
             else:
                 typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
@@ -406,7 +396,6 @@ def player_turn(deck, player_card):
         else:
             break
     return True
-
 
 def computer_turn(deck, computer_card, difficulty_level):
     """
@@ -437,7 +426,6 @@ def computer_turn(deck, computer_card, difficulty_level):
         return False
     return True
 
-
 def determine_winner(player_card, computer_card, username, difficulty_level):
     """
     Determine the winner of the game.
@@ -451,27 +439,28 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
 
-    #typingPrint("\nYour Cards: \n")
-    #display_cards_ascii(player_card)
-    
+    # typingPrint("\nYour Cards: \n")
+    # display_cards_ascii(player_card)
 
-    #typingPrint("\nComputer's Cards:\n")
-    #display_cards_ascii(computer_card)
+    # typingPrint("\nComputer's Cards:\n")
+    # display_cards_ascii(computer_card)
+
     typingPrint(f"Computer Score: {computer_score} \n")
     typingPrint(f"Your Score: {player_score} \n")
 
     if player_score == computer_score:
-        typingPrint("\nIt's a tie! \n")
+        typingPrint("It's a tie! \n")
     elif player_score == 21:
         typingPrint("Updating scores... \n")
         update_scores(username, player_score, difficulty_level)
-    elif player_score <= 21 and (player_score > computer_score or computer_score > 21):
+    elif player_score <= 21 and (
+        player_score > computer_score or computer_score > 21
+    ):
         typingPrint(f"\n{YELLOW}You win!{RESET} \n")
         typingPrint("\nUpdating scores... \n")
         update_scores(username, player_score, difficulty_level)
     else:
         typingPrint(f"\n{BLUE}You lose!{RESET} \n")
-
 
 def restart_game():
     """
@@ -486,9 +475,7 @@ def restart_game():
         try:
             choice = input("Do you want to play again? (yes/no): \n").lower()
             if choice not in ["yes", "no"]:
-                raise ValueError(
-                    "Invalid choice. Please enter 'yes' or 'no'."
-                )
+                raise ValueError("Invalid choice. Please enter 'yes' or 'no'.")
             return choice == "yes"
         except ValueError as e:
             typingPrint(f"{RED}{e}{RESET} \n")
@@ -584,7 +571,6 @@ def main():
                 first_game = False
             else:
                 typingPrint(f"Welcome back {username}!! \n")
-
 
 if __name__ == "__main__":
     main()
