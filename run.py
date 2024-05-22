@@ -175,12 +175,12 @@ def view_high_scores():
         topscore = SHEET.worksheet("topscore")
         high_scores = topscore.get_all_values()
 
-        typingPrint("\nTop 10 High Scores:\n", delay_before=0, delay_after=0)
+        typingPrint("Top 10 High Scores:\n", delay_before=0, delay_after=0)
 
         data_rows = high_scores[1:]
 
         if not any(data_rows):
-            typingPrint("\nNo high scores yet!\n", delay_before=0, delay_after=0)
+            typingPrint("No high scores yet!\n", delay_before=0, delay_after=0)
         else:
             header = high_scores[0]
             print(f"{' | '.join(header)}")
@@ -278,19 +278,18 @@ def display_username(username):
         username (str): The username to display.
     """
     print(" ")
-    typingPrint(f"Welcome {username}!\n")
+    typingPrint(f"Welcome {username}! \n")
 
 
 def select_difficulty():
     """
     Prompt the user to select a difficulty level.
-
     Returns:
         int: The selected difficulty level (1 for Beginner,
         2 for Intermediate, 3 for Advanced).
     """
     difficulty_levels = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
-    typingPrint("\nSelect difficulty level:\n")
+    typingPrint("Select difficulty level:\n")
     for level, desc in difficulty_levels.items():
         typingPrint(f"{level}. {desc}\n")
     choice = input("Enter either 1, 2, or 3: \n")
@@ -310,7 +309,7 @@ def display_instructions():
     """
     Display the game instructions to the user.
     """
-    typingPrint("\nGame Instructions\n")
+    typingPrint("Game Instructions\n")
     typingPrint(
         "Your goal is to achieve a score as close to"
         " 21 as possible without going over 21.\n"
@@ -331,7 +330,6 @@ def display_instructions():
 def display_cards_ascii(cards):
     """
     Display ASCII representation of the given cards.
-
     Args:
         cards (list of tuples): List of tuples representing the cards.
     """
@@ -341,36 +339,29 @@ def display_cards_ascii(cards):
         "Clubs": "♣",
         "Spades": "♠",
     }
-
     if isinstance(cards, tuple):
         cards = [cards]
-
-    # Lines for the card display
-    lines = [""] * 6
-
+    lines = [" " for _ in range(6)]
     for rank, suit in cards:
         if rank == "Ace":
-            rank_str = " A"
+            rank_str = " A "
         elif rank == "Jack":
-            rank_str = " J"
+            rank_str = " J "
         elif rank == "Queen":
-            rank_str = " Q"
+            rank_str = " Q "
         elif rank == "King":
-            rank_str = " K"
+            rank_str = " K "
         else:
-            rank_str = f" {rank}"
-
+            rank_str = f" {rank} "
         suit_symbol = suit_symbols[suit]
-
-        lines[0] += " _________  "
-        lines[1] += f"|{rank_str:<2}        | "
-        lines[2] += "|          | "
-        lines[3] += f"|    {suit_symbol}     | "
-        lines[4] += "|          | "
-        lines[5] += f"|_______{rank_str:>2}| "
-
+        lines[0] += " ___________ "
+        lines[1] += f"|{rank_str:<2}         | "
+        lines[2] += "|            | "
+        lines[3] += f"|    {suit_symbol}       | "
+        lines[4] += "|            | "
+        lines[5] += f"|________{rank_str:>1} | "
     for line in lines:
-        print(line)
+        print(line + "\n")
 
 def player_turn(deck, player_card):
     """
@@ -385,13 +376,13 @@ def player_turn(deck, player_card):
     """
     while True:
         player_score = sum(card_value(card) for card in player_card)
-        typingPrint("\nYour cards:\n")
+        typingPrint("Your cards:\n")
         display_cards_ascii(player_card)
-        typingPrint(f"\nYour score: {player_score}\n")
+        typingPrint(f"Your score: {player_score}\n")
 
         if player_score >= 21:
             if player_score == 21:
-                typingPrint(f"{YELLOW}Your score is 21!{RESET}\n")
+                typingPrint(f"{YELLOW}Congratulations! You have a Blackjack!!{RESET}\n")
             else:
                 typingPrint(f"{RED}Your score is over 21! You lose!{RESET}\n")
             return False
@@ -410,10 +401,12 @@ def player_turn(deck, player_card):
             player_card.append(new_card)
             player_score = sum(card_value(card) for card in player_card)
             typingPrint("You drew:\n")
+            typingPrint("\n")
             display_cards_ascii(new_card)
         else:
             break
     return True
+
 
 def computer_turn(deck, computer_card, difficulty_level):
     """
@@ -436,11 +429,11 @@ def computer_turn(deck, computer_card, difficulty_level):
             computer_card.append(new_card)
         else:
             break
-    typingPrint("\nComputer's Cards:\n")
+    typingPrint("Computer's Cards: \n")
     display_cards_ascii(computer_card)
     if computer_score > 21:
         print("Computer's Score:", computer_score)
-        print(f"{RED}Computer is over 21,{YELLOW} you win!{RESET}\n")
+        print(f"{RED}Computer is over 21,{YELLOW} you win!{RESET} \n")
         return False
     return True
 
@@ -464,21 +457,20 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
 
     #typingPrint("\nComputer's Cards:\n")
     #display_cards_ascii(computer_card)
-    typingPrint(f"Computer Score: {computer_score}\n")
-    typingPrint(f"Your Score: {player_score}\n")
+    typingPrint(f"Computer Score: {computer_score} \n")
+    typingPrint(f"Your Score: {player_score} \n")
 
     if player_score == computer_score:
-        typingPrint("\nIt's a tie!\n")
+        typingPrint("\nIt's a tie! \n")
     elif player_score == 21:
-        typingPrint("\nCongratulations! You have a Blackjack!\n")
-        typingPrint("\nUpdating scores...\n")
+        typingPrint("Updating scores... \n")
         update_scores(username, player_score, difficulty_level)
     elif player_score <= 21 and (player_score > computer_score or computer_score > 21):
-        typingPrint(f"\n{YELLOW}You win!{RESET}\n")
-        typingPrint("\nUpdating scores...\n")
+        typingPrint(f"\n{YELLOW}You win!{RESET} \n")
+        typingPrint("\nUpdating scores... \n")
         update_scores(username, player_score, difficulty_level)
     else:
-        typingPrint(f"\n{BLUE}You lose!{RESET}\n")
+        typingPrint(f"\n{BLUE}You lose!{RESET} \n")
 
 
 def restart_game():
@@ -499,7 +491,7 @@ def restart_game():
                 )
             return choice == "yes"
         except ValueError as e:
-            typingPrint(f"{RED}{e}{RESET}\n")
+            typingPrint(f"{RED}{e}{RESET} \n")
             return restart_game()
 
 def main():
@@ -514,10 +506,10 @@ def main():
             username = get_username()
             display_username(username)
         else:
-            typingPrint(f"\n Welcome back {username}!!\n")
+            typingPrint(f"Welcome back {username}!! \n")
         if first_game:
             view_scores = input(
-                "\nWould you like to view high scores? " "(yes/no): \n"
+                "Would you like to view high scores? " "(yes/no): \n"
             ).lower()
             while view_scores not in ["yes", "no"]:
                 view_scores = input(
@@ -555,12 +547,12 @@ def main():
             )
             if not restart_game():
                 os.system("cls" if os.name == "nt" else "clear")
-                typingPrint("Thank you for playing! Goodbye\n")
+                typingPrint("Thank you for playing! Goodbye \n")
                 break
             else:
                 first_game = False
                 continue
-        print("\nComputer's turn:\n")
+        typingPrint("Computer's turn: \n")
         computer_continue = computer_turn(
             deck, computer_card, difficulty_level
         )
@@ -573,7 +565,7 @@ def main():
             )
             if not restart_game():
                 os.system("cls" if os.name == "nt" else "clear")
-                typingPrint("Thank you for playing! Goodbye\n")
+                typingPrint("Thank you for playing! Goodbye \n")
                 break
             else:
                 first_game = False
@@ -584,14 +576,14 @@ def main():
 
         if not restart_game():
             os.system("cls" if os.name == "nt" else "clear")
-            typingPrint("Thank you for playing! Goodbye\n")
+            typingPrint("Thank you for playing! Goodbye \n")
 
             break
         else:
             if first_game:
                 first_game = False
             else:
-                typingPrint("Welcome back!!\n")
+                typingPrint(f"Welcome back {username}!! \n")
 
 
 if __name__ == "__main__":
