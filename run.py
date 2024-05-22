@@ -470,7 +470,7 @@ def main():
         if first_game:
             username = get_username()
             display_username(username)
-        #else:
+        else:
             #print("")
             typingPrint(f"Welcome back {username}!! \n")
 
