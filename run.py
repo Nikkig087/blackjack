@@ -254,6 +254,7 @@ def select_difficulty():
         2 for Intermediate, 3 for Advanced).
     """
     difficulty_levels = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
+    print(" \n")
     typingPrint("Select difficulty level:\n")
     for level, desc in difficulty_levels.items():
         typingPrint(f"{level}. {desc}\n")
@@ -471,10 +472,11 @@ def main():
             username = get_username()
             display_username(username)
         else:
-            #print("")
             typingPrint(f"Welcome back {username}!! \n")
+            print(" \n")
 
         if first_game:
+            print(" \n")
             typingPrint("Would you like to view high scores? (yes/no): \n")
             sys.stdout.flush()
             view_scores = input().lower()
