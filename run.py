@@ -355,10 +355,6 @@ def player_turn(deck, player_card):
             typingPrint(
                 f"{RED}{BRIGHT}You must choose to either Play or Stop{RESET}\n"
             )
-            typingPrint(
-                'What do you want to do? ("play" to'
-                ' request another card, "stop" to finish game): \n'
-            )
             sys.stdout.flush()
             choice = input().lower()
         if choice == "play":
