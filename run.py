@@ -372,6 +372,7 @@ def player_turn(deck, player_card):
             typingPrint("\n")
             display_cards_ascii(new_card)
         else:
+            print("\n")
             break
     return True
 
