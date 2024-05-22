@@ -487,7 +487,6 @@ def main():
             if view_scores == "yes":
                 print("\n")
                 view_high_scores()
-                print("\n")
         difficulty_level = select_difficulty()
         global deck
         random.shuffle(deck)
