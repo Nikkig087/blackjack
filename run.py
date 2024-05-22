@@ -89,34 +89,6 @@ def update_scores(player_name, score, difficulty_level):
         typingPrint("Error updating scores:", e)
 
 
-def update_scores(player_name, score, difficulty_level):
-    """
-    Update the high scores in the Google Sheets document.
-
-    Args:
-        player_name (str): The name of the player.
-        score (int): The score of the player.
-        difficulty_level (int): The level of difficulty (1 for Beginner,
-                                2 for Intermediate, 3 for Advanced).
-    """
-    try:
-        difficulty_words = {1: "Beginner", 2: "Intermediate", 3: "Advanced"}
-        difficulty_word = difficulty_words.get(difficulty_level, "Unknown")
-
-        topscore = SHEET.worksheet("topscore")
-
-        if len(topscore.get_all_values()) == 1:
-            next_row = 2
-        else:
-            next_row = len(topscore.col_values(1)) + 1
-        topscore.update_cell(next_row, 1, player_name)
-        topscore.update_cell(next_row, 2, score)
-        topscore.update_cell(next_row, 3, difficulty_word)
-        typingPrint("Scores updated successfully.\n")
-    except Exception as e:
-        typingPrint("Error updating scores:", e)
-
-
 def view_high_scores():
     """
     Display the top 10 high scores from my Google Sheets topscore worksheet.
@@ -418,13 +390,6 @@ def determine_winner(player_card, computer_card, username, difficulty_level):
     """
     player_score = sum(card_value(card) for card in player_card)
     computer_score = sum(card_value(card) for card in computer_card)
-
-    # typingPrint("\nYour Cards: \n")
-    # display_cards_ascii(player_card)
-
-    # typingPrint("\nComputer's Cards:\n")
-    # display_cards_ascii(computer_card)
-
     typingPrint(f"Computer Score: {computer_score} \n")
     typingPrint(f"Your Score: {player_score} \n")
 
