@@ -21,6 +21,17 @@ SHEET = GSPREAD_CLIENT.open("blackjack_top_scores")
 
 
 def disable_input():
+    """
+    Disable terminal input echo.
+
+    This function disables the echoing of input characters to the terminal.
+    When input echo is disabled, characters typed by the user are not displayed
+    on the screen. This is useful for scenarios like entering a password or
+    any other sensitive input.
+
+    Returns:
+        list: The old terminal settings if the input is a TTY, otherwise None.
+    """
     fd = sys.stdin.fileno()
     if os.isatty(fd):
         old_settings = termios.tcgetattr(fd)
@@ -32,6 +43,18 @@ def disable_input():
 
 
 def enable_input(old_settings):
+    """
+    Re-enable terminal input echo.
+
+    This function restores the terminal settings to their original state,
+    re-enabling the echoing of input characters. This means that characters
+    typed by the user will again be displayed on the screen. It should be
+    called after `disable_input` to ensure the terminal behaves as expected.
+
+    Parameters:
+        old_settings (list): The terminal settings to be restored. This should
+                             be the value returned by `disable_input`.
+    """
     fd = sys.stdin.fileno()
     if os.isatty(fd) and old_settings:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
